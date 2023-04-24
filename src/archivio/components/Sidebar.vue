@@ -17,7 +17,7 @@ export default {
 
 <template>
   <!-- ======= Sidebar ======= -->
-  <aside v-if="authenticated" id="sidebar" class="sidebar">
+  <aside  id="sidebar" class="sidebar">
     <div class="accordion" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -41,13 +41,13 @@ export default {
           <div class="accordion-body">
             <ul class="list-group">
               <li class="list-group-item">
-                <router-link class="nav-link" :to="{ name: 'home' }">
+                <router-link class="nav-link" :to="{ name: 'homeArchivio' }">
                   <i class="bi bi-house text-primary"></i>
                   Dashboard</router-link
                 >
               </li>
               <li class="list-group-item">
-                <router-link class="nav-link" :to="{ name: 'SearchItem' }">
+                <router-link class="nav-link" :to="{ name: 'searchArc' }">
                   <i class="bi bi-search text-warning"></i> Cerca</router-link
                 >
               </li>
@@ -82,7 +82,7 @@ export default {
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'opera' } }"
+                  :to="{ name: 'listArc', params: { collection: 'opera' } }"
                   >Opere</router-link
                 >
               </li>
@@ -90,7 +90,7 @@ export default {
                 <router-link
                   class="nav-link"
                   :to="{
-                    name: 'listItems',
+                    name: 'listArc',
                     params: { collection: 'cronologia' },
                   }"
                   >Cronologia</router-link
@@ -100,7 +100,7 @@ export default {
                 <router-link
                   class="nav-link"
                   :to="{
-                    name: 'listItems',
+                    name: 'listArc',
                     params: { collection: 'localizzazione' },
                   }"
                   >Localizzazione</router-link
@@ -109,14 +109,14 @@ export default {
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'autore' } }"
+                  :to="{ name: 'listArc', params: { collection: 'autore' } }"
                   >Autore</router-link
                 >
               </li>
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'ambito' } }"
+                  :to="{ name: 'listArc', params: { collection: 'ambito' } }"
                   >Ambito</router-link
                 >
               </li>
@@ -124,7 +124,7 @@ export default {
                 <router-link
                   class="nav-link"
                   :to="{
-                    name: 'listItems',
+                    name: 'listArc',
                     params: { collection: 'committenza' },
                   }"
                   >Committenza</router-link
@@ -134,7 +134,7 @@ export default {
                 <router-link
                   class="nav-link"
                   :to="{
-                    name: 'listItems',
+                    name: 'listArc',
                     params: { collection: 'restauro' },
                   }"
                   >Restauro</router-link
@@ -144,7 +144,7 @@ export default {
                 <router-link
                   class="nav-link"
                   :to="{
-                    name: 'listItems',
+                    name: 'listArc',
                     params: { collection: 'iscrizione' },
                   }"
                   >Iscrizione</router-link
@@ -153,35 +153,35 @@ export default {
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'stemmi' } }"
+                  :to="{ name: 'listArc', params: { collection: 'stemmi' } }"
                   >Stemmi</router-link
                 >
               </li>
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'fta' } }"
+                  :to="{ name: 'listArc', params: { collection: 'fta' } }"
                   >Fotografia</router-link
                 >
               </li>
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'mostra' } }"
+                  :to="{ name: 'listArc', params: { collection: 'mostra' } }"
                   >Mostra</router-link
                 >
               </li>
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'fonte' } }"
+                  :to="{ name: 'listArc', params: { collection: 'fonte' } }"
                   >Fonte</router-link
                 >
               </li>
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listItems', params: { collection: 'bib' } }"
+                  :to="{ name: 'listArc', params: { collection: 'bib' } }"
                   >Bibliografia</router-link
                 >
               </li>
@@ -214,9 +214,9 @@ export default {
           <div class="accordion-body">
             <ul class="list-group">
               <li class="list-group-item">
-                <router-link class="nav-link" :to="{ name: 'model1' }">
+                <!-- <router-link class="nav-link" :to="{ name: 'model1' }">
                   <i class="bi bi-printer"></i> Stampa i preferiti</router-link
-                >
+                > -->
               </li>
              
             </ul>

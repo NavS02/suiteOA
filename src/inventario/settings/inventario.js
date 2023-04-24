@@ -20,6 +20,7 @@ export default {
         label: "dismesso",
         type: "toggle",
         value: "",
+        // column:4
       }),
 
       new FormField({
@@ -160,7 +161,7 @@ export default {
         preview: (item) => {
           return `${item?.inv_sala}`;
         },
-        fields: inv_piano.fields,
+        fields: inv_sala.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
           return { inv_sala: { _contains: text } };

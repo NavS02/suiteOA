@@ -34,7 +34,6 @@ export default {
 
 <template>
   <header
-    v-if="authenticated"
     id="header"
     class="header fixed-top d-flex align-items-center justify-content-between"
   >
@@ -56,6 +55,7 @@ export default {
               href="#"
               data-bs-toggle="dropdown"
             >
+              Options
               <!---- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">-->
               <span class="d-none d-md-block dropdown-toggle ps-2">{{
                 user.first_name
@@ -67,21 +67,16 @@ export default {
             >
               <li class="dropdown-header">
                 <h6>{{ user.first_name }}</h6>
-                <span></span>
+                <span>Options</span>
               </li>
-              
+
               <li>
                 <hr class="dropdown-divider" />
               </li>
               <li>
                 <a class="dropdown-item d-flex align-items-center">
-                <router-link
-                  class=""
-                  :to="{ name: 'user' }"
-                >
                   <i class="ri-mail-fill"></i>
-                  <span> My Profile</span></router-link
-                >
+                  <span> My Profile</span>
                 </a>
               </li>
               <li>

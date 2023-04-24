@@ -17,8 +17,6 @@ export default {
     }
 
     function confirmLogout() {
-      console.log(user?.value)
-
       const confirmed = confirm("Are you sure you want to logout?");
       if (confirmed) router.push({ name: "logout" });
     }
@@ -41,7 +39,7 @@ export default {
   >
     <div class="d-flex align-items-center">
       <img src="/logoSiena.png" alt="" style="height: 50px" />
-      <i class="bi bi-list toggle-sidebar-btn" @click="toggleClass"></i>
+      <font-awesome-icon :icon="['fasl', 'bars']" @click="toggleClass"/> 
     </div>
 
     <div class="operaTitle text-center">
@@ -57,6 +55,7 @@ export default {
               href="#"
               data-bs-toggle="dropdown"
             >
+              Options
               <!---- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">-->
               <span class="d-none d-md-block dropdown-toggle ps-2">{{
                 user.first_name
@@ -68,15 +67,14 @@ export default {
             >
               <li class="dropdown-header">
                 <h6>{{ user.first_name }}</h6>
-                <span></span>
+                <span>Options</span>
               </li>
-              
+
               <li>
                 <hr class="dropdown-divider" />
               </li>
               <li>
                 <a class="dropdown-item d-flex align-items-center">
-                
                   <i class="ri-mail-fill"></i>
                   <span> My Profile</span>
                 </a>

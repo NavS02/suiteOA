@@ -388,7 +388,10 @@ export default {
       }
     });
 
-    
+    const createLink = computed(() => ({
+      name: "createItem",
+      params: { collection: collection.value },
+    }));
     function infoQty() {
       try {
         let resultLimit = document.getElementById("limit").value;

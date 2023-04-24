@@ -92,7 +92,10 @@ export default {
       { immediate: true, deep: true }
     );
 
-   
+    const createLink = computed(() => ({
+      name: "createArc",
+      params: { collection: collection.value },
+    }));
 
     async function fetchData() {
       const response = await directus

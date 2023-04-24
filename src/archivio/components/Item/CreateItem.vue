@@ -63,7 +63,7 @@ export default {
             save(form)
         }
         function goToList() {
-            router.push({name: 'listItems', params: { collection: collection.value }})
+            router.push({name: 'listArc', params: { collection: collection.value }})
         }
         async function save(data) {
             try {

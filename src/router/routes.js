@@ -18,12 +18,19 @@ import searchInv from '../inventario/components/Item/SearchItem.vue'
 import EditItemInv from '../inventario/components/Item/EditItem.vue'
 import userInv from '../inventario/pages/User.vue'
 
+
+// ARCHIVIO
+import MainLayoutArc from '../archivio/layouts/MainLayout.vue'
+import ListItemsArc from'../archivio/components/Item/ListItems.vue'
+import searchArc from '../archivio/components/Item/SearchItem.vue'
+import CreateItemArc from '../archivio/components/Item/CreateItem.vue'
+
+
 const routes = [
         { path: '/login/:program',  name: 'login', component: Login,props:true},
         { path: '',  name: 'home', component: Home,props:true  },
         { path: '/logout',  name: 'logout', component: Logout },
         { path: '/:pathMatch(.*)*', name: 'NotFound', component: PageNotFound },
-        { path: '/archivio', name: 'homeArchivio', component: HomeArchivio ,meta: { requiresAuth: true }},
         // INVENTARIO
     { path: '/', component: MainLayoutInv, children: [
         { path: '/inventario', name: 'homeInventario', component: HomeInventario,meta: { requiresAuth: true }},
@@ -33,7 +40,13 @@ const routes = [
             { path: '/inventario/search', name: 'searchInv', component: searchInv, props: true,meta: { requiresAuth: true } },
             { path: '/inventario/edit/:collection/:id', name: 'editItemInv', component: EditItemInv, props: true, },
             { path: '/inventario/profile', name: 'userInv', component: userInv, props: true, },
+            { path: '/', component: MainLayoutArc, children: [
+                { path: '/archivio', name: 'homeArchivio', component: HomeArchivio ,meta: { requiresAuth: true }},
+                { path: '/archivio/:collection', name: 'listArc', component: ListItemsArc ,props: true,meta: { requiresAuth: true }},
+                { path: '/archivio/search', name: 'searchArc', component: searchArc, props: true,meta: { requiresAuth: true } },
+                { path: '/archivio/create/:collection', name: 'createArc', component: CreateItemArc, props: true,meta: { requiresAuth: true } },
 
+    ] },
        
     ] },
 
