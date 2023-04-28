@@ -12,8 +12,8 @@
               <a class="logo d-flex align-items-center w-auto">
                 <!---  <img src="assets/img/logo.png" alt="">---->
 
-                <router-link class="nav-link" :to="{ name: 'home' }">
                   <i class="bi bi-house text-primary"></i>
+                <router-link class="nav-link" :to="{ name: 'home' }">
                   Opera delle Metropolitana</router-link
                 >
               </a>
@@ -97,14 +97,16 @@
 </template>
 
 <script>
-import { ref, watch, toRefs, computed } from "vue";
-import { authentication } from "../API";
+import { ref, watch} from "vue";
+import store from '../store'
 import { useRouter, useRoute } from "vue-router";
 
 export default {
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();
+const userStore = store.user
+
     const program = ref();
     const email = ref("");
     const password = ref("");
@@ -116,8 +118,10 @@ export default {
       },
       { immediate: true, deep: true }
     );
+
+
     async function login() {
-      const logged = await authentication.login(email.value, password.value);
+    const logged = await userStore.login(email.value, password.value)
 
       if (!logged) {
         alert("invalid credentials");

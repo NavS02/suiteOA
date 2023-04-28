@@ -519,6 +519,8 @@ export default {
       this.showAlert = false;
     }
     async function getData() {
+       const me = await directus.users.me.read();
+
       let originalResponse = {};
 
       try {
@@ -526,7 +528,7 @@ export default {
           const favItems = await directus.items("pref").readByQuery({
             filter: {
               user_created: {
-                _eq: user.value.id,
+                _eq: me.id,
               },
             },
           });
@@ -601,7 +603,6 @@ export default {
         for (let i = 0; i < arrayObject.length; i++) {
           for (let j = 0; j < autore.length; j++) {
             html += `<h5 class="card-title">${arrayObject[i][autore[j]]}</h5>`;
-            console.log(arrayObject[i][autore[j]]);
           }
         }
       }

@@ -1,6 +1,5 @@
 <template>
     <div ref="dropDownElement" class="dropdown">
-
         <button class="btn dropdown-toggle" :class="classes" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <slot name="button">
                 Dropdown button
@@ -13,7 +12,7 @@
 </template>
 
 <script setup>
-import { ref, toRefs, computed, onMounted, defineProps } from 'vue'
+import { ref, toRefs, computed, onMounted } from 'vue'
 import {Dropdown} from 'bootstrap'
 
 const dropDownElement = ref(null)
@@ -66,7 +65,7 @@ const {size, variant, fullWidth} = toRefs(props)
  */
 const classes = computed( () => {
     const _classes = [`btn-${variant.value}`]
-    if(size.value) _classes.push(`btn-200`)
+    if(size.value) _classes.push(`btn-${size.value}`)
     if(fullWidth.value) _classes.push('w-100')
     return _classes
 } )

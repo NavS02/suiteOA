@@ -225,10 +225,7 @@
                       <img
                         :src="imageurl"
                         alt=""
-                        style="
-                          width: 200px;
-                          height: 200px;
-                        "
+                        style="width: 200px; height: 200px"
                         :id="'photo-' + index"
                       />
                     </div>
@@ -352,7 +349,6 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const user = computed(() => store.user);
 
     // infer the collection from the route
     const collection = [];
@@ -365,7 +361,7 @@ export default {
     let selectedOption = ref("list");
     const url = ref();
     let imageurl = ref("/logoopaSiena.png");
-
+    const me = ref();
     // watch the route and update data based on the collection param
     watch(
       route,
@@ -424,7 +420,6 @@ export default {
         currentPage.value * resultLimit
       );
       fetchIconSaved();
-      
     }
     // NO WORKS
     function fetchImg() {
@@ -432,8 +427,6 @@ export default {
       // for (let index = 0; index <= items.value.length; index++) {
       //   if (itemsFiltered.data[index].icona !== null) {
       //    document.getElementById("photo-" + index).src= import.meta.env.VITE_API_BASE_URL+"/assets/" + itemsFiltered.data[index].icona;
-
-         
       //   }
       // }
     }
@@ -580,11 +573,13 @@ export default {
       });
     }
     async function fetchIconSaved() {
+       me.value = await directus.users.me.read();
+
       let query2 = {
         limit: -1,
         filter: {
           user_created: {
-            _eq: user.value.id,
+            _eq: me.value.id,
           },
         },
       };
@@ -634,13 +629,12 @@ export default {
     }
     function onInfoClicked(item) {
       router.push({
-        name: "infoItem",
+        name: "InfoItemArch",
         params: { collection: collection.value, id: item.id },
       });
     }
     async function onSaveClicked(item) {
       let iconSaved = document.getElementById("saveButton-" + item.id);
-
       if (iconSaved.classList.contains("bi-heart")) {
         iconSaved.className = "bi bi-heart-fill";
         await directus.items("pref").createOne({
@@ -656,7 +650,7 @@ export default {
               _eq: item.id,
             },
             user_created: {
-              _eq: user.value.id,
+              _eq: me.value.id,
             },
           },
         };

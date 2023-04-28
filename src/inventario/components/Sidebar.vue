@@ -48,13 +48,13 @@ export default {
               </li>
               <li class="list-group-item">
                <router-link class="nav-link" :to="{ name: 'searchInv' }">
-                  <i class="bi bi-house text-primary"></i>
-                  Cerca</router-link
+                  <i class="bi bi-search text-warning"></i> Cerca</router-link
+                  
                 >
               </li>
               <li class="list-group-item">
                 <router-link class="nav-link" :to="{ name: 'createInv',params:{collection:'inventario'} }">
-                  <i class="bi bi-house text-primary"></i>
+                  <i class="bi bi-file-earmark-plus text-info"></i>
                   Nuova scheda</router-link
                 >
               </li>
@@ -161,9 +161,9 @@ export default {
         >
           <div class="accordion-body">
             <ul class="list-group">
-              <li class="list-group-item">
+              <!-- <li class="list-group-item">
                   <i class="bi bi-printer"></i> Stampa i preferiti
-              </li>
+              </li> -->
              
             </ul>
           </div>

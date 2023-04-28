@@ -214,9 +214,9 @@ export default {
           <div class="accordion-body">
             <ul class="list-group">
               <li class="list-group-item">
-                <!-- <router-link class="nav-link" :to="{ name: 'model1' }">
+                <router-link class="nav-link" :to="{ name: 'model1Arch' }">
                   <i class="bi bi-printer"></i> Stampa i preferiti</router-link
-                > -->
+                >
               </li>
              
             </ul>

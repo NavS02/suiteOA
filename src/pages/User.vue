@@ -416,41 +416,7 @@
                   role="tabpanel"
                 >
                   <div class="table-responsive">
-                    <!-- <Table
-                      class="table v-middle m-0"
-                      :items="items"
-                      :fields="fields"
-                      id="table"
-                    >
-                      <template #cell(actions)="{ item, field, value }">
-                        <div class="actions">
-                          <button
-                            title="unsave"
-                            class="btn btn-sm btn-light text-danger"
-                            @click="onSaveClicked(item)"
-                          >
-                            <i class="bi bi-heart-fill"></i>
-                          </button>
-                          <button
-                            title="edit"
-                            class="btn btn-sm btn-light"
-                            @click="onEditClicked(item)"
-                          >
-                            <font-awesome-icon
-                              icon="fa-solid fa-pencil"
-                              fixed-width
-                            />
-                          </button>
-                          <button
-                            title="Info"
-                            class="btn btn-sm btn-light"
-                            @click="onInfoClicked(item)"
-                          >
-                            <font-awesome-icon icon="fa-solid fa-eye" />
-                          </button>
-                        </div>
-                      </template>
-                    </Table> -->
+                   
                   </div>
                 </div>
               </div>
@@ -486,39 +452,9 @@ export default {
     const router = useRouter();
     const userRol = ref();
     let imageurl = ref("/not-found.svg");
-    let collection = ref();
-    let fields = ref();
     let items = ref();
    
-    // watch the route and update data based on the collection param
-    // watch(
-    //   route,
-    //   () => {
-    //     collection.value = "pref";
-    //     if (!collection.value) return;
-    //     // // retrieve the settings
-    //     // const itemSettings = settings[collection.value];
-    //     // // define the subset of fields you need to view in the table
-    //     // const collectionFields = itemSettings.tableFields();
-    //     // fields.value = collectionFields;
-    //   },
-    //   { immediate: true, deep: true }
-    // );
-    // fetchData();
-
-    // async function fetchData() {
-     
-    //   const response = await directus.items(collection.value).readByQuery({
-    //     filter: {
-    //       user_created: {
-    //         _eq: user.value.id,
-    //       },
-    //     },
-    //   });
-    //   const { data = [] } = response;
-
-    //   items.value = data;
-    // }
+    
     function updateImage() {
       let img = document.getElementById("profilePictureSelector").value;
       imageurl.value = img;
@@ -532,16 +468,7 @@ export default {
       const confirmed = confirm("Are you sure you want to logout?");
       if (confirmed) router.push({ name: "logout" });
     }
-    // async function onSaveClicked(item) {
-    //   await directus.items(collection.value).deleteOne(item.id);
-    //   fetchData();
-    // }
-    // function onEditClicked(item) {
-    //   router.push({
-    //     name: "editItem",
-    //     params: { id: item.id_opera, collection: "opera" },
-    //   });
-    // }
+
     async function onChangeUserData() {
       let name = document.getElementById("Name").value;
       let surname = document.getElementById("Surname").value;
@@ -557,26 +484,17 @@ export default {
         email: email,
       });
     }
-    function onInfoClicked(item) {
-      router.push({
-        name: "infoItem",
-        params: { collection: "opera", id: item.id_opera },
-      });
-    }
+ 
 
     return {
       authenticated,
       user,
       items,
-      fields,
       userRol,
       imageurl,
       confirmLogout,
       fetchData,
-      onSaveClicked,
-      onInfoClicked,
       updateImage,
-      onEditClicked,
       onChangeUserData,
       toggleClass,
       isToggled: false,

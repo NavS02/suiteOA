@@ -6,9 +6,7 @@ import inv_ubicazione from "./inv_ubicazione";
 import inv_piano from "./inv_piano";
 import inv_sala from "./inv_sala";
 
-
-
-import { ManyToOneField } from "../models";
+import { ManyToOneField, ManyToManyField } from "../models";
 
 export default {
   collection: "inventario",
@@ -65,14 +63,12 @@ export default {
         value: "",
       }),
 
-      new FormField({
+
+      new ManyToManyField({
         name: "inv_materia",
         label: "inv_materia",
-        type: "manyToMany",
         value: [],
-        column: "6",
-
-        relation: "inv_materia",
+        related: "inv_materia",
         foreign_key: "inv_materia_id",
         preview: (item) => {
           return `${item?.inv_materia}`;
@@ -91,14 +87,12 @@ export default {
         value: "",
       }),
 
-      new FormField({
+
+      new ManyToManyField({
         name: "inv_stima",
         label: "inv_stima",
-        type: "manyToMany",
         value: [],
-        column: "6",
-
-        relation: "inv_stima",
+        related: "inv_stima",
         foreign_key: "inv_stima_id",
         preview: (item) => {
           return `${item?.inv_stis + "," + item?.inv_stis_ass}`;

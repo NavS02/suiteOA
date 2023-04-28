@@ -42,13 +42,6 @@ export default {
   fields() {
     return [
       new FormField({
-        name: "icona",
-        label: "Icona",
-        type: "upload",
-        value: "",
-        column: "12",
-      }),
-      new FormField({
         name: "codici",
         label: "Codici",
         type: "biglabel",
@@ -101,15 +94,13 @@ export default {
         column: "2",
       }),
 
-      new FormField({
+      new ManyToManyField({
         name: "acc",
-        label: "Altri Codici",
-        type: "manyToMany",
+        label: "acc",
         value: [],
-        column: "6",
-
-        relation: "acc",
+        related: "acc",
         foreign_key: "acc_id",
+        column: "6",
         preview: (item) => {
           return `${item?.acc}`;
         },
@@ -143,17 +134,16 @@ export default {
       }),
       /* inventario */
 
-      new FormField({
+      new ManyToManyField({
         name: "inv",
         label: "Numero Inventario",
-        type: "manyToMany",
         value: [],
         column: "6",
 
-        relation: "inv",
+        related: "inv",
         foreign_key: "inv_id",
         preview: (item) => {
-          return ` ${item?.invn}`;
+          return `${item?.invn}`;
         },
         fields: inventario.fields,
         filter: (text) => {
@@ -162,17 +152,16 @@ export default {
         },
       }),
 
-      new FormField({
+      new ManyToManyField({
         name: "stima",
         label: "STIMA",
-        type: "manyToMany",
         value: [],
         column: "6",
 
-        relation: "stima",
+        related: "stima",
         foreign_key: "stima_id",
         preview: (item) => {
-          return ` ${item?.stima}`;
+          return `${item?.stis}`;
         },
         fields: stima.fields,
         filter: (text) => {
@@ -317,15 +306,14 @@ export default {
 
       /* cronologia */
 
-      new FormField({
+      new ManyToManyField({
         name: "cronologia",
         label: "Cronologia",
-        type: "manyToMany",
         value: [],
-        relation: "cronologia",
         column: "6",
-        foreign_key: "cronologia_id",
 
+        related: "cronologia",
+        foreign_key: "cronologia_id",
         preview: (item) => {
           return `${item?.dtzg}, ${item?.dtsi}, ${item?.dtsf} (id: ${
             item?.id ?? "--"
@@ -339,17 +327,17 @@ export default {
       }),
       //Mtc
       //
-      new FormField({
+      new ManyToManyField({
         name: "mtc",
         label: "Materia e Tecnica",
-        type: "manyToMany",
         value: [],
-        relation: "mtc",
-        foreign_key: "mtc_id",
         column: "6",
 
+        related: "mtc",
+        foreign_key: "mtc_id",
         preview: (item) => {
           return `${item?.mtc}  (id: ${item?.id ?? "--"})`;
+
         },
         fields: mtc.fields,
         filter: (text) => {
@@ -690,12 +678,13 @@ export default {
 
       /* restauro */
 
-      new FormField({
+
+
+      new ManyToManyField({
         name: "restauro",
         label: "Restauro",
-        type: "manyToMany",
         value: [],
-        relation: "restauro",
+        related: "restauro",
         foreign_key: "restauro_id",
         preview: (item) => {
           return `${item?.rste}`;
@@ -706,6 +695,7 @@ export default {
           return { restauro: { _contains: text } };
         },
       }),
+
       new Divider({ type: "divider" }),
 
       new FormField({
@@ -875,13 +865,11 @@ export default {
       }),
       /* iscrizione */
 
-      new FormField({
+      new ManyToManyField({
         name: "iscrizione",
         label: "Iscrizione",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "iscrizione",
+        related: "iscrizione",
         foreign_key: "iscrizione_id",
         preview: (item) => {
           return `${item?.isrp}`;
@@ -895,15 +883,13 @@ export default {
 
       /* stemmi */
 
-      new FormField({
+      new ManyToManyField({
         name: "stemmi",
         label: "Stemmi",
-        type: "manyToMany",
         value: [],
-        relation: "stemmi",
-        column: "6",
-
+        related: "stemmi",
         foreign_key: "stemmi_id",
+        column: "6",
         preview: (item) => {
           return `${item?.stmi}`;
         },
@@ -924,14 +910,14 @@ export default {
       }),
       /* localizzazione */
 
-      new FormField({
+
+      new ManyToManyField({
         name: "localizzazione",
         label: "Localizzazione",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "localizzazione",
+        related: "localizzazione",
         foreign_key: "localizzazione_id",
+        column: "6",
         preview: (item) => {
           return `${item?.prcd}`;
         },
@@ -942,16 +928,16 @@ export default {
         },
       }),
 
+
       /* autore */
 
-      new FormField({
+      new ManyToManyField({
         name: "autore",
         label: "Autore",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "autore",
+        related: "autore",
         foreign_key: "autore_id",
+        column: "6",
         preview: (item) => {
           return `${item?.autn}`;
         },
@@ -964,14 +950,13 @@ export default {
 
       /* ambito */
 
-      new FormField({
+      new ManyToManyField({
         name: "ambito",
         label: "Ambito",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "ambito",
+        related: "ambito",
         foreign_key: "ambito_id",
+        column: "6",
         preview: (item) => {
           return `${item?.atbd}`;
         },
@@ -984,14 +969,13 @@ export default {
 
       /* committenza */
 
-      new FormField({
+      new ManyToManyField({
         name: "committenza",
-        label: "Committenza",
-        type: "manyToMany",
+        label: "committenza",
         value: [],
-        column: "6",
-        relation: "committenza",
+        related: "committenza",
         foreign_key: "committenza_id",
+        column: "6",
         preview: (item) => {
           return `${item?.cmmn}`;
         },
@@ -1001,6 +985,8 @@ export default {
           return { committenza: { _contains: text } };
         },
       }),
+
+      
       new Divider({ type: "divider" }),
 
       new FormField({
@@ -1012,14 +998,13 @@ export default {
 
       /* fta */
 
-      new FormField({
+      new ManyToManyField({
         name: "fta",
         label: "Fotografia",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "fta",
+        related: "fta",
         foreign_key: "fta_id",
+        column: "6",
         preview: (item) => {
           return `${item?.ftan}`;
         },
@@ -1031,15 +1016,14 @@ export default {
       }),
 
       /* fonte */
-
-      new FormField({
+      
+      new ManyToManyField({
         name: "fonte",
         label: "Fonte",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "fonte",
+        related: "fonte",
         foreign_key: "fonte_id",
+        column: "6",
         preview: (item) => {
           return `${item?.fntp}`;
         },
@@ -1051,14 +1035,15 @@ export default {
       }),
 
       // BIB
-      new FormField({
+
+      
+      new ManyToManyField({
         name: "bib",
         label: "Bibliografia",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "bib",
+        related: "bib",
         foreign_key: "bib_id",
+        column: "6",
         preview: (item) => {
           return `${item?.bibx}`;
         },
@@ -1069,19 +1054,16 @@ export default {
         },
       }),
 
-
-      /* mostra */
-
-      new FormField({
+      /* mostra */      
+      new ManyToManyField({
         name: "mostra",
         label: "Mostra",
-        type: "manyToMany",
         value: [],
-        column: "6",
-        relation: "mostra",
+        related: "mostra",
         foreign_key: "mostra_id",
+        column: "6",
         preview: (item) => {
-          return `${item?.mstfin}`;
+          return `${item?.mostra}`;
         },
         fields: mostra.fields,
         filter: (text) => {
@@ -1089,51 +1071,10 @@ export default {
           return { mostra: { _contains: text } };
         },
       }),
-      // new RadioField({
-      //   name: "adsp",
-      //   label: "Profilo di accesso",
-      //   type: "radio",
-      //   value: "I",
-      //   inline: false,
-      //   column: "3",
-      //   choices: [
-      //     { value: "1", label: "basso" },
-      //     { value: "2", label: "medio" },
-      //     { value: "3", label: "alto" },
-      //   ],
-      // }),
 
       new Divider({ type: "divider" }),
 
-      // new RadioField({ name: 'adsm', label: 'Motivazione', type: 'radio', value: 'I',
-      //      inline: false,
-      //      choices: [
-      //         { value: 'dati liberamente accessibili', label: 'dati liberamente accessibili'},
-      //         { value: 'dati personali', label: 'dati personali'},
-      //         { value: 'bene di proprietà privata', label: 'bene di proprietà privata'},
-      //         { value: 'scheda di bene a rischio', label: 'scheda di bene a rischio'},
-      //         { value: 'bene non adeguatamente sorvegliabile', label: 'bene non adeguatamente sorvegliabile'},
-      //     ]
-      // }),
 
-      /*new FormField({
-                        name: 'bib',
-                        label: 'Bib', type: 'manyToMany', value: [],
-                        relation: 'bib',
-                        foreign_key: 'bib_id',
-                        preview: (item) => { return `${item?.id ?? '--'} - ${item?.bibn}` },
-                        fields: bib.fields,
-                        filter: (text) => {
-                        if(text.trim()==='') return {}
-                        return { bib: { _contains: text } }
-                        },
-                        }),*/
-
-      // new FormField({ name: 'lc', label: 'lc', type: 'text', defaultValue: null }),
-      // new FormField({ name: 'date_created', label: 'date_created', type: 'text' }),
-      // new FormField({ name: 'date_updated', label: 'date_updated', type: 'text' }),
-      // new FormField({ name: 'user_created', label: 'user_created', type: 'text' }),
-      // new FormField({ name: 'user_updated', label: 'user_updated', type: 'text' }),
     ];
   },
   tableFields() {

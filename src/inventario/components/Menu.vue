@@ -2,12 +2,13 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import store from "../store";
+import { directus } from "../API/";
 
 export default {
   setup(props, context) {
     const accessToken = store?.tokenInfo?.access_token;
     const authenticated = computed(() => store.authenticated);
-    const user = computed(() => store.user);
+    const user = ref();
 
     const router = useRouter();
 
@@ -15,16 +16,24 @@ export default {
       this.isToggled = !this.isToggled;
       document.body.classList.toggle("toggle-sidebar", this.isToggled);
     }
-
+    getUserInfo();
+    async function getUserInfo() {
+      const me = await directus.users.me.read();
+      user.value = me;
+    }
     function confirmLogout() {
       const confirmed = confirm("Are you sure you want to logout?");
       if (confirmed) router.push({ name: "logout" });
+    }
+    function onProfileClicked() {
+      router.push({ name: "userInv" });
     }
 
     return {
       authenticated,
       user,
       confirmLogout,
+      onProfileClicked,
       toggleClass,
       isToggled: false,
     };
@@ -39,7 +48,7 @@ export default {
   >
     <div class="d-flex align-items-center">
       <img src="/logoSiena.png" alt="" style="height: 50px" />
-      <font-awesome-icon :icon="['fasl', 'bars']" @click="toggleClass"/> 
+      <i class="bi bi-list toggle-sidebar-btn" @click="toggleClass"></i>
     </div>
 
     <div class="operaTitle text-center">
@@ -55,26 +64,27 @@ export default {
               href="#"
               data-bs-toggle="dropdown"
             >
-              Options
+              {{ user?.first_name }}
+              {{ user?.last_name }}
               <!---- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">-->
-              <span class="d-none d-md-block dropdown-toggle ps-2">{{
-                user.first_name
-              }}</span>
+              <span class="d-none d-md-block dropdown-toggle ps-2"></span>
             </a>
             <!-- End Profile Iamge Icon -->
             <ul
               class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
             >
               <li class="dropdown-header">
-                <h6>{{ user.first_name }}</h6>
-                <span>Options</span>
+                <h6>{{ user?.first_name }} {{ user?.last_name }}</h6>
               </li>
 
               <li>
                 <hr class="dropdown-divider" />
               </li>
               <li>
-                <a class="dropdown-item d-flex align-items-center">
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  @click="onProfileClicked()"
+                >
                   <i class="ri-mail-fill"></i>
                   <span> My Profile</span>
                 </a>

@@ -13,8 +13,8 @@
               class="card-body profile-card pt-4 d-flex flex-column align-items-center"
             >
               <img :src="imageurl" alt="Profile" class="rounded-circle" />
-              <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-              <h3>{{ user.email }}</h3>
+              <h2>{{ me?.first_name }} {{ me?.last_name }}</h2>
+              <h3>{{ me?.email }}</h3>
               <button
                 type="button"
                 class="btn btn-danger"
@@ -109,7 +109,7 @@
                     <div class="row align-items-center justify-content-between">
                       <div class="col-lg-3 col-md-3 label">Name</div>
                       <div class="col-lg-9 col-md-9">
-                        {{ user.first_name }} {{ user.last_name }}
+                        {{ me?.first_name }} {{ me?.last_name }}
                       </div>
                     </div>
 
@@ -122,12 +122,12 @@
 
                     <div class="row align-items-center justify-content-between">
                       <div class="col-lg-3 col-md-3 label">Role</div>
-                      <div class="col-lg-9 col-md-9">{{ user.role }}</div>
+                      <div class="col-lg-9 col-md-9">{{ me?.role }}</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
                       <div class="col-lg-3 col-md-3 label">Country</div>
-                      <div class="col-lg-9 col-md-9">{{ user.location }}</div>
+                      <div class="col-lg-9 col-md-9">{{ me?.location }}</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
@@ -137,7 +137,7 @@
 
                     <div class="row align-items-center justify-content-between">
                       <div class="col-lg-3 col-md-3 label">Email</div>
-                      <div class="col-lg-9 col-md-9">{{ user.email }}</div>
+                      <div class="col-lg-9 col-md-9">{{ me?.email }}</div>
                     </div>
                   </div>
                 </div>
@@ -175,7 +175,7 @@
                           type="text"
                           class="form-control"
                           id="Name"
-                          :value="user.first_name"
+                          :value="me?.first_name"
                         />
                       </div>
                     </div>
@@ -191,7 +191,7 @@
                           type="text"
                           class="form-control"
                           id="Surname"
-                          :value="user.last_name"
+                          :value="me?.last_name"
                         />
                       </div>
                     </div>
@@ -207,7 +207,7 @@
                           type="text"
                           class="form-control"
                           id="description"
-                          :value="user.description"
+                          :value="me?.description"
                         />
                       </div>
                     </div>
@@ -222,7 +222,7 @@
                           type="text"
                           class="form-control"
                           id="Job"
-                          :value="user.role"
+                          :value="me?.role"
                           disabled
                         />
                       </div>
@@ -240,7 +240,7 @@
                           type="text"
                           class="form-control"
                           id="Country"
-                          :value="user.location"
+                          :value="me?.location"
                         />
                       </div>
                     </div>
@@ -257,7 +257,7 @@
                           type="email"
                           class="form-control"
                           id="Email"
-                          :value="user.email"
+                          :value="me?.email"
                         />
                       </div>
                     </div>
@@ -461,7 +461,7 @@
     </section>
     <footer class="footer">
       <div class="d-flex justify-content-end" style="bottom">
-        <span class="align-self-end">User ID: {{ user.id }}</span>
+        <span class="align-self-end">User ID: {{ me?.id }}</span>
       </div>
     </footer>
   </main>
@@ -489,6 +489,7 @@ export default {
     let collection = ref();
     let fields = ref();
     let items = ref();
+    const me=ref()
    
     // watch the route and update data based on the collection param
     watch(
@@ -501,17 +502,19 @@ export default {
         // // define the subset of fields you need to view in the table
         const collectionFields = itemSettings.tableFields();
         fields.value = collectionFields;
+    fetchData();
+
       },
       { immediate: true, deep: true }
     );
-    fetchData();
 
     async function fetchData() {
-     
+       me.value = await directus.users.me.read();
+
       const response = await directus.items(collection.value).readByQuery({
         filter: {
           user_created: {
-            _eq: user.value.id,
+            _eq: me.value.id,
           },
         },
       });
@@ -539,7 +542,7 @@ export default {
     }
     function onEditClicked(item) {
       router.push({
-        name: "editItem",
+        name: "editItemArc",
         params: { id: item.id_opera, collection: "opera" },
       });
     }
@@ -560,7 +563,7 @@ export default {
     }
     function onInfoClicked(item) {
       router.push({
-        name: "infoItem",
+        name: "InfoItemArch",
         params: { collection: "opera", id: item.id_opera },
       });
     }
@@ -568,6 +571,7 @@ export default {
     return {
       authenticated,
       user,
+      me,
       items,
       fields,
       userRol,

@@ -111,7 +111,7 @@ export default {
     }
     function onEditClicked(item) {
       router.push({
-        name: "editItem",
+        name: "editItemArc",
         params: { id: item.id, collection: collection.value },
       });
     }
@@ -121,7 +121,7 @@ export default {
     }
     function onInfoClicked(item) {
       router.push({
-        name: "infoItem",
+        name: "InfoItemArch",
         params: { collection: collection.value, id: item.id },
       });
     }

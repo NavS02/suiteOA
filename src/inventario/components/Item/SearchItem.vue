@@ -375,7 +375,6 @@ export default {
       } catch (error) {}
       skipPage("first");
     }
-
     // CHANGE PAGE
     function skipPage(page) {
       let resultLimit = document.getElementById("limit").value;
@@ -473,7 +472,6 @@ export default {
             limit: -1,
           });
           const materiaID = privateData.data.map(({ id }) => id);
-console.log(materiaID)
 
           query["filter"]["inv_materia"] = {
             _in: materiaID,
@@ -482,7 +480,6 @@ console.log(materiaID)
         const response = await directus
           .items(collection.value)
           .readByQuery(query);
-        console.log(query);
         itemsFiltered = response;
         const { data = [] } = response;
         if (data.length < 1) {
@@ -541,7 +538,7 @@ console.log(materiaID)
     }
     function onInfoClicked(item) {
       router.push({
-        name: "infoItem",
+        name: "infoItemInv",
         params: { collection: collection.value, id: item.id },
       });
     }

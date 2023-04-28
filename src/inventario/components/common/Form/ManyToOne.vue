@@ -1,9 +1,7 @@
 <template>
-<div>
     <slot name="label">
         <label :for="`field-${field.name}`" class="form-label" v-html="field.label"></label>
     </slot>
-    
     <template v-if="item">
         <div class="item d-flex p-2">
             <div class="preview">
@@ -32,11 +30,11 @@
         <div class="buttons d-flex gap-2 border border-muted rounded p-2">
             <button class="btn btn-sm btn-primary" @click="onCreateNewClicked">
                 <font-awesome-icon icon="fa-solid fa-plus" fixed-width/>
-                <span class="ms-1">Crea nuovo</span>
+                <span class="ms-1">Create New</span>
             </button>
             <button class="btn btn-sm btn-primary" @click="onSelectExistingClicked">
                 <font-awesome-icon icon="fa-solid fa-list" fixed-width/>
-                <span class="ms-1">Aggiungi esistente</span>
+                <span class="ms-1">Add Existing</span>
             </button>
         </div>
     </template>
@@ -61,7 +59,7 @@
                     <input class="form-control" type="text" v-model.lazy="query" placeholder="3 characters min..."/>
                     <button class="btn btn-sm btn-primary" @click="onSearchClicked">
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" fixed-width/>
-                        <span class="ms-1">Cerca</span>
+                        <span class="ms-1">Search</span>
                     </button>
                 </div>
             </div>
@@ -86,7 +84,7 @@
             </template>
         </div>
     </Drawer>
-</div>
+
 </template>
 
 <script setup>
@@ -154,7 +152,7 @@ const unwatch = watch(modelValue, async (_item) => {
     const element = await getById(_item.id)
     // assign the MetaItem to the `item` reference
     item.value = element
-    unwatch() // run just once!
+    // unwatch() // run just once!
 })
 /**
  * send the updated ID to the form
