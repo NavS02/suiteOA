@@ -6,18 +6,7 @@ export default {
     fields() {
         return [
             new FormField({ name: 'cdgg', label: 'cdgg', type: 'text', value: '' }),
-            new OneToManyField({
-                name: 'opere',
-                label: 'Opere', value: [],
-                related: 'opera',
-                foreign_key: 'id',
-                preview: (item) => { return `${item?.id ?? '--'} - ${item?.cdgg} ` },
-                fields: opera.fields,
-                filter: (text) => {
-                    if(text.trim()==='') return {}
-                    return { autn: { _contains: text } }
-                },
-            }),
+            
         ]
     },
     tableFields() {

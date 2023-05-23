@@ -6,12 +6,12 @@ export default {
     fields() {
         return [
       
-            new FormField({ name: 'mstt', label: 'mstt', type: 'number', value: '' }),
-            new FormField({ name: 'mstl', label: 'mstl', type: 'text', value: '' }),
-            new FormField({ name: 'mstd', label: 'mstd', type: 'text', value: '' }),
-            new FormField({ name: 'mstfin', label: 'mstfin', type: 'text', value: '' }),
-            new FormField({ name: 'mstini', label: 'mstini', type: 'text', value: '' }),
-            new FormField({ name: 'mstval', label: 'mstval', type: 'text', value: '' }),
+            new FormField({ name: 'mstt', label: 'Titolo', type: 'text', value: '' }),
+            new FormField({ name: 'mstl', label: 'Luogo', type: 'text', value: '' }),
+            new FormField({ name: 'mstd', label: 'Data', type: 'text', value: '' }),
+            new FormField({ name: 'mstini', label: 'Data iniziale', type: 'text', value: '' }),
+            new FormField({ name: 'mstfin', label: 'Data finale', type: 'text', value: '' }),
+            new FormField({ name: 'mstval', label: 'Valore', type: 'text', value: '' }),
 
            
         ]

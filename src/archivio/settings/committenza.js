@@ -6,11 +6,10 @@ export default {
     fields() {
         return [
 
-            new FormField({ name: 'ognac', label: 'Ognac', type: 'number', value: '' }),
-            new FormField({ name: 'cmmn', label: 'Cmmn', type: 'text', value: '' }),
-            new FormField({ name: 'cmmd', label: 'Cmmd', type: 'text', value: '' }),
-            new FormField({ name: 'cmmmc', label: 'Cmmmc', type: 'text', value: '' }),
-            new FormField({ name: 'cmmmf', label: 'Cmmmf', type: 'text', value: '' }),
+            new FormField({ name: 'cmmn', label: 'Nome', type: 'text', value: '' }),
+            new FormField({ name: 'cmmd', label: 'Data', type: 'text', value: '' }),
+            new FormField({ name: 'cmmmc', label: 'Circonstanza', type: 'text', value: '' }),
+            new FormField({ name: 'cmmmf', label: 'Fonte', type: 'text', value: '' }),
            
         ]
     },

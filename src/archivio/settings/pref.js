@@ -16,10 +16,9 @@ export default {
   tableFields() {
     return [
       { key: "id_opera", label: "id opera", sortable: false },
-      { key: "user_created", label: "User", sortable: false },
-      { key: "date_created", label: "Date", sortable: false },
+      { key: "date_created", label: "Data", sortable: false },
 
-      { key: "actions", label: "Actions", sortable: false },
+      { key: "actions", label: "Azioni", sortable: false },
     ];
   },
 };

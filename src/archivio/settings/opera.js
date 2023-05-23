@@ -1,8 +1,7 @@
-import FormField from "./FormField";
 import autore from "./autore";
 
 import ogtd from "./ogtd";
-import ogtt from "./ogtd";
+import ogtt from "./ogtt";
 import ogtv from "./ogtv";
 import frm from "./frm";
 import roff from "./roff";
@@ -13,7 +12,6 @@ import acc from "./opere/acc";
 import alnt from "./alnt";
 import stima from "./opere/stima";
 
-import roz from "./opere/roz";
 import mtc from "./opere/mtc";
 import restauro from "./restauro";
 import iscrizione from "./iscrizione";
@@ -30,31 +28,37 @@ import fonte from "./fonte";
 import mostra from "./mostra";
 import bib from "./bib";
 import {
-  CheckboxField,
+  FormField,
   SelectField,
   ManyToManyField,
   RadioField,
   ManyToOneField,
+  File,
+  Image,
 } from "../models";
 
 export default {
   collection: "opera",
   fields() {
     return [
+      new Image({
+        name: "icona",
+        label: "icona",
+        fit: "contain",
+        width: 100,
+        height: 100,
+        quality: 10,
+        column: 6,
+      }),
+
+      new File({ name: "allegato", label: "File", column: 6 }),
+      new Divider({ type: "divider" }),
+
       new FormField({
         name: "codici",
         label: "Codici",
         type: "biglabel",
         value: "",
-      }),
-
-      // new FormField({ name: 'id', label: 'id', type: 'text' }), waiting for select box
-      new FormField({
-        name: "tsk",
-        label: "Tipo Scheda",
-        type: "text",
-        value: "OA",
-        column: "2",
       }),
 
       new RadioField({
@@ -69,6 +73,13 @@ export default {
           { value: "P", label: "Precatalogo" },
           { value: "I", label: "Inventario" },
         ],
+      }),
+      new FormField({
+        name: "tsk",
+        label: "Tipo Scheda",
+        type: "text",
+        value: "OA",
+        column: "2",
       }),
 
       new FormField({
@@ -94,13 +105,33 @@ export default {
         column: "2",
       }),
 
+      /* inventario */
+
+      new ManyToManyField({
+        name: "inv",
+        label: "Numero Inventario",
+        value: [],
+        column: "4",
+        related: "inv",
+        collection: "inventario",
+        foreign_key: "inv_id",
+        preview: (item) => {
+          return `${item?.invn}`;
+        },
+        fields: inventario.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { invn: { _contains: text } };
+        },
+      }),
       new ManyToManyField({
         name: "acc",
-        label: "acc",
+        label: "Altri codici",
         value: [],
         related: "acc",
         foreign_key: "acc_id",
-        column: "6",
+        collection: "Altri codici",
+        column: "4",
         preview: (item) => {
           return `${item?.acc}`;
         },
@@ -110,53 +141,11 @@ export default {
           return { acc: { _contains: text } };
         },
       }),
-      /* i
-
-
-
-      new FormField({
-        name: "roz",
-        label: "Riferimento Orizzontale",
-        type: "manyToMany",
-        value: [],
-        column: "6",
-
-        relation: "roz",
-        foreign_key: "roz_id",
-        preview: (item) => {
-          return `${item?.id ?? "--"} - ${item?.roz}`;
-        },
-        fields: roz.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { roz: { _contains: text } };
-        },
-      }),
-      /* inventario */
-
-      new ManyToManyField({
-        name: "inv",
-        label: "Numero Inventario",
-        value: [],
-        column: "6",
-
-        related: "inv",
-        foreign_key: "inv_id",
-        preview: (item) => {
-          return `${item?.invn}`;
-        },
-        fields: inventario.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { inventario: { _contains: text } };
-        },
-      }),
-
       new ManyToManyField({
         name: "stima",
-        label: "STIMA",
+        label: "Stima",
         value: [],
-        column: "6",
+        column: "4",
 
         related: "stima",
         foreign_key: "stima_id",
@@ -166,7 +155,7 @@ export default {
         fields: stima.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { stima: { _contains: text } };
+          return { stis: { _contains: text } };
         },
       }),
       //File waiting for File upload
@@ -188,13 +177,14 @@ export default {
         related: "ogtd",
         type: "manyToOne",
         column: "3",
+
         preview: (item) => {
           return `${item?.ogtd}`;
         },
         fields: ogtd.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { ogtd: { _contains: text } };
         },
       }),
 
@@ -212,7 +202,7 @@ export default {
         fields: ogtt.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { ogtt: { _contains: text } };
         },
       }),
       new ManyToOneField({
@@ -222,13 +212,14 @@ export default {
         related: "ogtv",
         type: "manyToOne",
         column: "3",
+        voc: "close",
         preview: (item) => {
           return `${item?.ogtv}`;
         },
         fields: ogtv.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { ogtv: { _contains: text } };
         },
       }),
 
@@ -253,9 +244,21 @@ export default {
         value: "",
         column: "3",
       }),
-      new FormField({
+
+      new SelectField({
         name: "qnts",
         label: "Quantità non rilevata ",
+        type: "select",
+        column: "3",
+        value: "",
+        options: [
+          { value: "", label: " " },
+          { value: "QNR", label: "QNR" },
+        ],
+      }),
+      new FormField({
+        name: "desi",
+        label: "Codifica Iconclass",
         type: "text",
         value: "",
         column: "3",
@@ -279,7 +282,7 @@ export default {
         label: "Indicazioni sull'oggetto",
         type: "textarea",
         value: "",
-        column: "12",
+        column: "6",
       }),
 
       new FormField({
@@ -289,13 +292,7 @@ export default {
         value: "",
         column: "6",
       }),
-      new FormField({
-        name: "desi",
-        label: "Codifica Iconclass",
-        type: "text",
-        value: "",
-        column: "6",
-      }),
+    
       new FormField({
         name: "nsc",
         label: "Notizie Storico Critiche",
@@ -326,7 +323,6 @@ export default {
         },
       }),
       //Mtc
-      //
       new ManyToManyField({
         name: "mtc",
         label: "Materia e Tecnica",
@@ -337,7 +333,6 @@ export default {
         foreign_key: "mtc_id",
         preview: (item) => {
           return `${item?.mtc}  (id: ${item?.id ?? "--"})`;
-
         },
         fields: mtc.fields,
         filter: (text) => {
@@ -361,12 +356,11 @@ export default {
         name: "misure",
       }),
 
-      //new FormField({ name: 'misu', label: 'Misu', type: 'text', defaultValue: null, column: '6'  }),
       new SelectField({
         name: "misu",
         label: "Unità di misura",
         type: "select",
-        column: "3",
+        column: "2",
         value: "",
         options: [
           { value: "", label: " " },
@@ -383,105 +377,84 @@ export default {
           { value: "UNR", label: "Unità Non Rilevata" },
         ],
       }),
-      new FormField({
-        name: "mis_verificate",
-        label: "MIS verificate",
-        type: "text",
-        defaultValue: null,
-        column: "3",
-      }),
 
       new FormField({
         name: "misa",
         label: "Altezza",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "misl",
         label: "Larghezza",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "misp",
         label: "Profondità",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "misd",
         label: "Diametro",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "misn",
         label: "Lunghezza",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "miss",
         label: "Spessore",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "misg",
         label: "Peso",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "misv",
         label: "Varie",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new SelectField({
         name: "misr",
         label: "Mancanza",
         type: "select",
-        column: "3",
+        column: "2",
         value: "",
         options: [
           { value: "", label: " " },
-          { value: "mnr", label: "mnr" },
+          { value: "MNR", label: "MNR" },
         ],
       }),
       new SelectField({
         name: "mist",
         label: "validità",
         type: "select",
-        column: "3",
+        column: "2",
         value: "",
         options: [
           { value: "", label: " " },
           { value: "ca", label: "ca" },
         ],
-      }),
-      new FormField({
-        name: "mis_ingombro	",
-        label: "Ingombro",
-        type: "text",
-        defaultValue: null,
-        column: "3",
-      }),
-      new FormField({
-        name: "mis_cornice",
-        label: "Cornice",
-        type: "text",
-        defaultValue: null,
-        column: "3",
       }),
 
       new ManyToOneField({
@@ -489,16 +462,41 @@ export default {
         label: "Formato",
         value: null,
         related: "frm",
-        column: "3",
+        column: "2",
         type: "manyToOne",
+        voc: "close",
         preview: (item) => {
           return `${item?.frm}`;
         },
         fields: frm.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { frm: { _contains: text } };
         },
+      }),
+      new FormField({
+        name: "mis_verificate",
+        label: "Misura verificata",
+        type: "text",
+        defaultValue: null,
+        column: "4",
+        special: true,
+      }),
+      new FormField({
+        name: "mis_ingombro",
+        label: "Ingombro",
+        type: "text",
+        defaultValue: null,
+        column: "4",
+        special: true,
+      }),
+      new FormField({
+        name: "mis_cornice",
+        label: "Cornice",
+        type: "text",
+        defaultValue: null,
+        column: "4",
+        special: true,
       }),
       new Divider({ type: "divider" }),
 
@@ -516,51 +514,52 @@ export default {
         value: null,
         related: "roff",
         type: "manyToOne",
-        column: "3",
+        column: "2",
+        voc: "close",
         preview: (item) => {
           return `${item?.roff}`;
         },
         fields: roff.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { roff: { _contains: text } };
         },
       }),
 
       new FormField({
         name: "rofo",
-        label: "Opera finale/originale",
+        label: "Opera originale",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "rofs",
-        label: "Soggetto opera finale/originale",
+        label: "Soggetto opera originale",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "rofa",
-        label: "Autore opera finale/originale ",
+        label: "Autore opera originale ",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "rofd",
-        label: "Datazione opera finale/originale",
+        label: "Datazione opera originale",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
       new FormField({
         name: "rofc",
-        label: "Collocazione opera finale/originale",
+        label: "Collocazione opera originale",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "2",
       }),
 
       new Divider({ type: "divider" }),
@@ -574,34 +573,35 @@ export default {
 
       new ManyToOneField({
         name: "lc",
+        voc: "close",
         label: "Localizzazione",
         value: null,
         related: "collocazione",
         type: "manyToOne",
-        column: "6",
+        column: "4",
         preview: (item) => {
-          return `${item?.ldcm}`;
+          return `${item?.ldcn}`;
         },
         fields: lc.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { ldcn: { _contains: text } };
         },
       }),
 
-      new FormField({
-        name: "deposito",
-        label: "Deposito",
-        type: "toggle",
-        value: "",
-        column: "2",
-      }),
       new FormField({
         name: "ldcs",
         label: "Collocazione Specifica",
         type: "text",
         value: "",
-        column: "6",
+        column: "4",
+      }),
+      new FormField({
+        name: "deposito",
+        label: "Deposito",
+        type: "toggle",
+        value: "",
+        column: "4",
       }),
       new FormField({
         name: "piano",
@@ -664,21 +664,21 @@ export default {
       new FormField({
         name: "esposizione",
         label: "Corretta esposizione [x scheda prestito]",
-        type: "text",
+        type: "textarea",
         defaultValue: null,
-        column: "3",
+        column: "6",
+        special: true,
       }),
       new FormField({
         name: "trasporto",
         label: "Corretto trasporto [x scheda prestito]",
-        type: "text",
+        type: "textarea",
         defaultValue: null,
-        column: "3",
+        column: "6",
+        special: true,
       }),
 
       /* restauro */
-
-
 
       new ManyToManyField({
         name: "restauro",
@@ -692,12 +692,228 @@ export default {
         fields: restauro.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { restauro: { _contains: text } };
+          return { rste: { _contains: text } };
+        },
+      }),
+
+
+      //Compilazione
+      new Divider({ type: "divider" }),
+
+      new FormField({
+        label: "Dati Fisici",
+        type: "biglabel",
+        value: "",
+        name: "dFisici",
+      }),
+      /* iscrizione */
+
+      new ManyToManyField({
+        name: "iscrizione",
+        label: "Iscrizione",
+        value: [],
+        related: "iscrizione",
+        foreign_key: "iscrizione_id",
+        column:"6",
+        preview: (item) => {
+          return `${item?.isrp}`;
+        },
+        fields: iscrizione.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { isrp: { _contains: text } };
+        },
+      }),
+
+      /* stemmi */
+
+      new ManyToManyField({
+        name: "stemmi",
+        label: "Stemmi",
+        value: [],
+        related: "stemmi",
+        foreign_key: "stemmi_id",
+        column: "6",
+        preview: (item) => {
+          return `${item?.stmc},${item?.stmi},${item?.stmd}`;
+        },
+        fields: stemmi.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { stmi: { _contains: text } };
         },
       }),
 
       new Divider({ type: "divider" }),
 
+      new FormField({
+        label: "DATI CULTURALI",
+        type: "biglabel",
+        value: "",
+        name: "datiC",
+      }),
+      /* localizzazione */
+
+      new ManyToManyField({
+        name: "localizzazione",
+        label: "Localizzazione",
+        value: [],
+        related: "localizzazione",
+        foreign_key: "localizzazione_id",
+        column: "12",
+        preview: (item) => {
+          return `${item?.prcd}`;
+        },
+        fields: localizzazione.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { prcd: { _contains: text } };
+        },
+      }),
+
+      /* autore */
+
+      new ManyToManyField({
+        name: "autore",
+        label: "Autore",
+        value: [],
+        related: "autore",
+        foreign_key: "autore_id",
+        column: "4",
+
+        preview: (item) => {
+          return `${item?.autn} (id: ${item?.id ?? "--"}) `;
+        },
+        fields: autore.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { autn: { _contains: text } };
+        },
+      }),
+
+      /* ambito */
+
+      new ManyToManyField({
+        name: "ambito",
+        label: "Ambito",
+        value: [],
+        related: "ambito",
+        foreign_key: "ambito_id",
+        column: "4",
+        preview: (item) => {
+          return `${item?.atbd} (id: ${item?.id ?? "--"}) `;
+        },
+        fields: ambito.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { atbd: { _contains: text } };
+        },
+      }),
+
+      /* committenza */
+
+      new ManyToManyField({
+        name: "committenza",
+        label: "Committenza",
+        value: [],
+        related: "committenza",
+        foreign_key: "committenza_id",
+        column: "4",
+        preview: (item) => {
+          return `${item?.cmmn} (id: ${item?.id ?? "--"}) `;
+        },
+        fields: committenza.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { cmmn: { _contains: text } };
+        },
+      }),
+
+      new Divider({ type: "divider" }),
+
+      new FormField({
+        label: "DATI ALLEGATI",
+        type: "biglabel",
+        value: "",
+        name: "dAllegati",
+      }),
+
+      /* fta */
+
+      new ManyToManyField({
+        name: "fotografia",
+        label: "Fotografia",
+        value: [],
+        related: "fta",
+        foreign_key: "fta_id",
+        column: "6",
+        preview: (item) => {
+          return `${item?.ftan}`;
+        },
+        fields: fta.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { ftan: { _contains: text } };
+        },
+      }),
+
+      /* fonte */
+
+      new ManyToManyField({
+        name: "fonte",
+        label: "Fonte",
+        value: [],
+        related: "fonte",
+        foreign_key: "fonte_id",
+        column: "6",
+        preview: (item) => {
+          return `${item?.ognac},${item?.fntt},${item?.fntn}`;
+        },
+        fields: fonte.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { fntp: { _contains: text } };
+        },
+      }),
+
+      // BIB
+
+      new ManyToManyField({
+        name: "bib",
+        label: "Bibliografia",
+        value: [],
+        related: "bib",
+        foreign_key: "bib_id",
+        column: "6",
+        preview: (item) => {
+          return `${item?.biba} - ${item?.bibd}`;
+        },
+        fields: bib.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { biba: { _contains: text } };
+        },
+      }),
+      
+      /* mostra */
+      new ManyToManyField({
+        name: "mostra",
+        label: "Mostra",
+        value: [],
+        related: "mostra",
+        foreign_key: "mostra_id",
+        column: "6",
+        preview: (item) => {
+          return `${item?.mstfin + " (" + item?.mstd + "), " + item?.mstl}`;
+        },
+        fields: mostra.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { mostra: { _contains: text } };
+        },
+      }),
+
+      new Divider({ type: "divider" }),
       new FormField({
         label: "Condizione giuridica",
         type: "biglabel",
@@ -711,7 +927,8 @@ export default {
         value: null,
         related: "alnt",
         type: "manyToOne",
-        column: "3",
+        column: "4",
+        voc: "open",
         preview: (item) => {
           return `${item?.alnt}`;
         },
@@ -726,14 +943,14 @@ export default {
         label: "Alienazione Data",
         type: "text",
         defaultValue: null,
-        column: "6",
+        column: "4",
       }),
       new FormField({
         name: "alnn",
         label: "Alienazione Note",
         type: "text",
         defaultValue: null,
-        column: "6",
+        column: "4",
       }),
 
       //cdgg
@@ -743,14 +960,15 @@ export default {
         value: null,
         related: "cdgg",
         type: "manyToOne",
-        column: "3",
+        column: "4",
+        voc: "close",
         preview: (item) => {
           return `${item?.cdgg}`;
         },
         fields: cdgg.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { cdgg: { _contains: text } };
         },
       }),
       new FormField({
@@ -758,14 +976,14 @@ export default {
         label: "Indicazione specifica",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "4",
       }),
       new FormField({
         name: "cdgi",
         label: "Indirizzo",
         type: "text",
         defaultValue: null,
-        column: "3",
+        column: "4",
       }),
 
       //acquisizione
@@ -776,6 +994,7 @@ export default {
         related: "acqt",
         type: "manyToOne",
         column: "3",
+        voc: "close",
 
         preview: (item) => {
           return `${item?.acqt}`;
@@ -783,7 +1002,7 @@ export default {
         fields: acqt.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { acqt: { _contains: text } };
         },
       }),
       new FormField({
@@ -823,274 +1042,56 @@ export default {
         label: "Data",
         type: "text",
         defaultValue: null,
-        column: "4",
+        column: "2",
       }),
       new FormField({
         name: "cmpn",
         label: "Compilatore",
         type: "text",
         defaultValue: null,
-        column: "4",
+        column: "2",
       }),
       new FormField({
         name: "fur",
         label: "Funzionario",
         type: "text",
         defaultValue: null,
-        column: "4",
+        column: "2",
       }),
       new FormField({
         name: "rvmd",
         label: "Data revisione",
         type: "text",
         defaultValue: null,
-        column: "4",
+        column: "2",
       }),
       new FormField({
         name: "rvmn",
         label: "Nome revisione",
         type: "text",
         defaultValue: null,
-        column: "4",
+        column: "2",
+
       }),
-
-      //Compilazione
-      new Divider({ type: "divider" }),
-
       new FormField({
-        label: "Dati Fisici",
-        type: "biglabel",
-        value: "",
-        name: "dFisici",
+        name: "date_updated",
+        label: "Ultimo aggiornamento",
+        type: "text",
+        defaultValue: null,
+        column: "2",
+        edit: 'false',
       }),
-      /* iscrizione */
-
-      new ManyToManyField({
-        name: "iscrizione",
-        label: "Iscrizione",
-        value: [],
-        related: "iscrizione",
-        foreign_key: "iscrizione_id",
-        preview: (item) => {
-          return `${item?.isrp}`;
-        },
-        fields: iscrizione.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { iscrizione: { _contains: text } };
-        },
-      }),
-
-      /* stemmi */
-
-      new ManyToManyField({
-        name: "stemmi",
-        label: "Stemmi",
-        value: [],
-        related: "stemmi",
-        foreign_key: "stemmi_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.stmi}`;
-        },
-        fields: stemmi.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { stemmi: { _contains: text } };
-        },
-      }),
-
-      new Divider({ type: "divider" }),
-
-      new FormField({
-        label: "DATI CULTURALI",
-        type: "biglabel",
-        value: "",
-        name: "datiC",
-      }),
-      /* localizzazione */
-
-
-      new ManyToManyField({
-        name: "localizzazione",
-        label: "Localizzazione",
-        value: [],
-        related: "localizzazione",
-        foreign_key: "localizzazione_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.prcd}`;
-        },
-        fields: localizzazione.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { localizzazione: { _contains: text } };
-        },
-      }),
-
-
-      /* autore */
-
-      new ManyToManyField({
-        name: "autore",
-        label: "Autore",
-        value: [],
-        related: "autore",
-        foreign_key: "autore_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.autn}`;
-        },
-        fields: autore.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { autn: { _contains: text } };
-        },
-      }),
-
-      /* ambito */
-
-      new ManyToManyField({
-        name: "ambito",
-        label: "Ambito",
-        value: [],
-        related: "ambito",
-        foreign_key: "ambito_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.atbd}`;
-        },
-        fields: ambito.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { ambito: { _contains: text } };
-        },
-      }),
-
-      /* committenza */
-
-      new ManyToManyField({
-        name: "committenza",
-        label: "committenza",
-        value: [],
-        related: "committenza",
-        foreign_key: "committenza_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.cmmn}`;
-        },
-        fields: committenza.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { committenza: { _contains: text } };
-        },
-      }),
-
-      
-      new Divider({ type: "divider" }),
-
-      new FormField({
-        label: "DATI ALLEGATI",
-        type: "biglabel",
-        value: "",
-        name: "dAllegati",
-      }),
-
-      /* fta */
-
-      new ManyToManyField({
-        name: "fta",
-        label: "Fotografia",
-        value: [],
-        related: "fta",
-        foreign_key: "fta_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.ftan}`;
-        },
-        fields: fta.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { fta: { _contains: text } };
-        },
-      }),
-
-      /* fonte */
-      
-      new ManyToManyField({
-        name: "fonte",
-        label: "Fonte",
-        value: [],
-        related: "fonte",
-        foreign_key: "fonte_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.fntp}`;
-        },
-        fields: fonte.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { fonte: { _contains: text } };
-        },
-      }),
-
-      // BIB
-
-      
-      new ManyToManyField({
-        name: "bib",
-        label: "Bibliografia",
-        value: [],
-        related: "bib",
-        foreign_key: "bib_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.bibx}`;
-        },
-        fields: bib.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { bib: { _contains: text } };
-        },
-      }),
-
-      /* mostra */      
-      new ManyToManyField({
-        name: "mostra",
-        label: "Mostra",
-        value: [],
-        related: "mostra",
-        foreign_key: "mostra_id",
-        column: "6",
-        preview: (item) => {
-          return `${item?.mostra}`;
-        },
-        fields: mostra.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { mostra: { _contains: text } };
-        },
-      }),
-
-      new Divider({ type: "divider" }),
-
-
     ];
   },
   tableFields() {
     return [
-      { key: "id", label: "ID", sortable: false },
-      // { key: "tsk", label: "TSK", sortable: true },
-      // { key: "lir", label: "LIR", sortable: true },
-      // { key: "nctr", label: "NCTR", sortable: true },
-      { key: "inventario", label: "INV", sortable: true },
-      { key: "nctn", label: "NCTN", sortable: true },
+      { key: "id", label: "ID", sortable: true },
+      { key: "inv", label: "INV", sortable: false },
+      { key: "nctn", label: "NCTN", sortable: false },
       { key: "autore", label: "Autore", sortable: false },
-      { key: "ogtd", label: "OGTD", sortable: true },
-      { key: "sgti", label: "SGTI", sortable: true },
+      { key: "ogtd", label: "OGTD", sortable: false },
+      { key: "sgti", label: "SGTI", sortable: false },
       { key: "ldcs", label: "Localizzazione", sortable: false },
-      { key: "mtc", label: "MTC", sortable: true },
-      // {key:'ambito',label:'Ambito',sortable: false},
       { key: "actions", label: "Azione", sortable: false },
     ];
   },

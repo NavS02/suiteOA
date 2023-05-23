@@ -5,19 +5,8 @@ export default {
     collection: 'opere',
     fields() {
         return [
-            new FormField({ name: 'sti_tipo', label: 'sti_tipo', type: 'text', value: '' }),
-            new OneToManyField({
-                name: 'opere',
-                label: 'Opere', value: [],
-                related: 'opera',
-                foreign_key: 'id',
-                preview: (item) => { return `${item?.sti_tipo} ` },
-                fields: opera.fields,
-                filter: (text) => {
-                    if(text.trim()==='') return {}
-                    return { sti_tipo: { _contains: text } }
-                },
-            }),
+            new FormField({ name: 'sti_tipo', label: 'Tipologia', type: 'text', value: '' }),
+            
         ]
     },
     tableFields() {

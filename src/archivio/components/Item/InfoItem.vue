@@ -7,7 +7,16 @@
             <div
               class="card-body profile-card pt-4 d-flex flex-column align-items-center"
             >
-              <img :src="imgurl" />
+              <img
+                :src="url"
+                style="
+                  max-width: 300px;
+                  max-height: 300px;
+                  display: block;
+                  margin: 0 auto;
+                "
+                id="my-image"
+              />
               <br />
               <h3 class="card-title">{{ response?.sgti }}</h3>
 
@@ -68,7 +77,7 @@
                 </li>
 
                 <li class="nav-item" role="presentation">
-                  <button
+                  <!-- <button
                     class="nav-link"
                     data-bs-toggle="tab"
                     data-bs-target="#profile-edit"
@@ -77,7 +86,7 @@
                     role="tab"
                   >
                     Autore
-                  </button>
+                  </button> -->
                 </li>
                 <li class="nav-item" role="presentation">
                   <button
@@ -570,9 +579,8 @@ export default {
     const { id } = toRefs(props);
     const response = ref(null);
     const responseArray = [];
-    var loaded = false;
-    let imgurl = ref("/not-found.svg");
-
+    const url = ref();
+    const image = ref();
     // Watch for changes in the route object
     watch(
       route,
@@ -657,13 +665,7 @@ export default {
                     (field) => delete relationalItem[field]
                   );
                   responseArray.push(relationalItem);
-                  console.log("ITEM FOUND");
-                  if (response.icona !== null) {
-                    imgurl.value =
-                      import.meta.env.VITE_API_BASE_URL +
-                      "/assets/" +
-                      response.value.icona;
-                  }
+                 
                 } catch (error) {
                   console.log(
                     `ITEM (${key}) with PK (${response.value[key][i]}) NOT FOUND (${collection.value}_${key}/${key})`
@@ -674,6 +676,37 @@ export default {
             response.value[key] = responseArray;
           }
         }
+         url.value = import.meta.env.VITE_API_BASE_URL; //url of directus
+                  image.value = null;
+                  const responseImg = await directus
+                    .items(collection.value)
+                    .readByQuery({
+                      filter: {
+                        id: {
+                          _eq: id.value,
+                        },
+                      },
+                    });
+                  image.value = responseImg.data[0].icona; //takes the id of the image
+                  if (image.value != null) {
+                    const imageUrl = url.value + "/assets/" + image.value; // generates url
+                    const imageElement = document.getElementById("my-image");
+
+                    fetch(imageUrl)
+                      .then((response) => response.blob())
+                      .then((blob) => {
+                        // CODE64 IMAGE
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = () => {
+                          const base64data = reader.result; //code64 the url
+                          imageElement.src = base64data;
+                        };
+                      });
+                  } else {
+                    const imageElement = document.getElementById("my-image");
+                    imageElement.src = null;
+                  }
       } catch (error) {}
     }
 
@@ -700,7 +733,7 @@ export default {
       "misu",
     ];
 
-    return { response, loaded, opera, imgurl };
+    return { response, opera, url };
   },
   props: {
     collection: {

@@ -4,8 +4,7 @@ import { FormField } from "."
  */
 export default class extends FormField {
     type = 'select'
-    emptyText = 'Seleziona una opzione...'
-    
+    emptyText = "Selezionare un'opzione..."
     options = []
 
     constructor(params) {

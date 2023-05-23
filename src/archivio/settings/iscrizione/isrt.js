@@ -7,7 +7,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'isrt', label: 'Isrt', type: 'text', value: '' }),
+            new FormField({ name: 'isrt', label: 'Tipo di caratteri', type: 'text', value: '' }),
             
            
         ]

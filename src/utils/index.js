@@ -17,8 +17,8 @@ const useAsset = (baseURL, accessToken) => {
         return assetURL
     }
     const thumbnail = (file, options={}) => {
-        const {fit='contain', width=100, height=100, quality=80} = options
-        let thumbnail = url(file) + `&fit=${fit}&width=${width}&height=${height}&quality=${quality}`
+        const {fit='contain', width=100, height=100, quality=100} = options
+        let thumbnail = url(file) + `&fit=${fit}&width=${width}&height=${height}`
         return thumbnail
     }
     return {
@@ -40,4 +40,18 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-export {useAsset, formatBytes}
+/**
+* note that this must be called to set the scope of timers and return
+* the actual debounce logic
+*/
+const debounce = function(callback, delay=300) {
+    let timers = {}
+    return (...args) => {
+      if(timers[callback]) clearTimeout(timers[callback]);
+      timers[callback] = setTimeout(() => {
+        callback.apply(this, args)
+      }, delay);
+    }
+  }
+
+export {useAsset, formatBytes, debounce}

@@ -105,17 +105,7 @@
         @input="infoQty()"
       />
       &nbsp
-      {{ totalResult }} schede trovate
-      <!-- <div style="float: right">
-        Ricerca:
-        <input
-          type="text"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          id="ricercaBar"
-          v-on:keyup="filterTable()"
-        />
-      </div> -->
+
       <div class="form-check" style="float: right">
         <input
           class="form-check-input"
@@ -198,70 +188,76 @@
                 <div
                   v-for="(item, index) in items"
                   :key="index"
-                  class="card mb-3 col-md-2"
+                  class="mb-3 col-md-2"
                   style="margin-bottom: 20px"
                 >
-                  <div class="card-body">
-                    <h4 class="text-center">num {{ item.id }}</h4>
+                  <div class="card" style="height: 100%; margin: -5px">
+                    <div class="card-body">
+                      <h4 class="text-center">id {{ item.id }}</h4>
 
-                    <button
-                      title="save"
-                      class="btn btn-sm btn-light text-danger text-center"
-                      style="position: absolute; top: 10px; right: 10px"
-                      @click="onSaveClicked(item)"
-                    >
-                      <i class="bi bi-heart" :id="'saveButton-' + item.id"></i>
-                    </button>
-                    <div
-                      class="text-center"
-                      style="
-                        border: 1px solid #999999;
-                        width: 200px;
-                        height: 200px;
-                        margin: 0 auto;
-                        margin-top: 15px;
-                      "
-                    >
-                      <img
-                        :src="imageurl"
-                        alt=""
-                        style="width: 200px; height: 200px"
-                        :id="'photo-' + index"
-                      />
-                    </div>
-                    <div class="text-center">
-                      <h5 style="margin-top: 20px">
-                        {{ item.inventario }}, {{ item.ogtd }}, {{ item.sgti }}
-                      </h5>
-                      <div class="actions">
-                        <button
-                          title="edit"
-                          class="btn btn-sm btn-light"
-                          @click="onEditClicked(item)"
-                        >
-                          <font-awesome-icon
-                            icon="fa-solid fa-pencil"
-                            fixed-width
-                          />
-                        </button>
+                      <button
+                        title="save"
+                        class="btn btn-sm btn-light text-danger text-center"
+                        style="position: absolute; top: 10px; right: 10px"
+                        @click="onSaveClicked(item)"
+                      >
+                        <i
+                          class="bi bi-heart"
+                          :id="'saveButton-' + item.id"
+                        ></i>
+                      </button>
+                      <div
+                        class="text-center"
+                        style="
+                          border: 1px solid #999999;
+                          width: 200px;
+                          height: 200px;
+                          margin: 0 auto;
+                          margin-top: 15px;
+                        "
+                      >
+                        <img
+                          :src="imageurl"
+                          alt=""
+                          style="width: 170px; height: 170px; margin-top: 15px"
+                          :id="'photo-' + index"
+                        />
+                      </div>
+                      <div class="text-center">
+                        <h5 style="margin-top: 20px">
+                          {{ item.ogtd }}<br />
+                          <i>{{ item.sgti }}</i>
+                        </h5>
+                        <div class="actions">
+                          <button
+                            title="edit"
+                            class="btn btn-sm btn-light"
+                            @click="onEditClicked(item)"
+                          >
+                            <font-awesome-icon
+                              icon="fa-solid fa-pencil"
+                              fixed-width
+                            />
+                          </button>
 
-                        <button
-                          title="delete"
-                          class="btn btn-sm btn-light text-danger"
-                          @click="onDeleteClicked(item)"
-                        >
-                          <font-awesome-icon
-                            icon="fa-solid fa-trash"
-                            fixed-width
-                          />
-                        </button>
-                        <button
-                          title="Info"
-                          class="btn btn-sm btn-light"
-                          @click="onInfoClicked(item)"
-                        >
-                          <font-awesome-icon icon="fa-solid fa-eye" />
-                        </button>
+                          <button
+                            title="delete"
+                            class="btn btn-sm btn-light text-danger"
+                            @click="onDeleteClicked(item)"
+                          >
+                            <font-awesome-icon
+                              icon="fa-solid fa-trash"
+                              fixed-width
+                            />
+                          </button>
+                          <button
+                            title="Info"
+                            class="btn btn-sm btn-light"
+                            @click="onInfoClicked(item)"
+                          >
+                            <font-awesome-icon icon="fa-solid fa-eye" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -312,15 +308,7 @@
                 {{ currentPage + 1 }}</a
               >
             </li>
-            <!-- <li
-              v-for="index in totalPages"
-              :key="index"
-              class="page-item"
-              @click="skipPage(index)"
-              :id="'tablePage-' + index"
-            >
-              <a class="page-link">{{ index }}</a>
-            </li> -->
+
             <li
               class="page-item"
               @click="skipPage('last')"
@@ -333,35 +321,108 @@
         </nav>
       </div>
     </div>
+    <div
+      class="modal fade show"
+      id="ExtralargeModal"
+      tabindex="-1"
+      style="display: block"
+      aria-modal="true"
+      role="dialog"
+      v-if="showAlert"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Tipo de stampa</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              @click="closeAlert"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4">
+                <!-- First print type -->
+                <div class="card cardSelector">
+                  <div class="card-body">
+                    <h5 class="card-title">Stampa sanitaria</h5>
+                    <img
+                      src="/sSanitaria.png"
+                      style="width: 100%"
+                      @click="printS(item)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <!-- Second print type -->
+                <div class="card cardSelector">
+                  <div class="card-body">
+                    <h5 class="card-title">Stampa prestito</h5>
+                    <img
+                      src="/sPrestito.png"
+                      style="width: 100%"
+                      @click="printP(item)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <!-- Third print type -->
+                <div class="card cardSelector">
+                  <div class="card-body">
+                    <h5 class="card-title">Visualizzare item</h5>
+                    <img
+                      src="/option1.png"
+                      style="width: 100%"
+                      @click="printInfo(item)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <Loaded v-if="!loaded" />
   </main>
 </template>
 
 <script>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { directus } from "../../API/";
 import * as settings from "../../settings/";
 import Table from "../common/Table/Table.vue";
-import store from "../../store";
+import Loaded from "../common/Loader.vue";
 
 export default {
-  components: { Table },
+  components: { Table, Loaded },
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const modal = inject("$modalManager");
 
-    // infer the collection from the route
     const collection = [];
-    const items = ref([]);
+    const items = ref(null);
     const fields = ref([]);
     var itemsFiltered = [];
     var totalResult = ref(0);
     var totalPages = ref();
     let currentPage = ref(2);
+    let currentItem = ref();
     let selectedOption = ref("list");
     const url = ref();
     let imageurl = ref("/logoopaSiena.png");
     const me = ref();
+    const showAlert = ref(false);
+    const counter = ref(0);
+    const loaded = ref(true);
+    const image = ref();
     // watch the route and update data based on the collection param
     watch(
       route,
@@ -380,7 +441,6 @@ export default {
       skipPage("first");
       //IMAGES
       if (selectedOption.value === "card" && itemsFiltered.data) {
-        fetchImg();
       }
     });
 
@@ -420,15 +480,7 @@ export default {
         currentPage.value * resultLimit
       );
       fetchIconSaved();
-    }
-    // NO WORKS
-    function fetchImg() {
-      // console.log(items.value.length);
-      // for (let index = 0; index <= items.value.length; index++) {
-      //   if (itemsFiltered.data[index].icona !== null) {
-      //    document.getElementById("photo-" + index).src= import.meta.env.VITE_API_BASE_URL+"/assets/" + itemsFiltered.data[index].icona;
-      //   }
-      // }
+      fetchRelations();
     }
 
     async function fetchData() {
@@ -440,7 +492,8 @@ export default {
       let resultOGTD = document.getElementById("resultOGTD").value;
       let resultInv = document.getElementById("resultInv").value;
       let resultMTC = document.getElementById("resultMTC").value;
-
+      counter.value = 0;
+      loaded.value = false;
       let query = {
         limit: -1,
         filter: {},
@@ -552,6 +605,8 @@ export default {
         if (data.length < 1) {
           items.value = null;
         } else {
+          loaded.value = true;
+
           items.value = data;
         }
       } catch (error) {
@@ -559,21 +614,135 @@ export default {
       }
       // SAVED ITEMS
       infoQty();
-      fetchRelations();
-
-      if (selectedOption.value === "card") {
-        setTimeout(() => {
-          fetchImg();
-        }, 1000);
-      }
     }
     async function fetchRelations() {
-      const opereMtc = await directus.items("opera_mtc").readByQuery({
+      counter.value = 0;
+      let autoreNames = "";
+      let ogtdNames = "";
+      let inventarioNames = "";
+      let query = {
         limit: -1,
+        filter: {},
+      };
+      const opereAutore = await directus
+        .items("opera_autore")
+        .readByQuery(query);
+      const autoreData = await directus.items("autore").readByQuery(query);
+
+      const ogtdData = await directus.items("ogtd").readByQuery(query);
+
+      const opereInventario = await directus
+        .items("opera_inventario")
+        .readByQuery(query);
+      const inventarioData = await directus
+        .items("inventario")
+        .readByQuery(query);
+
+      // AUTORE
+      items.value.forEach((item) => {
+        autoreNames = "";
+        if (
+          Array.isArray(item.autore) &&
+          (item.autore.length > 0 || item.autore !== null)
+        ) {
+          item.autore.forEach((itemAutore) => {
+            opereAutore.data.forEach((relationalItem) => {
+              if (relationalItem.id == itemAutore) {
+                autoreData.data.forEach((relationalAutore) => {
+                  if (relationalItem.autore_id == relationalAutore.id) {
+                    autoreNames += relationalAutore.autn + ". ";
+                  }
+                });
+              }
+            });
+          });
+          try {
+            items.value[counter.value].autore = autoreNames;
+          } catch (error) {}
+
+          counter.value++;
+        }
+      });
+      // OGTD
+      counter.value = 0;
+      items.value.forEach((item) => {
+        ogtdNames = "";
+        if (item.ogtd !== null && item.ogtd !== "") {
+          ogtdData.data.forEach((ogtdItem) => {
+            if (ogtdItem.id == item.ogtd) {
+              items.value[counter.value].ogtd = ogtdItem.ogtd;
+            }
+          });
+        }
+        counter.value++;
+      });
+
+      // INV
+      counter.value = 0;
+      items.value.forEach((item) => {
+        inventarioNames = "";
+        if (
+          Array.isArray(item.inv) &&
+          item.inv.length > 0 &&
+          item.inv !== null
+        ) {
+          item.inv.forEach((itemInv) => {
+            opereInventario.data.forEach((relationalItem) => {
+              if (relationalItem.id == itemInv) {
+                inventarioData.data.forEach((relationalInv) => {
+                  if (relationalItem.inventario_id == relationalInv.id) {
+                    inventarioNames += relationalInv.invn + ". ";
+                  }
+                });
+              }
+            });
+          });
+        }
+        try {
+          // items.value[counter.value].inv = inventarioNames;
+        } catch (error) {}
+
+        counter.value++;
+      });
+      for (let index = 0; index < items.value.length; index++) {
+        document.getElementById("photo-" + index).src = imageurl.value;
+      }
+
+      url.value = import.meta.env.VITE_API_BASE_URL;
+      const imagesDirectory = await directus
+        .items("directus_files")
+        .readByQuery({ limit: -1 });
+      counter.value = 0;
+
+      items.value.forEach((item) => {
+        if (item.icona !== null) {
+          imagesDirectory.data.forEach((imageItem) => {
+            if (item.icona == imageItem.id) {
+              image.value = imageItem.id;
+            }
+          });
+
+          let imageElement = document.getElementById("photo-" + counter.value);
+          const imageUrl = url.value + "/assets/" + image.value; // generates url
+
+          fetch(imageUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+              // CODE64 IMAGE
+              const reader = new FileReader();
+              reader.readAsDataURL(blob);
+              reader.onloadend = () => {
+                const base64data = reader.result; //code64 the url
+                imageElement.src = base64data;
+              };
+            });
+        }
+
+        counter.value++;
       });
     }
     async function fetchIconSaved() {
-       me.value = await directus.users.me.read();
+      me.value = await directus.users.me.read();
 
       let query2 = {
         limit: -1,
@@ -619,19 +788,20 @@ export default {
     }
     function onEditClicked(item) {
       router.push({
-        name: "editItem",
+        name: "editItemArc",
         params: { id: item.id, collection: collection.value },
       });
     }
-    function onDeleteClicked(item) {
-      const confirmed = confirm("Are you sure you want to delete this item?");
+    async function onDeleteClicked(item) {
+      const confirmed = await modal.confirm({
+        title: "Confirm",
+        body: "Sei sicuro di voler eliminare questo elemento?",
+      });
       if (confirmed) deleteItem(item);
     }
     function onInfoClicked(item) {
-      router.push({
-        name: "InfoItemArch",
-        params: { collection: collection.value, id: item.id },
-      });
+      currentItem.value = item;
+      showAlert.value = true;
     }
     async function onSaveClicked(item) {
       let iconSaved = document.getElementById("saveButton-" + item.id);
@@ -661,6 +831,27 @@ export default {
       }
     }
 
+    function closeAlert() {
+      showAlert.value = false;
+    }
+    function printS() {
+      router.push({
+        name: "modelSan",
+        params: { id: currentItem.value.id },
+      });
+    }
+    function printP() {
+      router.push({
+        name: "modelPres",
+        params: { id: currentItem.value.id },
+      });
+    }
+    function printInfo() {
+      router.push({
+        name: "InfoItemArch",
+        params: { id: currentItem.value.id, collection: "opera" },
+      });
+    }
     return {
       items,
       fields,
@@ -670,6 +861,8 @@ export default {
       currentPage,
       selectedOption,
       imageurl,
+      showAlert,
+      loaded,
       onEditClicked,
       onDeleteClicked,
       onInfoClicked,
@@ -678,6 +871,10 @@ export default {
       infoQty,
       clearData,
       skipPage,
+      closeAlert,
+      printS,
+      printP,
+      printInfo,
     };
   },
 };

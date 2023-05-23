@@ -14,32 +14,26 @@
 </template>
 
 <script setup>
-import { ref, toRefs, computed } from "vue";
-import FormField from "../../../models/FormField";
+import { ref, toRefs, computed } from 'vue'
+import FormField from '../../../models/FormField'
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
-  modelValue: {
-    type: [String, Array],
-    default: "",
-    validator: (value) => {
-      return typeof value === "string" || Array.isArray(value);
-    },
-  },
-  field: { type: FormField, default: null },
-});
+    modelValue: { type: Array, default: () =>[] },
+    field: { type: FormField, default: null },
+})
 
-const { field } = toRefs(props);
+const { field } = toRefs(props)
 
 const selected = computed({
-  get() {
-    return field.value.value ?? [];
-  },
-  set(value) {
-    emit("update:modelValue", field.value.options[0].value);
+    get() { return field.value.value ?? [] },
+    set(value) {
+        emit('update:modelValue', value)
+    },
+})
 
-    }
-});
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

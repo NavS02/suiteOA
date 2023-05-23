@@ -78,6 +78,7 @@ async function uploadFiles() {
   }
   const _directus = client(options)
   let list = await _directus.files.createOne(formData)
+  console.log(files)
   files.value.clear()
   if(!Array.isArray(list)) list = [list]
   for (const item of list) {

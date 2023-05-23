@@ -5,7 +5,7 @@
             <span class="ms-1"><slot name="button-text">Upload</slot></span>
         </button>
     </div>
-    <b-modal ref="myModal" title="Upload a file" ok-only>
+    <b-modal ref="myModal" title="Caricare file" ok-only>
         <div class="upload-wrapper">
             <Upload ref="myUpload"/>
         </div>

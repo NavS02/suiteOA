@@ -11,16 +11,18 @@ const app = createApp(App)
 // register global components
 app.component('Modal', Modal)
 app.component('Drawer', Drawer)
+import {BootstrapVue} from 'bootstrap-vue'
 
 /** --- Bootstrap --- */
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-
 import "@popperjs/core";
 
 
 /** --- extra from theme --- */
+
+import './assets/vendor/bootstrap-icons/bootstrap-icons.css'
+import './assets/vendor/boxicons/css/boxicons.min.css'
 
 
 
@@ -43,6 +45,7 @@ library.add(fas, far, fab)
 /* router */
 import {router} from './router'
 app.use(router)
+app.use(BootstrapVue)
 
 app.mount('#app')
 

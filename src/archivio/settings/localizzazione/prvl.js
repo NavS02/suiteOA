@@ -7,7 +7,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'prvl', label: 'Prvl', type: 'text', value: '' }),
+            new FormField({ name: 'prvl', label: 'Località', type: 'text', value: '' }),
             
            
         ]

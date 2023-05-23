@@ -5,19 +5,8 @@ export default {
     collection: 'opere',
     fields() {
         return [
-            new FormField({ name: 'stim', label: 'stim', type: 'text', value: '' }),
-            new OneToManyField({
-                name: 'opere',
-                label: 'Opere', value: [],
-                related: 'opera',
-                foreign_key: 'id',
-                preview: (item) => { return `${item?.stim} ` },
-                fields: opera.fields,
-                filter: (text) => {
-                    if(text.trim()==='') return {}
-                    return { stim: { _contains: text } }
-                },
-            }),
+            new FormField({ name: 'stim', label: 'Motivazione della Stima', type: 'text', value: '' }),
+        
         ]
     },
     tableFields() {

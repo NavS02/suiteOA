@@ -28,7 +28,10 @@ import CreateItemArc from '../archivio/components/Item/CreateItem.vue'
 import EditItemArc from '../archivio/components/Item/EditItem.vue'
 import userArc from '../archivio/pages/User.vue'
 import InfoItemArch from '../archivio/components/Item/InfoItem.vue'
-import model1Arch from '../archivio/components/Item/PrintItem/model1.vue'
+import modelFav from '../archivio/components/Item/PrintItem/modelFav.vue'
+import modelSan from '../archivio/components/Item/PrintItem/modelSan.vue'
+import modelPres from '../archivio/components/Item/PrintItem/modelPres.vue'
+import CreateItem from '../archivio/components/Item/CreateItem.vue'
 
 const routes = [
         { path: '/login/:program',  name: 'login', component: Login,props:true},
@@ -58,7 +61,10 @@ const routes = [
                 { path: '/archivio/edit/:collection/:id', name: 'editItemArc', component: EditItemArc, props: true, },
                 { path: '/archivio/profile', name: 'userArc', component: userArc, props: true,meta: { requiresAuth: true } },
                 { path: '/archivio/items/:collection/:id', name: 'InfoItemArch', component: InfoItemArch, props: true, },
-                { path: '/archivio/print/', name: 'model1Arch', component: model1Arch, props: true, },
+                { path: '/archivio/print/favorite', name: 'modelFav', component: modelFav, props: true, },
+                { path: '/archivio/print/sanitaria/:id', name: 'modelSan', component: modelSan, props: true, },
+                { path: '/archivio/print/prestito/:id', name: 'modelPres', component: modelPres, props: true, },
+                { path: '/archivio/print/:collection/create', name: 'CreateArc', component: CreateItem, props: true, },
 
     ] },
     ] },

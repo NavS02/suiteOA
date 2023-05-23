@@ -7,7 +7,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'adt', label: 'Adt', type: 'text', value: '' }),
+            new FormField({ name: 'adt', label: 'Altre datazioni', type: 'text', value: '' }),
             
            
         ]

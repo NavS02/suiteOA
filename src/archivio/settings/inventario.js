@@ -5,10 +5,9 @@ export default {
     collection: 'inventario',
     fields() {
         return [
-            
-            new FormField({ name: 'invn', label: 'Invn', type: 'text', value: '' }),
-            new FormField({ name: 'invd', label: 'Invd', type: 'text', value: '' }),
-            new FormField({ name: 'invc', label: 'Invc', type: 'text', value: '' }),
+            new FormField({ name: 'invn', label: 'Numero', type: 'text', value: '' }),
+            new FormField({ name: 'invd', label: 'Data', type: 'text', value: '' }),
+            new FormField({ name: 'invc', label: 'Collocazione', type: 'text', value: '' }),
            
         ]
     }

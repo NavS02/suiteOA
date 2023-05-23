@@ -2,7 +2,7 @@
 <div class="d-flex flex-column">
     <span class="d-block">{{file.title}}</span>
     <span class="d-block text-muted small">Size: {{formatBytes(file.filesize)}}</span>
-    <span class="d-block text-muted small">Uploaded: {{file.uploaded_on}}</span>
+    <span class="d-block text-muted small">Data inserimento: {{file.uploaded_on}}</span>
 </div>
 
 </template>

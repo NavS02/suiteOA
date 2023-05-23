@@ -38,7 +38,7 @@
                     aria-selected="true"
                     role="tab"
                   >
-                    Overview
+                    Generale
                   </button>
                 </li>
 
@@ -107,7 +107,7 @@
 
                   <div class="container">
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Name</div>
+                      <div class="col-lg-3 col-md-3 label">Nome</div>
                       <div class="col-lg-9 col-md-9">
                         {{ me?.first_name }} {{ me?.last_name }}
                       </div>
@@ -126,12 +126,12 @@
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Country</div>
+                      <div class="col-lg-3 col-md-3 label">Paese</div>
                       <div class="col-lg-9 col-md-9">{{ me?.location }}</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Language</div>
+                      <div class="col-lg-3 col-md-3 label">Lingua</div>
                       <div class="col-lg-9 col-md-9">{{me?.language}}</div>
                     </div>
 
@@ -165,31 +165,31 @@
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Name" class="col-md-4 col-lg-3 col-form-label"
-                        >Name</label
+                      <label for="Nome" class="col-md-4 col-lg-3 col-form-label"
+                        >Nome</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
-                          name="Name"
+                          name="Nome"
                           type="text"
                           class="form-control"
-                          id="Name"
+                          id="Nome"
                           :value="me?.first_name"
                         />
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label
-                        for="Surname"
+                        for="Cognome"
                         class="col-md-4 col-lg-3 col-form-label"
-                        >Surname</label
+                        >Cognome</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
-                          name="Surname"
+                          name="Cognome"
                           type="text"
                           class="form-control"
-                          id="Surname"
+                          id="Cognome"
                           :value="me?.last_name"
                         />
                       </div>
@@ -198,7 +198,7 @@
                       <label
                         for="description"
                         class="col-md-4 col-lg-3 col-form-label"
-                        >Description</label
+                        >Descrizione</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
@@ -229,16 +229,16 @@
 
                     <div class="row mb-3">
                       <label
-                        for="Country"
+                        for="Paese"
                         class="col-md-4 col-lg-3 col-form-label"
-                        >Country</label
+                        >Paese</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
                           name="country"
                           type="text"
                           class="form-control"
-                          id="Country"
+                          id="Paese"
                           :value="me?.location"
                         />
                       </div>
@@ -508,7 +508,7 @@ async function fetchData() {
     }
 
     function confirmLogout() {
-      const confirmed = confirm("Are you sure you want to logout?");
+      const confirmed = confirm("È sicuro di voler effettuare il logout?");
       if (confirmed) router.push({ name: "logout" });
     }
     async function onSaveClicked(item) {
@@ -522,10 +522,10 @@ async function fetchData() {
       });
     }
     async function onChangeUserData() {
-      let name = document.getElementById("Name").value;
-      let surname = document.getElementById("Surname").value;
+      let name = document.getElementById("Nome").value;
+      let surname = document.getElementById("Cognome").value;
       let description = document.getElementById("description").value;
-      let country = document.getElementById("Country").value;
+      let country = document.getElementById("Paese").value;
       let email = document.getElementById("Email").value;
 
       await directus.users.me.update({

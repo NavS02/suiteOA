@@ -21,7 +21,7 @@
     </div>
     <template v-else>
         <UploadModal @filesSelected="onFilesSelected">
-            <template #button-text>Upload file</template>
+            <template #button-text>Caricare file</template>
         </UploadModal>
     </template>
 </template>

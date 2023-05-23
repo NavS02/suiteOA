@@ -16,8 +16,7 @@
                 </button>
                 <button class="btn btn-sm btn-primary" @click="onSaveClicked(data)">
                     <font-awesome-icon icon="fa-solid fa-floppy-disk" fixed-width/>
-                    <span class="ms-1">Save</span>
-                </button>
+                    <span class="ms-1">Salva</span>                </button>
             </div>
         </template>
     </Form>

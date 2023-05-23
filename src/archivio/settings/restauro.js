@@ -1,46 +1,61 @@
-import FormField from '././FormField'
 import rstn from './restauro/rstn'
 import rstr from './restauro/rstr'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../models";
+  
 export default {
     collection: 'roz',
     fields() {
         return [
             // new FormField({ name: 'id', label: 'id', type: 'text' }),
            
-            new FormField({ name: 'rstd', label: 'Rstd', type: 'text', value: '' }),
-            new FormField({ name: 'rste', label: 'Rste', type: 'text', value: '' }),
-           /* new FormField({
-                name: 'rstn',
-                label: 'Rstn', type: 'manyToMany', value: [],
-                relation: 'rstn',
-                foreign_key: 'rstn_id',
-                preview: (item) => { return `${item?.id ?? '--'} - ${item?.rstn}` },
+            new FormField({ name: 'rstd', label: 'Data', type: 'text', value: '' }),
+            new FormField({ name: 'rste', label: 'Ente responsabile', type: 'text', value: '' }),
+            
+            new ManyToOneField({
+                name: "rstn",
+                label: "Nome operatore",
+                value: null,
+                related: "rstn",
+                type: "manyToOne",
+                preview: (item) => {
+                  return `${item?.rstn}`;
+                },
                 fields: rstn.fields,
                 filter: (text) => {
-                    if(text.trim()==='') return {}
-                    return { rstn: { _contains: text } }
+                  if (text.trim() === "") return {};
+                  return { rstn: { _contains: text } };
                 },
-            }),*/
-           // new FormField({ name: 'rstn', label: 'Rstn', type: 'text', value: '' }),
-            new FormField({ name: 'rsts', label: 'Rsts', type: 'text', value: '' }),
-            new FormField({ name: 'rstl', label: 'Rstl', type: 'text', value: '' }),
+              }),
+              new ManyToOneField({
+                name: "rstr",
+                label: "Ente finanziatore",
+                value: null,
+                related: "rstr",
+                type: "manyToOne",
+                preview: (item) => {
+                  return `${item?.rstr}`;
+                },
+                fields: rstr.fields,
+                filter: (text) => {
+                  if (text.trim() === "") return {};
+                  return { rstr: { _contains: text } };
+                },
+              }),
+            new FormField({ name: 'rsts', label: 'Situazione', type: 'text', value: '' }),
+            new FormField({ name: 'rstl', label: 'Luogo', type: 'text', value: '' }),
            
-          /* new FormField({
-            name: 'rstr',
-            label: 'Rstr', type: 'manyToMany', value: [],
-            relation: 'rstr',
-            foreign_key: 'rstr_id',
-            preview: (item) => { return `${item?.id ?? '--'} - ${item?.rstr}` },
-            fields: rstr.fields,
-            filter: (text) => {
-                if(text.trim()==='') return {}
-                return { rstr: { _contains: text } }
-            },
-        }),*/
-            new FormField({ name: 'rsdu', label: 'Rsdu', type: 'text', value: '' }),
-            new FormField({ name: 'rsdr', label: 'Rsdr', type: 'text', value: '' }),
-            new FormField({ name: 'rstnote', label: 'Rstnote', type: 'text', value: '' }),
+          
+            new FormField({ name: 'rsdu', label: 'Uscita', type: 'text', value: '' }),
+            new FormField({ name: 'rsdr', label: 'Ente finanziatore', type: 'text', value: '' }),
+            new FormField({ name: 'rstnote', label: 'Note', type: 'text', value: '' }),
 
             
         ]

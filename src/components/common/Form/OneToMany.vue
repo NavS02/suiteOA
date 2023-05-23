@@ -4,7 +4,7 @@
     </slot>
     <div class="card">
         <div class="card-body items d-flex flex-column gap-2">
-            <template v-for="(item, index) in items" :key="index">
+            <template v-for="(item, index) in items" :key="item.id">
                 <div class="item d-flex p-2">
                     <div class="preview">
                         <!-- run the preview function if available -->
@@ -33,11 +33,11 @@
             <div class="buttons d-flex gap-2">
                 <button class="btn btn-sm btn-primary" @click="onCreateNewClicked">
                     <font-awesome-icon icon="fa-solid fa-plus" fixed-width/>
-                    <span class="ms-1">Create New</span>
+                    <span class="ms-1">Creare</span>
                 </button>
                 <button class="btn btn-sm btn-primary" @click="onAddExistingClicked">
                     <font-awesome-icon icon="fa-solid fa-list" fixed-width/>
-                    <span class="ms-1">Add Existing</span>
+                    <span class="ms-1">Aggiungere</span>
                 </button>
             </div>
         </div>
@@ -57,14 +57,14 @@
 
     <Drawer ref="selectDrawer">
         <template v-slot:header>
-            <span>Select item</span>
+            <span>Seleziona valore</span>
 
             <div>
                 <div class="input-group">
-                    <input class="form-control" type="text" v-model.lazy="query" placeholder="3 characters min..."/>
+                    <input class="form-control" type="text" v-model.lazy="query" placeholder="3 caratteri min..."/>
                     <button class="btn btn-sm btn-primary" @click="onSearchClicked">
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" fixed-width/>
-                        <span class="ms-1">Search</span>
+                        <span class="ms-1">Cerca</span>
                     </button>
                 </div>
             </div>
@@ -123,7 +123,7 @@ import {directus} from '@/API/'
 
 
 
-const MyForm = defineAsyncComponent(() => import('../Form.vue'))
+const MyForm = defineAsyncComponent(() => import('./Form.vue'))
 
 
 const emit = defineEmits([ 'update:modelValue' ])
@@ -155,7 +155,7 @@ const selectedIDs = ref([])
  */
 const unwatch = watch(modelValue, async (value) => {
     items.value = value
-})
+}, {immediate: true})
 
 const data = computed( () => {
     const _data = []
@@ -195,6 +195,8 @@ async function fetchIDs(ids=[]) {
     const {data:_data=[]} = response
     return _data
 }
+
+
 async function search() {
     const text = query.value
     const params = { limit: -1 } // default params
@@ -246,7 +248,6 @@ function remove(item) {
  * @param {Object} itemToRemove 
  */
 function onRemoveClicked(item) { remove(item)}
-function onRestoreClicked(item) { restore(item) }
 async function onCreateNewClicked() {
     newItemFields.value = field.value.fields() // reset
     const response = await createDrawer.value.show()

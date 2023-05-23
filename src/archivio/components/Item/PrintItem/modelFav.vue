@@ -469,7 +469,7 @@ import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { directus } from "../../../API";
 import store from "../../../store";
-import * as settings from "../../../settings/";
+import * as settings from "../../../settings";
 import html2pdf from "html2pdf.js";
 
 export default {

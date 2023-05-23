@@ -5,19 +5,8 @@ export default {
     collection: 'opere',
     fields() {
         return [
-            new FormField({ name: 'alnt', label: 'alnt', type: 'text', value: '' }),
-            new OneToManyField({
-                name: 'opere',
-                label: 'Opere', value: [],
-                related: 'opera',
-                foreign_key: 'id',
-                preview: (item) => { return `${item?.id ?? '--'} - ${item?.alnt} ` },
-                fields: opera.fields,
-                filter: (text) => {
-                    if(text.trim()==='') return {}
-                    return { alnt: { _contains: text } }
-                },
-            }),
+            new FormField({ name: 'alnt', label: 'Alienazione Tipo', type: 'text', value: '' }),
+           
         ]
     },
     tableFields() {

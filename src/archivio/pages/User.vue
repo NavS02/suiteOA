@@ -38,7 +38,7 @@
                     aria-selected="true"
                     role="tab"
                   >
-                    Overview
+                    Anteprima
                   </button>
                 </li>
 
@@ -51,11 +51,11 @@
                     role="tab"
                     tabindex="-1"
                   >
-                    Edit Profile
+                    Modifica il Profilo
                   </button>
                 </li>
 
-                <li class="nav-item" role="presentation">
+                <!-- <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
                     data-bs-toggle="tab"
@@ -81,7 +81,7 @@
                   >
                     Change Password
                   </button>
-                </li>
+                </li> -->
 
                 <li class="nav-item" role="presentation">
                   <button
@@ -93,7 +93,7 @@
                     tabindex="-1"
                     @click="fetchData()"
                   >
-                    Favorite Items
+                    Schede preferite
                   </button>
                 </li>
               </ul>
@@ -103,35 +103,35 @@
                   id="profile-overview"
                   role="tabpanel"
                 >
-                  <h5 class="card-title">Profile Details</h5>
+                  <h5 class="card-title">Profilo</h5>
 
                   <div class="container">
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Name</div>
+                      <div class="col-lg-3 col-md-3 label">Nome</div>
                       <div class="col-lg-9 col-md-9">
                         {{ me?.first_name }} {{ me?.last_name }}
                       </div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Company</div>
+                      <div class="col-lg-3 col-md-3 label">Compagnia</div>
                       <div class="col-lg-9 col-md-9">
                         Opera della Metropolitana
                       </div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Role</div>
+                      <div class="col-lg-3 col-md-3 label">Ruolo</div>
                       <div class="col-lg-9 col-md-9">{{ me?.role }}</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Country</div>
+                      <div class="col-lg-3 col-md-3 label">Nazione</div>
                       <div class="col-lg-9 col-md-9">{{ me?.location }}</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Language</div>
+                      <div class="col-lg-3 col-md-3 label">Lingua</div>
                       <div class="col-lg-9 col-md-9">IT</div>
                     </div>
 
@@ -149,7 +149,7 @@
                 >
                   <!-- Profile Edit Form -->
                   <form action="">
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                       <label
                         for="profileImage"
                         class="col-md-4 col-lg-3 col-form-label"
@@ -158,16 +158,15 @@
                       <div class="col-md-8 col-lg-9">
                         <div class="d-flex align-items-center">
                           <div class="flex-grow-1">
-                            <!-- AQUI VA LA FOTO -->
                             <Upload />
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="row mb-3">
                       <label for="Name" class="col-md-4 col-lg-3 col-form-label"
-                        >Name</label
+                        >Nome</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
@@ -183,7 +182,7 @@
                       <label
                         for="Surname"
                         class="col-md-4 col-lg-3 col-form-label"
-                        >Surname</label
+                        >Cognome</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
@@ -199,7 +198,7 @@
                       <label
                         for="description"
                         class="col-md-4 col-lg-3 col-form-label"
-                        >Description</label
+                        >Descrizione</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
@@ -214,7 +213,7 @@
 
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label"
-                        >Job</label
+                        >Ruolo</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
@@ -232,7 +231,7 @@
                       <label
                         for="Country"
                         class="col-md-4 col-lg-3 col-form-label"
-                        >Country</label
+                        >Nazione</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
@@ -268,7 +267,7 @@
                         class="btn btn-primary"
                         @click="onChangeUserData()"
                       >
-                        Save Changes
+                        Salva
                       </button>
                     </div>
                   </form>
@@ -533,7 +532,7 @@ export default {
     }
 
     function confirmLogout() {
-      const confirmed = confirm("Are you sure you want to logout?");
+      const confirmed = confirm("È sicuro di voler effettuare il logout?");
       if (confirmed) router.push({ name: "logout" });
     }
     async function onSaveClicked(item) {

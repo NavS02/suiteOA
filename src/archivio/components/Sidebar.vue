@@ -52,7 +52,10 @@ export default {
                 >
               </li>
               <li class="list-group-item">
-                <i class="bi bi-file-earmark-plus text-info"></i> Nuova scheda
+                <router-link class="nav-link" :to="{ name: 'CreateArc', params: { collection: 'opera' } }">
+                <i class="bi bi-file-earmark-plus text-info"></i> Nuova scheda</router-link
+                >
+                
               </li>
             </ul>
           </div>
@@ -214,10 +217,21 @@ export default {
           <div class="accordion-body">
             <ul class="list-group">
               <li class="list-group-item">
-                <router-link class="nav-link" :to="{ name: 'model1Arch' }">
+                <router-link class="nav-link" :to="{ name: 'modelFav'  }">
                   <i class="bi bi-printer"></i> Stampa i preferiti</router-link
                 >
               </li>
+               <li class="list-group-item">
+                <router-link class="nav-link" :to="{ name: 'modelSan',params: { id: 0 } }">
+                  <i class="bi bi-printer"></i> Stampa sanitaria</router-link
+                >
+              </li>
+               <li class="list-group-item">
+                <router-link class="nav-link" :to="{ name: 'modelPres',params: { id: 0 } }">
+                  <i class="bi bi-printer"></i> Stampa prestito</router-link
+                >
+              </li>
+             <!-- prestito -->
              
             </ul>
           </div>

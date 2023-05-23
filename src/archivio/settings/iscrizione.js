@@ -1,32 +1,94 @@
-import FormField from './FormField'
-//import isrc from './iscrizione/isrc'
-//import isrl from './iscrizione/isrl'
-//import isrs from './iscrizione/isrs'
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../models";
+  import isrc from './iscrizione/isrc'
+import isrl from './iscrizione/isrl'
+import isrs from './iscrizione/isrs'
 import isrt from './iscrizione/isrt'
 
 export default {
     collection: 'iscrizione',
     fields() {
         return [
-            //isrc waiting for select box
-            //isrl waiting for select box
-            //isrs waiting for select box
-            /*new FormField({
-                name: 'isrt',
-                label: 'Isrt', type: 'manyToMany', value: [],
-                relation: 'isrt',
-                foreign_key: 'isrt_id',
-                preview: (item) => { return `${item?.id ?? '--'} - ${item?.isrt}` },
+            new ManyToOneField({
+                name: "isrc",
+                label: "Classe di appartenenza",
+                value: null,
+                related: "isrc",
+                type: "manyToOne",
+        
+                preview: (item) => {
+                  return `${item?.isrc}`;
+                },
+                fields: isrc.fields,
+                filter: (text) => {
+                  if (text.trim() === "") return {};
+                  return { isrc: { _contains: text } };
+                },
+              }),
+              new ManyToOneField({
+                name: "isrl",
+                label: "Lingua",
+                value: null,
+                related: "isrl",
+                type: "manyToOne",
+        
+                preview: (item) => {
+                  return `${item?.isrl}`;
+                },
+                fields: isrl.fields,
+                filter: (text) => {
+                  if (text.trim() === "") return {};
+                  return { isrl: { _contains: text } };
+                },
+              }),
+
+
+
+              new ManyToOneField({
+                name: "isrs",
+                label: "Tecnica di scrittura",
+                value: null,
+                related: "isrs",
+                type: "manyToOne",
+        
+                preview: (item) => {
+                  return `${item?.isrs}`;
+                },
+                fields: isrs.fields,
+                filter: (text) => {
+                  if (text.trim() === "") return {};
+                  return { isrs: { _contains: text } };
+                },
+              }),
+              new ManyToOneField({
+                name: "isrt",
+                label: "Tipo di caratteri",
+                value: null,
+                related: "isrt",
+                type: "manyToOne",
+        
+                preview: (item) => {
+                  return `${item?.isrt}`;
+                },
                 fields: isrt.fields,
                 filter: (text) => {
-                    if(text.trim()==='') return {}
-                    return { isrt: { _contains: text } }
+                  if (text.trim() === "") return {};
+                  return { isrt: { _contains: text } };
                 },
-            }),*/
-            new FormField({ name: 'isrp', label: 'Isrp', type: 'text', value: '' }),
-            new FormField({ name: 'isra', label: 'Isra', type: 'text', value: '' }),
-            new FormField({ name: 'isri', label: 'Isri', type: 'textarea', value: '' }),
-            new FormField({ name: 'ognac', label: 'Ognac', type: 'number', value: '' }),
+              }),
+
+
+
+            new FormField({ name: 'isrp', label: 'Posizione', type: 'text', value: '' }),
+            new FormField({ name: 'isra', label: 'Autore', type: 'text', value: '' }),
+            new FormField({ name: 'isri', label: 'Trascrizione', type: 'textarea', value: '' }),
            
         ]
     },

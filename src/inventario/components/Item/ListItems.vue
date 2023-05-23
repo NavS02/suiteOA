@@ -116,7 +116,7 @@ export default {
       });
     }
     function onDeleteClicked(item) {
-      const confirmed = confirm("Are you sure you want to delete this item?");
+      const confirmed = confirm("Sei sicuro di voler eliminare questo elemento?");
       if (confirmed) deleteItem(item);
     }
     function onInfoClicked(item) {

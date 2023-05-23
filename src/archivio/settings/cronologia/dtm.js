@@ -7,7 +7,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'dtm', label: 'dtm', type: 'text', value: '' }),
+            new FormField({ name: 'dtm', label: 'Motivazione della datazione', type: 'text', value: '' }),
             
            
         ]

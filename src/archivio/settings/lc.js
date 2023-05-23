@@ -5,19 +5,8 @@ export default {
     collection: 'opere',
     fields() {
         return [
-            new FormField({ name: 'lc', label: 'lc', type: 'text', value: '' }),
-            new OneToManyField({
-                name: 'opere',
-                label: 'Opere', value: [],
-                related: 'opera',
-                foreign_key: 'id',
-                preview: (item) => { return `${item?.id ?? '--'} - ${item?.ldcm} ` },
-                fields: opera.fields,
-                filter: (text) => {
-                    if(text.trim()==='') return {}
-                    return { autn: { _contains: text } }
-                },
-            }),
+            new FormField({ name: 'ldcn', label: 'ldcn', type: 'text', value: '' }),
+           
         ]
     },
     tableFields() {

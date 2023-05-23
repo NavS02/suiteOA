@@ -1,19 +1,57 @@
-import FormField from './FormField'
-//import stmc from './stemmi/stmc'
-//import stmq from './stemmi/stmq'
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../models";
+  import stmc from './stemmi/stmc'
+import stmq from './stemmi/stmq'
 
 export default {
     collection: 'stemmi',
     fields() {
         return [
-            
-           new FormField({ name: 'ognac', label: 'Ognac', type: 'number', value: '' }),
+            new ManyToOneField({
+                name: "stmc",
+                label: "Classe di appartenenza",
+                value: null,
+                related: "stmc",
+                type: "manyToOne",
+        
+                preview: (item) => {
+                  return `${item?.stmc}`;
+                },
+                fields: stmc.fields,
+                filter: (text) => {
+                  if (text.trim() === "") return {};
+                  return { stmc: { _contains: text } };
+                },
+              }),
+              new ManyToOneField({
+                name: "stmq",
+                label: "Qualificazione",
+                value: null,
+                related: "stmq",
+                type: "manyToOne",
+        
+                preview: (item) => {
+                  return `${item?.stmq}`;
+                },
+                fields: stmq.fields,
+                filter: (text) => {
+                  if (text.trim() === "") return {};
+                  return { stmq: { _contains: text } };
+                },
+              }),
            //stmc waiting for select box 
            //stmq waiting for select box 
-            new FormField({ name: 'stmi', label: 'Stmi', type: 'text', value: '' }),
-            new FormField({ name: 'stmu', label: 'Stmu', type: 'text', value: '' }),
-            new FormField({ name: 'stmp', label: 'Stmp', type: 'text', value: '' }),
-            new FormField({ name: 'stmd', label: 'Stmd', type: 'text', value: '' }),
+            new FormField({ name: 'stmi', label: 'Identificazione', type: 'text', value: '' }),
+            new FormField({ name: 'stmu', label: 'Quantità', type: 'number', value: '' }),
+            new FormField({ name: 'stmp', label: 'Posizione', type: 'text', value: '' }),
+            new FormField({ name: 'stmd', label: 'Descrizione', type: 'text', value: '' }),
            
         ]
     },

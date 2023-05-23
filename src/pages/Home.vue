@@ -1,32 +1,46 @@
 <template>
   <div class="container">
-    <img src="/logoopaSiena.png" alt="Logo" class="logo"/>
+    <div class="card">
+      <img src="/logoSiena.png" alt="Logo" class="logo" />
 
-    <div class="options">
-      <div class="card" @click="onOptionClicked('inventario')">
-        <div class="card-header">
-          <font-awesome-icon :icon="['fa-solid', 'fa-boxes-stacked']" />
+      <div class="options">
+        <div class="card" @click="onOptionClicked('inventario')">
+          <div class="card-icon">
+            <font-awesome-icon :icon="['fa-solid', 'fa-boxes-stacked']" />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Inventario</h5>
+          </div>
         </div>
-        <div class="card-body">
-          <h5 class="card-title">Inventario</h5>
+
+        <div class="card" @click="onOptionClicked('archivio')">
+          <div class="card-icon">
+            <font-awesome-icon :icon="['fa-solid', 'fa-paintbrush']" />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Archivio</h5>
+          </div>
         </div>
-      </div>
-      
-      <div class="card" @click="onOptionClicked('archivio')">
-        <div class="card-header">
-          <font-awesome-icon :icon="['fa-solid', 'fa-paintbrush']" />
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Archivio</h5>
+
+        <div class="card">
+          <div class="card-icon">
+            <font-awesome-icon :icon="['fas', 'image']" />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Fototeca</h5>
+          </div>
         </div>
       </div>
     </div>
-
     <div class="credits">
-      Progettato da <a href="https://www.ambientinarratividigitali.it/" target="_blank">AND Srl</a>
+      Progettato da
+      <a href="https://www.ambientinarratividigitali.it/" target="_blank"
+        >AND Srl</a
+      >
     </div>
   </div>
 </template>
+
 <script>
 import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -35,8 +49,6 @@ export default {
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();
-
-  
 
     function onOptionClicked(option) {
       console.log(option);
@@ -51,53 +63,65 @@ export default {
 </script>
 
 <style scoped>
-.card:hover {
-  border-color: rgb(139, 218, 220);
-  border-width: 0.2rem;
-  transform: scale(1.1);
-}
 .container {
-  margin: 0 auto;
   max-width: 1024px;
-  padding: 0 20px;
+  margin: auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .logo {
+  width: 50%;
+  max-width: 400px;
   display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
-  margin-top: 20px;
+  margin: auto;
 }
 
 .options {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .card {
-  width: 200px;
   margin: 10px;
+  padding: 20px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
 }
 
-.card-header {
-  padding: 20px 0;
-  background-color: #f2f2f2;
+.card:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.card-icon {
+  font-size: 48px;
+  color: #007bff;
+  margin-bottom: 10px;
 }
 
 .card-title {
-  margin-top: 10px;
+  margin: 0;
+  font-size: 24px;
   font-weight: bold;
 }
 
 .credits {
-  margin-top: 20px;
   text-align: center;
+  font-size: 14px;
+  color: #999;
 }
 
 @media only screen and (max-width: 768px) {

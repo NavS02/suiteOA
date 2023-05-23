@@ -8,16 +8,16 @@ export default {
         return [
 
             new FormField({ name: 'stis', label: 'Stima', type: 'text', value: '' }),
-            new FormField({ name: 'stis_assicurazione', label: 'stis_assicurazione', type: 'text', value: '' }),
-            new FormField({ name: 'stid', label: 'Data', type: 'text', value: '' }),
+            new FormField({ name: 'stis_assicurazione', label: 'Stima assicurazione', type: 'text', value: '' }),
+            new FormField({ name: 'stid', label: 'Data della stima', type: 'text', value: '' }),
             
             new ManyToOneField({
                 name: "sti_tipo",
-                label: "sti_tipo",
+                label: "Tipologia Oggetti",
                 value: null,
                 related: "sti_tipo",
                 type: "manyToOne",
-                column: "3",
+                voc:'open',
                 preview: (item) => {
                   return `${item?.sti_tipo}`;
                 },
@@ -30,11 +30,11 @@ export default {
 
               new ManyToOneField({
                 name: "stim",
-                label: "stim",
+                label: "Motivazione della stima",
                 value: null,
                 related: "stim",
                 type: "manyToOne",
-                column: "3",
+                voc:'open',
                 preview: (item) => {
                   return `${item?.stim}`;
                 },

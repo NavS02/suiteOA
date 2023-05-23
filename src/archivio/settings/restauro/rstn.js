@@ -5,7 +5,7 @@ export default {
     fields() {
         return [
             // new FormField({ name: 'id', label: 'id', type: 'text' }),
-            new FormField({ name: 'rstn', label: 'rstn', type: 'text', value: '' }),
+            new FormField({ name: 'rstn', label: 'Nome operatore', type: 'text', value: '' }),
             
             // new FormField({ name: 'date_created', label: 'date_created', type: 'text' }),
             // new FormField({ name: 'date_updated', label: 'date_updated', type: 'text' }),

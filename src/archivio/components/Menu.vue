@@ -22,7 +22,7 @@ export default {
       user.value = me;
     }
     function confirmLogout() {
-      const confirmed = confirm("Are you sure you want to logout?");
+      const confirmed = confirm("È sicuro di voler effettuare il logout?");
       if (confirmed) router.push({ name: "logout" });
     }
     function onProfileClicked() {
@@ -86,7 +86,7 @@ export default {
                   @click="onProfileClicked()"
                 >
                   <i class="ri-mail-fill"></i>
-                  <span> My Profile</span>
+                  <span> Profilo</span>
                 </a>
               </li>
               <li>
@@ -99,7 +99,7 @@ export default {
                   @click.prevent="confirmLogout"
                 >
                   <i class="bi bi-box-arrow-right"></i>
-                  <span>Sign Out</span>
+                  <span>Esci</span>
                 </a>
               </li>
             </ul>

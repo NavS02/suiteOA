@@ -1,7 +1,6 @@
 /*opere*/
 export { default as opera } from './opera'
 export { default as roz } from './opere/roz'
-//export { default as roff } from './opere/roff'
 
 /*restauro*/
 export { default as restauro } from './restauro'
@@ -10,15 +9,10 @@ export { default as rstr } from './restauro/rstr'
 
 /*iscrizione*/
 export { default as iscrizione } from './iscrizione'
-//export { default as isrc } from './iscrizione/isrc'
-//export { default as isrl } from './iscrizione/isrl'
-//export { default as isrs } from './iscrizione/isrs'
 export { default as isrt } from './iscrizione/isrt'
 
 /*stemmi*/
 export { default as stemmi } from './stemmi'
-//export { default as stmc } from './stemmi/stmc'
-//export { default as stmq } from './stemmi/stmq'
 
 /*localizzazione*/
 export { default as localizzazione } from './localizzazione'
@@ -51,8 +45,6 @@ export { default as inventario } from './inventario'
 
 /* fta */
 export { default as fta } from './fta'
- //ftax
- //ftap
 
  /* fonte */
 export { default as fonte } from './fonte'

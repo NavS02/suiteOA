@@ -18,16 +18,16 @@
     </template>
     <template v-else>
         <UploadModal @filesSelected="onFilesSelected">
-            <template #button-text>Upload Image</template>
+            <template #button-text>Carica icona</template>
         </UploadModal>
     </template>
 </template>
 
 <script setup>
 import { toRefs, computed, provide } from 'vue'
-import { Image as ImageModel } from '../../../../../models';
+import { Image as ImageModel } from '../../../../models';
 import { useAsset } from '../../../../../utils';
-import { accessToken, baseURL } from '../../../../../API';
+import { accessToken, baseURL } from '../../../../API';
 import UploadModal from './UploadModal.vue';
 import FileMetadata from '../../Upload/FileMetadata.vue';
 import FileActions from '../../Upload/FileActions.vue';
