@@ -32,13 +32,12 @@ export default {
           return { ftax: { _contains: text } };
         },
       }),
-      new ManyToOneField({
+      new ManyToManyField({
         name: "ftap",
         label: "Tipo",
-        value: null,
+        value: [],
         related: "ftap",
-        type: "manyToOne",
-        voc: "open",
+        foreign_key: "ftap_id",
         preview: (item) => {
           return `${item?.ftap}`;
         },

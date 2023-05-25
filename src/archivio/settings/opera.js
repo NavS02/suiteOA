@@ -1,5 +1,4 @@
 import autore from "./autore";
-
 import ogtd from "./ogtd";
 import ogtt from "./ogtt";
 import ogtv from "./ogtv";
@@ -11,14 +10,12 @@ import lc from "./lc";
 import acc from "./opere/acc";
 import alnt from "./alnt";
 import stima from "./opere/stima";
-
 import mtc from "./opere/mtc";
 import restauro from "./restauro";
 import iscrizione from "./iscrizione";
 import stemmi from "./stemmi";
 import localizzazione from "./localizzazione";
 import Divider from "../models/Divider";
-///import roff from './roff'
 import cronologia from "./cronologia";
 import ambito from "./ambito";
 import committenza from "./committenza";
@@ -52,6 +49,7 @@ export default {
       }),
 
       new File({ name: "allegato", label: "File", column: 6 }),
+      
       new Divider({ type: "divider" }),
 
       new FormField({
@@ -188,7 +186,6 @@ export default {
         },
       }),
 
-      // TO CHECK
       new ManyToOneField({
         name: "ogtt",
         label: "Tipologia",
@@ -735,7 +732,7 @@ export default {
         foreign_key: "stemmi_id",
         column: "6",
         preview: (item) => {
-          return `${item?.stmc},${item?.stmi},${item?.stmd}`;
+          return `${item?.stmi},${item?.stmd}`;
         },
         fields: stemmi.fields,
         filter: (text) => {
@@ -867,7 +864,7 @@ export default {
         foreign_key: "fonte_id",
         column: "6",
         preview: (item) => {
-          return `${item?.ognac},${item?.fntt},${item?.fntn}`;
+          return `,${item?.fntt},${item?.fntn}`;
         },
         fields: fonte.fields,
         filter: (text) => {

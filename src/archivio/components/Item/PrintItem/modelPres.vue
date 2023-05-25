@@ -68,7 +68,7 @@
 
               <br />
               <p style="position: absolute; bottom: 0; right: 10px">
-                Inventario:{{ response?.inv }}
+                <!-- Inventario:{{ response?.inv }} -->
               </p>
             </div>
           </div>
@@ -194,10 +194,10 @@ export default {
         });
       this.showAlert = false;
     }
-     function changeItem() {
-      response.value = null;
+    function changeItem() {
       currentId = document.getElementById("idItem").value;
-      getData();
+      router.push({ name: 'modelPres', params: { id: currentId }  })
+
     }
     async function getData() {
       let originalResponse = {};

@@ -36,7 +36,7 @@
               id="my-image"
             />
             <figcaption class="figure-caption" style="text-align: center">
-              INVENTARIO: {{ response?.inv }}
+              <!-- INVENTARIO: {{ response?.inv }} -->
             </figcaption>
           </figure>
           <table>
@@ -179,6 +179,7 @@ export default {
     function changeItem() {
       currentId = document.getElementById("idItem").value;
       router.push({ name: 'modelSan', params: { id: currentId }  })
+      url.value=null;
 
     }
     async function getData() {
@@ -218,6 +219,7 @@ export default {
                     },
                   },
                 });
+                console.log(item_inventario)
               const inventarioIds = item_inventario.data.map(
                 ({ inventario_id }) => inventario_id
               );
@@ -422,7 +424,6 @@ export default {
               },
             },
           });
-          console.log(imgresponse)
           image.value = imgresponse.data[0].icona; //takes the id of the image
           if (image.value != null) {
             const imageUrl = url.value + "/assets/" + image.value; // generates url

@@ -51,7 +51,6 @@ export default {
     const route = useRoute();
 
     function onOptionClicked(option) {
-      console.log(option);
       router.push({ name: "login", params: { program: option } });
     }
 
