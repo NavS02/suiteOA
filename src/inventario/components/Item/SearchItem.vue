@@ -2,10 +2,9 @@
   <main id="main" class="main">
     <div class="col-12">
       <!-- Search Form -->
-    <keep-alive>
-
-<searchForm />
-    </keep-alive>
+      <keep-alive>
+        <searchForm />
+      </keep-alive>
       <br />
       <button
         type="button"
@@ -30,16 +29,6 @@
       />
       &nbsp
       {{ totalResult }} schede trovate
-      <!-- <div style="float: right">
-        Ricerca:
-        <input
-          type="text"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          id="ricercaBar"
-          v-on:keyup="filterTable()"
-        />
-      </div> -->
       <div class="form-check" style="float: right">
         <input
           class="form-check-input"
@@ -236,10 +225,10 @@ import { directus } from "../../API/";
 import * as settings from "../../settings";
 import Table from "../common/Table/Table.vue";
 import store from "../../store";
-import searchForm from './searchForm.vue'
+import searchForm from "./searchForm.vue";
 
 export default {
-  components: { Table,searchForm },
+  components: { Table, searchForm },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -262,7 +251,6 @@ export default {
     watch(
       route,
       () => {
-
         collection.value = "inventario";
         if (!collection.value) return;
         // retrieve the settings
@@ -270,15 +258,12 @@ export default {
         // define the subset of fields you need to view in the table
         const collectionFields = itemSettings.tableFields();
         fields.value = collectionFields;
-        fetchUbications();
       },
       { immediate: true, deep: true }
     );
     watch(selectedOption, () => {
+     
       skipPage("first");
-      //IMAGES
-      if (selectedOption.value === "card" && itemsFiltered.data) {
-      }
     });
 
     function infoQty() {
@@ -311,14 +296,16 @@ export default {
         (currentPage.value - 1) * resultLimit,
         currentPage.value * resultLimit
       );
-      fetchImg();
+        if (selectedOption.value === "card") {
+        setTimeout(() => {
+          fetchImg();
+        }, "1000");
+      }
     }
-    // NO WORKS
     async function fetchImg() {
       for (let index = 0; index < items.value.length; index++) {
         document.getElementById("photo-" + index).src = imageurl.value;
       }
-      console.log(imageurl.value);
       url.value = import.meta.env.VITE_API_BASE_URL;
       const imagesDirectory = await directus
         .items("directus_files")
@@ -351,13 +338,6 @@ export default {
 
         counter.value++;
       });
-    }
-    async function fetchUbications() {
-      let myUbications = [];
-      const privateData = await directus.items("inv_ubicazione").readByQuery({
-        limit: -1,
-      });
-      console.log(privateData);
     }
 
     async function fetchData() {
@@ -399,7 +379,6 @@ export default {
         }
 
         if (resultOggetto !== "") {
-          console.log("d");
           const privateData = await directus.items("inv_oggetto").readByQuery({
             filter: {
               inv_oggetto: {
@@ -448,12 +427,6 @@ export default {
       // SAVED ITEMS
       infoQty();
       fetchRelations();
-
-      if (selectedOption.value === "card") {
-        setTimeout(() => {
-          fetchImg();
-        }, 1000);
-      }
     }
     async function fetchRelations() {
       const opereMtc = await directus.items("opera_mtc").readByQuery({

@@ -1,12 +1,10 @@
-
-
 <template>
   <div>
     <div class="row">
       <div class="col-md-6">
         <h5 class="card-title">ID:</h5>
         <input
-          type="text"
+          type="number"
           class="form-control"
           aria-label="Small"
           aria-describedby="inputGroup-sizing-sm"
@@ -15,7 +13,8 @@
       </div>
       <div class="col-md-6">
         <h5 class="card-title">Autore:</h5>
-        <input type="text"
+        <input
+          type="text"
           class="form-control"
           aria-label="Small"
           aria-describedby="inputGroup-sizing-sm"
@@ -35,6 +34,9 @@
           <option value="tutte">Tutte</option>
           <option value="museo">Museo</option>
           <option value="duomo">Duomo</option>
+          <option value="uffici">Uffici</option>
+          <option value="San Giovannino">San Giovannino</option>
+          <option value="battistero">Battistero</option>
         </select>
       </div>
       <div class="col-md-6">
@@ -58,7 +60,7 @@
           aria-describedby="inputGroup-sizing-sm"
           id="resultMateria"
         />
-     </div>
+      </div>
       <div class="col-md-6">
         <h5 class="card-title">Oggetto:</h5>
         <input

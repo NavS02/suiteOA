@@ -6,7 +6,6 @@
         <searchForm />
       </keep-alive>
 
-      
       <br />
       <button
         type="button"
@@ -30,6 +29,7 @@
         @input="infoQty()"
       />
       &nbsp
+      {{ totalResult }} schede trovate
 
       <div class="form-check" style="float: right">
         <input

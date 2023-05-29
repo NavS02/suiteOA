@@ -13,7 +13,7 @@ export default {
     return [
       new FormField({
         name: "inv_materia",
-        label: "inv_materia",
+        label: "Materia",
         type: "text",
         value: "",
       }),
@@ -22,8 +22,8 @@ export default {
   tableFields() {
     return [
       { key: "id", label: "ID", sortable: false },
-      { key: "inv_materia", label: "inv_materia", sortable: false },
-      { key: "actions", label: "actions", sortable: false },
+      { key: "inv_materia", label: "Materia", sortable: false },
+      { key: "actions", label: "Azione", sortable: false },
       
     ];
   },

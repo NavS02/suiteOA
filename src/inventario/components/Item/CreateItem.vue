@@ -60,7 +60,7 @@ function onSaveClicked(data) {
     save(data())
 }
 function goToList() {
-  router.push({ name: "listArc", params: { collection: collection.value } });
+  router.push({ name: "listInv", params: { collection: collection.value } });
 }
 async function save(data) {
     try {

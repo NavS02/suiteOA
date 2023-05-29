@@ -14,7 +14,7 @@ export default {
 
       new FormField({
         name: "inv_ubicazione",
-        label: "inv_ubicazione",
+        label: "Ubicazione",
         type: "text",
         value: "",
       }),
@@ -23,8 +23,8 @@ export default {
   tableFields() {
     return [
       { key: "id", label: "ID", sortable: false },
-      { key: "inv_ubicazione", label: "inv_ubicazione", sortable: false },
-      { key: "actions", label: "actions", sortable: false },
+      { key: "inv_ubicazione", label: "Ubicazione", sortable: false },
+      { key: "actions", label: "Azione", sortable: false },
     ];
   },
 };

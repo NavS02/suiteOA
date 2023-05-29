@@ -12,7 +12,7 @@ export default {
     fields() {
         return [
 
-            new FormField({ name: 'inv_sala', label: 'inv_sala', type: 'text', value: '' }),
+            new FormField({ name: 'inv_sala', label: 'Sala', type: 'text', value: '' }),
            
         ]
     },
@@ -20,8 +20,8 @@ export default {
         return [
             {key:'id',label:'ID',sortable: false},
 
-            {key:'inv_sala',label:'inv_sala',sortable: false},
-            {key:'actions',label:'actions',sortable: false},
+            {key:'inv_sala',label:'Sala',sortable: false},
+            {key:'actions',label:'Azione',sortable: false},
             
         ]
     }

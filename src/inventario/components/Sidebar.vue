@@ -94,7 +94,7 @@ export default {
                 <router-link
                   class="nav-link"
                   :to="{ name: 'listInv',params:{collection:'inv_oggetto'} }"
-                  >Oggettto</router-link
+                  >Oggetto</router-link
                 >
               </li>
                   <li class="list-group-item">

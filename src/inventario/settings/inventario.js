@@ -285,7 +285,7 @@ export default {
       { key: "quantita", label: "Quantita", sortable: false },
       { key: "soggetto", label: "Soggetto", sortable: false },
       { key: "autore", label: "Autore", sortable: false },
-      { key: "actions", label: "actions", sortable: false },
+      { key: "actions", label: "Azione", sortable: false },
     ];
   },
 };
