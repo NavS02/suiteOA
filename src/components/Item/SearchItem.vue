@@ -466,7 +466,6 @@ export default {
           if (privateData.data.length >= 1) {
 
             const ids = privateData.data.map((item) => item.id);
-            console.log(ids)
             query["filter"]["id"] = { _in: ids };
           } else {
             query["filter"]["autore"] = { _in: null };

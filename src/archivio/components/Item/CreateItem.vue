@@ -52,7 +52,7 @@ watch(route, () => {
 }, {immediate: true, deep: true})
 
 async function onCancelClicked() {
-    const confirmed = await modal.confirm({title:'Confirm', body:'Are you sure you want to leave this page?'})
+    const confirmed = await modal.confirm({title:'Confirm', body:'Sei sicuro di voler lasciare questa pagina?'})
     if(!confirmed) return
     goToList()
 }

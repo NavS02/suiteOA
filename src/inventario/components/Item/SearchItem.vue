@@ -2,81 +2,10 @@
   <main id="main" class="main">
     <div class="col-12">
       <!-- Search Form -->
-      <div class="row">
-        <div class="col-md-6">
-          <h5 class="card-title">ID:</h5>
-          <input
-            type="number"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultID"
-          />
-        </div>
-        <div class="col-md-6">
-          <h5 class="card-title">Autore:</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultAutore"
-          />
-        </div>
-      </div>
+    <keep-alive>
 
-      <div class="row">
-        <div class="col-md-6">
-          <h5 class="card-title">Ubicazione:</h5>
-          <select
-            class="form-select"
-            aria-label="Select Soggetto"
-            id="ubicazione"
-          >
-            <option value="tutte">Tutte</option>
-            <option value="museo">Museo</option>
-            <option value="duomo">Duomo</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <h5 class="card-title">Inventario (INVN):</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultInv"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-           <h5 class="card-title">Materia:</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultMateria"
-          />
-        </div>
-        <div class="col-md-6">
-          <h5 class="card-title">Oggetto:</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultOggetto"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-         
-        </div>
-      </div>
-
+<searchForm />
+    </keep-alive>
       <br />
       <button
         type="button"
@@ -165,14 +94,6 @@
                   >
                     <font-awesome-icon icon="fa-solid fa-trash" fixed-width />
                   </button>
-
-                  <button
-                    title="Info"
-                    class="btn btn-sm btn-light"
-                    @click="onInfoClicked(item)"
-                  >
-                    <font-awesome-icon icon="fa-solid fa-eye" />
-                  </button>
                 </div>
               </template>
             </Table>
@@ -204,7 +125,7 @@
                       <img
                         :src="imageurl"
                         alt=""
-                        style="width: 200px; height: 200px"
+                        style="max-width: 200px; ax-height: 200px"
                         :id="'photo-' + index"
                       />
                     </div>
@@ -233,13 +154,6 @@
                             icon="fa-solid fa-trash"
                             fixed-width
                           />
-                        </button>
-                        <button
-                          title="Info"
-                          class="btn btn-sm btn-light"
-                          @click="onInfoClicked(item)"
-                        >
-                          <font-awesome-icon icon="fa-solid fa-eye" />
                         </button>
                       </div>
                     </div>
@@ -319,12 +233,13 @@
 import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { directus } from "../../API/";
-import * as settings from "../../settings/";
+import * as settings from "../../settings";
 import Table from "../common/Table/Table.vue";
 import store from "../../store";
+import searchForm from './searchForm.vue'
 
 export default {
-  components: { Table },
+  components: { Table,searchForm },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -341,11 +256,13 @@ export default {
     let selectedOption = ref("list");
     const url = ref();
     let imageurl = ref("/logoopaSiena.png");
-
+    let counter = ref(0);
+    let image = ref();
     // watch the route and update data based on the collection param
     watch(
       route,
       () => {
+
         collection.value = "inventario";
         if (!collection.value) return;
         // retrieve the settings
@@ -353,6 +270,7 @@ export default {
         // define the subset of fields you need to view in the table
         const collectionFields = itemSettings.tableFields();
         fields.value = collectionFields;
+        fetchUbications();
       },
       { immediate: true, deep: true }
     );
@@ -360,7 +278,6 @@ export default {
       skipPage("first");
       //IMAGES
       if (selectedOption.value === "card" && itemsFiltered.data) {
-        fetchImg();
       }
     });
 
@@ -394,15 +311,53 @@ export default {
         (currentPage.value - 1) * resultLimit,
         currentPage.value * resultLimit
       );
+      fetchImg();
     }
     // NO WORKS
-    function fetchImg() {
-      // console.log(items.value.length);
-      // for (let index = 0; index <= items.value.length; index++) {
-      //   if (itemsFiltered.data[index].icona !== null) {
-      //    document.getElementById("photo-" + index).src= import.meta.env.VITE_API_BASE_URL+"/assets/" + itemsFiltered.data[index].icona;
-      //   }
-      // }
+    async function fetchImg() {
+      for (let index = 0; index < items.value.length; index++) {
+        document.getElementById("photo-" + index).src = imageurl.value;
+      }
+      console.log(imageurl.value);
+      url.value = import.meta.env.VITE_API_BASE_URL;
+      const imagesDirectory = await directus
+        .items("directus_files")
+        .readByQuery({ limit: -1 });
+      counter.value = 0;
+
+      items.value.forEach((item) => {
+        if (item.icona !== null) {
+          imagesDirectory.data.forEach((imageItem) => {
+            if (item.icona == imageItem.id) {
+              image.value = imageItem.id;
+            }
+          });
+
+          let imageElement = document.getElementById("photo-" + counter.value);
+          const imageUrl = url.value + "/assets/" + image.value; // generates url
+
+          fetch(imageUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+              // CODE64 IMAGE
+              const reader = new FileReader();
+              reader.readAsDataURL(blob);
+              reader.onloadend = () => {
+                const base64data = reader.result; //code64 the url
+                imageElement.src = base64data;
+              };
+            });
+        }
+
+        counter.value++;
+      });
+    }
+    async function fetchUbications() {
+      let myUbications = [];
+      const privateData = await directus.items("inv_ubicazione").readByQuery({
+        limit: -1,
+      });
+      console.log(privateData);
     }
 
     async function fetchData() {
@@ -442,7 +397,7 @@ export default {
             _in: ubiID,
           };
         }
-      
+
         if (resultOggetto !== "") {
           console.log("d");
           const privateData = await directus.items("inv_oggetto").readByQuery({
@@ -533,14 +488,10 @@ export default {
       });
     }
     function onDeleteClicked(item) {
-      const confirmed = confirm("Sei sicuro di voler eliminare questo elemento?");
+      const confirmed = confirm(
+        "Sei sicuro di voler eliminare questo elemento?"
+      );
       if (confirmed) deleteItem(item);
-    }
-    function onInfoClicked(item) {
-      router.push({
-        name: "infoItemInv",
-        params: { collection: collection.value, id: item.id },
-      });
     }
 
     return {
@@ -553,7 +504,6 @@ export default {
       imageurl,
       onEditClicked,
       onDeleteClicked,
-      onInfoClicked,
       fetchData,
       infoQty,
       clearData,

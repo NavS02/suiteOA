@@ -7,8 +7,19 @@
             <div
               class="card-body profile-card pt-4 d-flex flex-column align-items-center"
             >
-              <img :src="imgurl" />
+              <img
+                :src="url"
+                style="
+                  max-width: 300px;
+                  max-height: 300px;
+                  display: block;
+                  margin: 0 auto;
+                "
+                id="my-image"
+              />
               <br />
+              <h3 class="card-title">{{ response?.sgti }}</h3>
+
               <div class="social-links mt-2">
                 <a @click="onPrintClicked" class="twitter"
                   ><i class="bi bi-printer"></i
@@ -17,6 +28,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-xl-8">
           <div class="card">
             <div
@@ -26,17 +38,19 @@
                 <!-- Display a table with data from the response object -->
                 <template v-for="(value, field) in response" :key="field">
                   <!-- If the value is not an array, display it as text -->
-                  <div v-if="value" class="col-lg-3 col-md-4 label">
-                    {{ field }}
-                  </div>
+                  <template v-if="opera.indexOf(field) !== -1">
+                    <div v-if="value" class="col-lg-3 col-md-4 label">
+                      {{ field }}
+                    </div>
 
-                  <div
-                    v-if="!Array.isArray(value) && value"
-                    id="itemName"
-                    class="col-lg-9 col-md-8"
-                  >
-                    {{ value }}
-                  </div>
+                    <div
+                      v-if="!Array.isArray(value) && value"
+                      id="itemName"
+                      class="col-lg-9 col-md-8"
+                    >
+                      {{ value }}
+                    </div>
+                  </template>
                   <!-- If the value is an array, display each item as a list with its fields -->
                 </template>
               </div>
@@ -58,12 +72,12 @@
                     aria-selected="true"
                     role="tab"
                   >
-                    Oggetto
+                    Mostra
                   </button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                  <button
+                  <!-- <button
                     class="nav-link"
                     data-bs-toggle="tab"
                     data-bs-target="#profile-edit"
@@ -71,8 +85,8 @@
                     tabindex="-1"
                     role="tab"
                   >
-                    Materia
-                  </button>
+                    Autore
+                  </button> -->
                 </li>
                 <li class="nav-item" role="presentation">
                   <button
@@ -83,7 +97,7 @@
                     tabindex="-1"
                     role="tab"
                   >
-                    Stima
+                    Iscrizione
                   </button>
                 </li>
 
@@ -96,7 +110,69 @@
                     tabindex="-1"
                     role="tab"
                   >
-                    Ubicazione
+                    Ambito
+                  </button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#restauro"
+                    aria-selected="false"
+                    tabindex="-1"
+                    role="tab"
+                  >
+                    Restauro
+                  </button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#stemmi"
+                    aria-selected="false"
+                    tabindex="-1"
+                    role="tab"
+                  >
+                    Stemmi
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#fonte"
+                    aria-selected="false"
+                    tabindex="-1"
+                    role="tab"
+                  >
+                    Fonte
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#committenza"
+                    aria-selected="false"
+                    tabindex="-1"
+                    role="tab"
+                  >
+                    Committenza
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-settings"
+                    aria-selected="false"
+                    tabindex="-1"
+                    role="tab"
+                  >
+                    Cronologia
                   </button>
                 </li>
               </ul>
@@ -108,7 +184,8 @@
                 >
                   <span v-for="(value, field) in response" :key="field">
                     <!-- If the value is not an array, display it as text -->
-                    <div v-if="field === 'inv_oggetto'">
+
+                    <div v-if="field === 'mostra'">
                       <!-- If the value is an array, display each item as a list with its fields -->
 
                       <div
@@ -144,7 +221,7 @@
                   <span v-for="(value, field) in response" :key="field">
                     <!-- If the value is not an array, display it as text -->
 
-                    <div v-if="field === 'inv_materia'">
+                    <div v-if="field === 'autore'">
                       <!-- If the value is an array, display each item as a list with its fields -->
 
                       <div
@@ -177,18 +254,35 @@
                   id="profile-settings"
                   role="tabpanel"
                 >
-                  <div
-                    v-for="(item, index) in response?.inv_stima"
-                    :key="index"
-                  >
-                    <h4>{{ index }}</h4>
-                    <ul>
-                      <li v-for="(value, field) in item" :key="field">
-                        <span>{{ field }}:</span>
-                        <span>{{ value }}</span>
-                      </li>
-                    </ul>
-                  </div>
+                  <span v-for="(value, field) in response" :key="field">
+                    <!-- If the value is not an array, display it as text -->
+
+                    <div v-if="field === 'cronologia'">
+                      <!-- If the value is an array, display each item as a list with its fields -->
+
+                      <div
+                        class="row"
+                        v-for="(item, index) in value"
+                        :key="index"
+                      >
+                        <template
+                          v-for="(itemValue, itemField) in item"
+                          :key="itemField"
+                        >
+                          <!-- Check if the field name is "author" -->
+                          <li class="row" v-if="itemValue">
+                            <span v-if="itemValue" class="col-lg-1 label">
+                              {{ itemField }}
+                            </span>
+
+                            <span v-if="itemValue" class="col-lg-9">
+                              : {{ itemValue }}
+                            </span>
+                          </li>
+                        </template>
+                      </div>
+                    </div>
+                  </span>
                 </div>
 
                 <div class="tab-pane fade pt-3" id="ambito" role="tabpanel">
@@ -196,7 +290,79 @@
                   <span v-for="(value, field) in response" :key="field">
                     <!-- If the value is not an array, display it as text -->
 
-                    <div v-if="field === 'inv_ubicazione'">
+                    <div v-if="field === 'ambito'">
+                      <!-- If the value is an array, display each item as a list with its fields -->
+
+                      <div
+                        class="row"
+                        v-for="(item, index) in value"
+                        :key="index"
+                      >
+                        <template
+                          v-for="(itemValue, itemField) in item"
+                          :key="itemField"
+                        >
+                          <!-- Check if the field name is "author" -->
+                          <li class="row" v-if="itemValue">
+                            <span v-if="itemValue" class="col-lg-1 label">
+                              {{ itemField }}
+                            </span>
+
+                            <span v-if="itemValue" class="col-lg-9">
+                              : {{ itemValue }}
+                            </span>
+                          </li>
+                        </template>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+
+                <div
+                  class="tab-pane profile-overview fade pt-3"
+                  id="committenza"
+                  role="tabpanel"
+                >
+                  <span v-for="(value, field) in response" :key="field">
+                    <!-- If the value is not an array, display it as text -->
+
+                    <div v-if="field === 'committenza'">
+                      <!-- If the value is an array, display each item as a list with its fields -->
+
+                      <div
+                        class="row"
+                        v-for="(item, index) in value"
+                        :key="index"
+                      >
+                        <template
+                          v-for="(itemValue, itemField) in item"
+                          :key="itemField"
+                        >
+                          <!-- Check if the field name is "author" -->
+                          <li class="row" v-if="itemValue">
+                            <span v-if="itemValue" class="col-lg-1 label">
+                              {{ itemField }}
+                            </span>
+
+                            <span v-if="itemValue" class="col-lg-9">
+                              : {{ itemValue }}
+                            </span>
+                          </li>
+                        </template>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+
+                <div
+                  class="tab-pane profile-overview fade pt-3"
+                  id="restauro"
+                  role="tabpanel"
+                >
+                  <span v-for="(value, field) in response" :key="field">
+                    <!-- If the value is not an array, display it as text -->
+
+                    <div v-if="field === 'restauro'">
                       <!-- If the value is an array, display each item as a list with its fields -->
 
                       <div
@@ -232,7 +398,7 @@
                   <span v-for="(value, field) in response" :key="field">
                     <!-- If the value is not an array, display it as text -->
 
-                    <div v-if="field === 'inv_stima'">
+                    <div v-if="field === 'iscrizione'">
                       <!-- If the value is an array, display each item as a list with its fields -->
 
                       <div
@@ -413,9 +579,8 @@ export default {
     const { id } = toRefs(props);
     const response = ref(null);
     const responseArray = [];
-    var loaded = false;
-    let imgurl = ref("/not-found.svg");
-
+    const url = ref();
+    const image = ref();
     // Watch for changes in the route object
     watch(
       route,
@@ -435,138 +600,140 @@ export default {
       let originalResponse = {};
 
       try {
-        if (collection.value == "inventario") {
+        if (collection.value == "opera") {
           response.value = await directus
             .items(collection.value)
             .readOne(id.value, {
               fields: "*",
             });
-          console.log(response.value);
+        }
 
-          // INV_OGGETTO
-          if (response.value.inv_oggetto !== null) {
-            const invOggetto = await directus.items("inv_oggetto").readByQuery({
-              filter: {
-                id: { _eq: response.value.inv_oggetto },
-              },
-              limit: -1,
-            });
-            response.value.inv_oggetto = invOggetto.data;
-          }
+        originalResponse = { ...response.value };
 
-          // INV_MATERIA
-          if (response.value.inv_materia.length > 0) {
-            const idsMateria = response.value.inv_materia.map((item) => item);
-
-            const invMateriaRelation = await directus
-              .items("inventario_inv_materia")
-              .readByQuery({
-                filter: {
-                  id: { _in: idsMateria },
-                },
-                limit: -1,
-              });
-
-            const idsArrayM = invMateriaRelation.data.map(
-              (item) => item.inv_materia_id
-            );
-
-            const invMateriaItems = await directus
-              .items("inv_materia")
-              .readByQuery({
-                filter: {
-                  id: { _in: idsArrayM },
-                },
-                limit: -1,
-              });
-
-            response.value.inv_materia = invMateriaItems.data;
-          }
-
-          // INV_STIMA
-          if (response.value.inv_stima.length > 0) {
-            const idsStima = response.value.inv_stima.map((item) => item);
-
-            const invStimmaRelation = await directus
-              .items("inventario_inv_stima")
-              .readByQuery({
-                filter: {
-                  id: { _in: idsStima },
-                },
-                limit: -1,
-              });
-            const idsArrayS = invStimmaRelation.data.map(
-              (item) => item.inv_stima_id
-            );
-            console.log(idsArrayS);
-
-            const invStimaItems = await directus
-              .items("inv_stima")
-              .readByQuery({
-                filter: {
-                  id: { _in: idsArrayS },
-                },
-                limit: -1,
-              });
-
-            response.value.inv_stima = invStimaItems.data;
-          }
-
-          // INV_UBICAZIONE
-          if (response.value.inv_ubicazione !== null) {
-            const invUbiRelation = await directus
-              .items("inv_ubicazione")
-              .readByQuery({
-                filter: {
-                  id: { _eq: response.value.inv_ubicazione },
-                },
-                limit: -1,
-              });
-            console.log(invUbiRelation);
-            response.value.inv_ubicazione = invUbiRelation.data;
-          }
-
-          removePropierty(response.value, "user_created");
-          removePropierty(response.value, "date_created");
-          removePropierty(response.value, "user_updated");
-          removePropierty(response.value, "date_updated");
-
-          function removePropierty(object, propiedad) {
-            for (let key in object) {
-              if (typeof object[key] === "object" && object[key] !== null) {
-                removePropierty(object[key], propiedad);
-              } else if (key === propiedad) {
-                delete object[key];
+        for (let key in response.value) {
+          if (
+            Array.isArray(response.value[key]) &&
+            response.value[key].length > 0
+          ) {
+            const responseArray = [];
+            for (let i = 0; i < response.value[key].length; i++) {
+              try {
+                const item = await directus
+                  .items(key)
+                  .readOne(response.value[key][i]);
+                const fieldsToDelete = [
+                  "user_created",
+                  "date_created",
+                  "user_updated",
+                  "date_updated",
+                ];
+                fieldsToDelete.forEach((field) => delete item[field]);
+                responseArray.push(item);
+              } catch (error) {
+                console.log(
+                  "Trying to search in: " + (collection.value + "_" + key)
+                );
+                try {
+                  const itemS = await directus
+                    .items(collection.value + "_" + key)
+                    .readOne(response.value[key][i]);
+                  const newId = `${key}_id`;
+                  const relationalItem = await directus
+                    .items(collection.value)
+                    .readOne(itemS[newId]);
+                  const fieldsToDelete = [
+                    "user_created",
+                    "date_created",
+                    "user_updated",
+                    "date_updated",
+                    "autore",
+                    "roz",
+                    "ambito",
+                    "committenza",
+                    "localizzazione",
+                    "restauro",
+                    "iscrizione",
+                    "stemmi",
+                    "inventario",
+                    "fonte",
+                    "mostra",
+                    "cronologia",
+                    "mtc",
+                    "fotografia",
+                  ];
+                  fieldsToDelete.forEach(
+                    (field) => delete relationalItem[field]
+                  );
+                  responseArray.push(relationalItem);
+                 
+                } catch (error) {
+                  console.log(
+                    `ITEM (${key}) with PK (${response.value[key][i]}) NOT FOUND (${collection.value}_${key}/${key})`
+                  );
+                }
               }
             }
+            response.value[key] = responseArray;
           }
         }
+         url.value = import.meta.env.VITE_API_BASE_URL; //url of directus
+                  image.value = null;
+                  const responseImg = await directus
+                    .items(collection.value)
+                    .readByQuery({
+                      filter: {
+                        id: {
+                          _eq: id.value,
+                        },
+                      },
+                    });
+                  image.value = responseImg.data[0].icona; //takes the id of the image
+                  if (image.value != null) {
+                    const imageUrl = url.value + "/assets/" + image.value; // generates url
+                    const imageElement = document.getElementById("my-image");
+
+                    fetch(imageUrl)
+                      .then((response) => response.blob())
+                      .then((blob) => {
+                        // CODE64 IMAGE
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = () => {
+                          const base64data = reader.result; //code64 the url
+                          imageElement.src = base64data;
+                        };
+                      });
+                  } else {
+                    const imageElement = document.getElementById("my-image");
+                    imageElement.src = null;
+                  }
       } catch (error) {}
     }
 
-    const inventario = [
-      "invn",
-      "dismesso",
-      "quantita",
-      "soggetto",
-      "descrizione",
-      "autore",
-      "data",
-      "misure",
-      "deposito",
+    const opera = [
+      "nctn",
+      "lir",
+      "ogtd",
+      "piano",
+      "sala",
       "parete",
-      "ubi_specifica",
-      "conservazione",
-      "preovenienza",
-      "acquisizione",
-      "restauro",
-      "mostre",
-      "prestito",
-      "propieta",
-      "note",
+      "specifiche",
+      "ogtt",
+      "ogtv",
+      "qntn",
+      "qnts",
+      "sgti",
+      "sgtt",
+      "deso",
+      "dess",
+      "desi",
+      "stcc",
+      "stcs",
+      "misa",
+      "misu",
     ];
 
-    return { response, loaded, inventario, imgurl };
+    return { response, opera, url };
   },
   props: {
     collection: {

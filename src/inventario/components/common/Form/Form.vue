@@ -20,12 +20,6 @@
             <OneToMany v-model="field.value" :field="field" />
           </div>
         </template>
-        <template v-else-if="field.type == 'upload'">
-          <div id="alignp-1" :class="`col-md-${field.column}`">
-            {{ field.label }}
-            <Upload />
-          </div>
-        </template>
         <template v-else-if="field.type == 'manyToOne'">
           <div id="alignp-1" :class="`col-md-${field.column}`">
             <ManyToOne v-model="field.value" :field="field" />
@@ -56,21 +50,28 @@
             <SelectSimple v-model="field.value" :field="field" />
           </div>
         </template>
+        <template v-else-if="field.type == 'file'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <File v-model="field.value" :field="field" />
+          </div>
+        </template>
+         <template v-else-if="field.type == 'files'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <Files v-model="field.value" :field="field" />
+          </div>
+        </template>
+        <template v-else-if="field.type == 'image'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <Image v-model="field.value" :field="field" />
+          </div>
+        </template>
         <template v-else-if="field.type == 'divider'">
-          <Divider />
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <Divider />
+          </div>
         </template>
         <template v-else-if="field.type == 'biglabel'">
-          <div
-            id="alignp-1"
-            :class="`col-md-${field.column} text-primary text-large text-center`"
-          >
-            <h5
-              class="display-7"
-              style="text-align: left; color: black; text-decoration: underline"
-            >
-              {{ field.label }}
-            </h5>
-          </div>
+          <h4>{{ field.label }}</h4>
         </template>
         <template v-else-if="field.type == 'textarea'">
           <div id="alignp-1" :class="`col-md-${field.column}`">
@@ -80,6 +81,17 @@
               v-html="field.label"
             ></label>
             <textarea
+              v-if="field.special == true"
+              :type="field.type"
+              style="background-color: lightyellow"
+              :id="`field-${field.name}`"
+              class="form-control"
+              rows="5"
+              v-model="field.value"
+            ></textarea>
+
+            <textarea
+              v-else
               :type="field.type"
               :id="`field-${field.name}`"
               class="form-control"
@@ -90,17 +102,7 @@
         </template>
         <template v-else>
           <div id="alignp-1" :class="`col-md-${field.column}`">
-            <label
-              :for="`field-${field.name}`"
-              class="form-label"
-              v-html="field.label"
-            ></label>
-            <input
-              :type="field.type"
-              :id="`field-${field.name}`"
-              class="form-control"
-              v-model="field.value"
-            />
+            <StandardInput v-model="field.value" :field="field" />
           </div>
         </template>
       </slot>
@@ -125,25 +127,27 @@ import {
   SelectSimple,
   Radio,
   File,
+  Files,
   Image,
   Divider,
+  StandardInput,
 } from ".";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
   fields: { type: Array, default: [] },
-  modelValue: { type: [Array, Object], default: [] },
+  // modelValue: { type: [Array,Object], default: [] },
 });
 
 const { fields } = toRefs(props);
 
-const data = computed(() => {
+const data = () => {
   const onlyDirty = fields.value.filter((field) => field.dirty === true);
   const keyValuesList = onlyDirty.map((field) => [field.name, field.value]);
   const _data = Object.fromEntries(keyValuesList);
-  emit("update:modelValue", _data);
+  // emit('update:modelValue', _data)
   return _data;
-}); // form data (will be passed as prop in the slots)
+}; // form data (will be passed as prop in the slots)
 </script>
 
 <style scoped></style>

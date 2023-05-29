@@ -18,7 +18,7 @@
             <font-awesome-icon :icon="['fa-solid', 'fa-paintbrush']" />
           </div>
           <div class="card-body">
-            <h5 class="card-title">Archivio</h5>
+            <h5 class="card-title">Archivio opere d'arte</h5>
           </div>
         </div>
 
@@ -63,9 +63,13 @@ export default {
 
 <style scoped>
 .container {
-  max-width: 1024px;
+   max-width: 1024px;
   margin: auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh; /* opcional si quieres que el contenedor ocupe toda la altura de la pantalla */
 }
 
 .header {

@@ -1,6 +1,9 @@
 <template>
+    <slot name="label">
+        <label :for="`field-${field.name}`" class="form-label" v-html="field.label"></label>
+    </slot>
     <div v-if="modelValue?.id">
-        <div class="d-flex flex-row align-items-end">
+        <div :id="`field-${field.name}`" class="d-flex flex-row align-items-end">
             <div class="me-2">
                 <template v-if="isImage(asset)">
                     <img :src="thumbnail(asset)"/>
@@ -20,21 +23,28 @@
         </div>
     </div>
     <template v-else>
-        <UploadModal @filesSelected="onFilesSelected">
-            <template #button-text>Caricare file</template>
-        </UploadModal>
+        <div class="d-flex gap-2 mt-2">
+            <UploadModal @filesSelected="onFilesSelected">
+                <template #button-text>Upload file</template>
+            </UploadModal>
+            <AssetsModal @filesSelected="onFilesSelected">
+                <template #button-text>Selezionare</template>
+            </AssetsModal>
+        </div>
     </template>
 </template>
 
 <script setup>
-import { toRefs, provide } from 'vue'
-import { File } from '../../../../../models'
+import { toRefs, provide, inject } from 'vue'
+import { File } from '../../../../models'
 import { useAsset } from '../../../../../utils'
-import { accessToken, baseURL } from '../../../../../API'
+import { accessToken, baseURL } from '../../../../API'
 import UploadModal from './UploadModal.vue'
+import AssetsModal from './AssetsModal.vue'
 import FileMetadata from '../../Upload/FileMetadata.vue';
 import FileActions from '../../Upload/FileActions.vue';
 
+const modal = inject('$modalManager')
 provide('multiple', false) // this will be injected in ChooseFilesButton
 const {isImage, url, thumbnail} = useAsset(baseURL,accessToken)
 
@@ -50,8 +60,8 @@ function deleteAsset() {
     emit('update:modelValue', null)
 }
 
-function onDeleteFileClicked(_file) {
-    const confirmed = confirm('Are you shure you want to delete this item?')
+async function onDeleteFileClicked(_file) {
+    const confirmed = await modal.confirm({title:'Confirm', body:'Sei sicuro di voler eliminare questo elemento?'})
     if(!confirmed) return
     deleteAsset()
 }
@@ -66,7 +76,6 @@ function onDownloadClicked(_file) {
     location.href = downloadUrl
 }
 function onFilesSelected(files) {
-    console.log(files)
     const file = files?.[0]
     if(file) emit('update:modelValue', file)
 }

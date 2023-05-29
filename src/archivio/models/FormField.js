@@ -28,7 +28,6 @@ export default class {
         if(params?.edit) this.edit = params.edit
         if(params?.collection) this.collection = params.collection
         if(params?.special) this.special = params.special
-        if(params?.pepe) this.pepe = params.pepe
 
     }
     

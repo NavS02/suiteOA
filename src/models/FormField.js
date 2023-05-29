@@ -3,23 +3,32 @@
  * provide a structure for fields used in a form
  */
 export default class {
+    edit='true'
     name = ''
     label = ''
     type = 'text'
+    voc='open'
+    special=false
+    collection=''
     column
     __initialValue = null // save initial value
     __value = null// value that can be updated
     __dirty = false // mark the field as dirty if modified
+    column
 
     __ready = false
+
 
     constructor(params) {
         if(params?.name) this.name = params.name
         if(params?.label) this.label = params.label
         if(params?.type) this.type = params.type
         if(params?.value) this.__initialValue = this.__value = params.__value
-        if(params?.value) this.column = params?.column ?? '12'
-
+        if(params?.column)this.column = params?.column ?? '12'
+        if(params?.voc) this.voc = params.voc
+        if(params?.edit) this.edit = params.edit
+        if(params?.collection) this.collection = params.collection
+        if(params?.special) this.special = params.special
     }
     
     async setInitialValue(value) { this.__initialValue = this.__value = value }

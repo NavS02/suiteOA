@@ -55,6 +55,11 @@
             <File v-model="field.value" :field="field" />
           </div>
         </template>
+         <template v-else-if="field.type == 'files'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <Files v-model="field.value" :field="field" />
+          </div>
+        </template>
         <template v-else-if="field.type == 'image'">
           <div id="alignp-1" :class="`col-md-${field.column}`">
             <Image v-model="field.value" :field="field" />
@@ -122,6 +127,7 @@ import {
   SelectSimple,
   Radio,
   File,
+  Files,
   Image,
   Divider,
   StandardInput,

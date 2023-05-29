@@ -38,7 +38,7 @@
                     aria-selected="true"
                     role="tab"
                   >
-                    Generale
+                    Anteprima
                   </button>
                 </li>
 
@@ -51,11 +51,11 @@
                     role="tab"
                     tabindex="-1"
                   >
-                    Edit Profile
+                    Modifica il Profilo
                   </button>
                 </li>
 
-                <li class="nav-item" role="presentation">
+                <!-- <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
                     data-bs-toggle="tab"
@@ -81,21 +81,9 @@
                   >
                     Change Password
                   </button>
-                </li>
+                </li> -->
 
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    data-bs-toggle="tab"
-                    data-bs-target="#profile-favorite-items"
-                    aria-selected="false"
-                    role="tab"
-                    tabindex="-1"
-                    @click="fetchData()"
-                  >
-                    Favorite Items
-                  </button>
-                </li>
+              
               </ul>
               <div class="tab-content pt-2">
                 <div
@@ -103,7 +91,7 @@
                   id="profile-overview"
                   role="tabpanel"
                 >
-                  <h5 class="card-title">Profile Details</h5>
+                  <h5 class="card-title">Profilo</h5>
 
                   <div class="container">
                     <div class="row align-items-center justify-content-between">
@@ -114,25 +102,25 @@
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Company</div>
+                      <div class="col-lg-3 col-md-3 label">Compagnia</div>
                       <div class="col-lg-9 col-md-9">
                         Opera della Metropolitana
                       </div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Role</div>
+                      <div class="col-lg-3 col-md-3 label">Ruolo</div>
                       <div class="col-lg-9 col-md-9">{{ me?.role }}</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
-                      <div class="col-lg-3 col-md-3 label">Paese</div>
+                      <div class="col-lg-3 col-md-3 label">Nazione</div>
                       <div class="col-lg-9 col-md-9">{{ me?.location }}</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
                       <div class="col-lg-3 col-md-3 label">Lingua</div>
-                      <div class="col-lg-9 col-md-9">{{me?.language}}</div>
+                      <div class="col-lg-9 col-md-9">IT</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
@@ -149,7 +137,7 @@
                 >
                   <!-- Profile Edit Form -->
                   <form action="">
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                       <label
                         for="profileImage"
                         class="col-md-4 col-lg-3 col-form-label"
@@ -162,34 +150,34 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="row mb-3">
-                      <label for="Nome" class="col-md-4 col-lg-3 col-form-label"
+                      <label for="Name" class="col-md-4 col-lg-3 col-form-label"
                         >Nome</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
-                          name="Nome"
+                          name="Name"
                           type="text"
                           class="form-control"
-                          id="Nome"
+                          id="Name"
                           :value="me?.first_name"
                         />
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label
-                        for="Cognome"
+                        for="Surname"
                         class="col-md-4 col-lg-3 col-form-label"
                         >Cognome</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
-                          name="Cognome"
+                          name="Surname"
                           type="text"
                           class="form-control"
-                          id="Cognome"
+                          id="Surname"
                           :value="me?.last_name"
                         />
                       </div>
@@ -213,7 +201,7 @@
 
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label"
-                        >Job</label
+                        >Ruolo</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
@@ -229,16 +217,16 @@
 
                     <div class="row mb-3">
                       <label
-                        for="Paese"
+                        for="Country"
                         class="col-md-4 col-lg-3 col-form-label"
-                        >Paese</label
+                        >Nazione</label
                       >
                       <div class="col-md-8 col-lg-9">
                         <input
                           name="country"
                           type="text"
                           class="form-control"
-                          id="Paese"
+                          id="Country"
                           :value="me?.location"
                         />
                       </div>
@@ -267,7 +255,7 @@
                         class="btn btn-primary"
                         @click="onChangeUserData()"
                       >
-                        Save Changes
+                        Salva
                       </button>
                     </div>
                   </form>
@@ -409,49 +397,7 @@
                 </div>
                 <!-- Favorite Items Form -->
 
-                <div
-                  class="tab-pane fade pt-3"
-                  id="profile-favorite-items"
-                  role="tabpanel"
-                >
-                  <div class="table-responsive">
-                    <Table
-                      class="table v-middle m-0"
-                      :items="items"
-                      :fields="fields"
-                      id="table"
-                    >
-                      <template #cell(actions)="{ item, field, value }">
-                        <div class="actions">
-                          <button
-                            title="unsave"
-                            class="btn btn-sm btn-light text-danger"
-                            @click="onSaveClicked(item)"
-                          >
-                            <i class="bi bi-heart-fill"></i>
-                          </button>
-                          <button
-                            title="edit"
-                            class="btn btn-sm btn-light"
-                            @click="onEditClicked(item)"
-                          >
-                            <font-awesome-icon
-                              icon="fa-solid fa-pencil"
-                              fixed-width
-                            />
-                          </button>
-                          <button
-                            title="Info"
-                            class="btn btn-sm btn-light"
-                            @click="onInfoClicked(item)"
-                          >
-                            <font-awesome-icon icon="fa-solid fa-eye" />
-                          </button>
-                        </div>
-                      </template>
-                    </Table>
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -491,15 +437,23 @@ export default {
     const me=ref()
    
     // watch the route and update data based on the collection param
- 
+    watch(
+      route,
+      () => {
+      
     fetchData();
 
-async function fetchData() {
+      },
+      { immediate: true, deep: true }
+    );
+
+    async function fetchData() {
        me.value = await directus.users.me.read();
+
+      
     }
     function updateImage() {
       let img = document.getElementById("profilePictureSelector").value;
-      console.log(img);
       imageurl.value = img;
     }
     function toggleClass() {
@@ -517,15 +471,15 @@ async function fetchData() {
     }
     function onEditClicked(item) {
       router.push({
-        name: "editItem",
+        name: "editItemArc",
         params: { id: item.id_opera, collection: "opera" },
       });
     }
     async function onChangeUserData() {
-      let name = document.getElementById("Nome").value;
-      let surname = document.getElementById("Cognome").value;
+      let name = document.getElementById("Name").value;
+      let surname = document.getElementById("Surname").value;
       let description = document.getElementById("description").value;
-      let country = document.getElementById("Paese").value;
+      let country = document.getElementById("Country").value;
       let email = document.getElementById("Email").value;
 
       await directus.users.me.update({
@@ -538,7 +492,7 @@ async function fetchData() {
     }
     function onInfoClicked(item) {
       router.push({
-        name: "infoItem",
+        name: "InfoItemArch",
         params: { collection: "opera", id: item.id_opera },
       });
     }

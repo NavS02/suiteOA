@@ -3,13 +3,13 @@
         <div>
             <button class="btn btn-sm btn-outline-primary" @click="onPrevClicked" :disabled="!prev">
                 <font-awesome-icon icon="fa-solid fa-chevron-left" fixed-width/>
-                <span class="ms-1">Prev</span>
+                <span class="ms-1">Precedente</span>
             </button>
         </div>
         <div class="ms-auto">
             <button class="btn btn-sm btn-outline-primary" @click="onNextClicked" :disabled="!next">
                 <font-awesome-icon icon="fa-solid fa-chevron-right" fixed-width/>
-                <span class="ms-1">Next</span>
+                <span class="ms-1">Successivo</span>
             </button>
         </div>
         <!-- {{prev}} -->

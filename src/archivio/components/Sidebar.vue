@@ -82,6 +82,13 @@ export default {
         >
           <div class="accordion-body">
             <ul class="list-group" id="sidebar-nav">
+                <li class="list-group-item">
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'listArc', params: { collection: 'collocazione' } }"
+                  >Collocazione</router-link
+                >
+              </li>
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
@@ -106,7 +113,7 @@ export default {
                     name: 'listArc',
                     params: { collection: 'localizzazione' },
                   }"
-                  >Localizzazione</router-link
+                  >Altre localizzazioni</router-link
                 >
               </li>
               <li class="list-group-item">

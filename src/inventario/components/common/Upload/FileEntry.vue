@@ -9,11 +9,11 @@
         </template>
     <div class="d-flex flex-column">
         <FileMetadata :file="file" />
-        <FileActions :file="file" 
+        <!-- <FileActions :file="file" 
             @downloadAsset="onDownloadClicked"
             @showAsset="onShowAssetClicked"
             @deleteAsset="onDeleteFileClicked"
-        />
+        /> -->
 
     </div>
 

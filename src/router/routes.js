@@ -17,7 +17,6 @@ import HomeInv from '../inventario/pages/Home.vue'
 import searchInv from '../inventario/components/Item/SearchItem.vue'
 import EditItemInv from '../inventario/components/Item/EditItem.vue'
 import userInv from '../inventario/pages/User.vue'
-import infoItemInv from '../inventario/components/Item/InfoItem.vue'
 
 
 // ARCHIVIO
@@ -49,7 +48,6 @@ const routes = [
             { path: '/inventario/search', name: 'searchInv', component: searchInv, props: true,meta: { requiresAuth: true } },
             { path: '/inventario/edit/:collection/:id', name: 'editItemInv', component: EditItemInv, props: true, },
             { path: '/inventario/profile', name: 'userInv', component: userInv, props: true, },
-            { path: '/inventario/items/:collection/:id', name: 'infoItemInv', component: infoItemInv, props: true, },
             
             
         ] },

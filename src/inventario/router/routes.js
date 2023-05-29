@@ -36,7 +36,7 @@ const routes = [
             { path: 'create', name: 'createItem', component: CreateItem, props: true, },
             { path: 'edit/:id', name: 'editItem', component: EditItem, props: true, },
             { path: '/items/:collection/:id', name: 'infoItem', component: InfoItem, props: true, },
-            { path: '/pref/:collection/print', name: 'model1', component: model1, props: true, },
+            { path: '/archivio/print', name: 'model1', component: model1, props: true, },
 
 
         ],props: true, meta: { requiresAuth: true } },

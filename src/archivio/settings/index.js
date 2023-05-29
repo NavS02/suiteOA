@@ -61,3 +61,4 @@ export { default as bib } from './bib'
 export { default as biblio } from './bib/biblio'
 
 export { default as pref } from './pref'
+export { default as collocazione } from './collocazione'

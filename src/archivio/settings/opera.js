@@ -6,7 +6,7 @@ import frm from "./frm";
 import roff from "./roff";
 import cdgg from "./cdgg";
 import acqt from "./acqt";
-import lc from "./lc";
+import lc from "./collocazione";
 import acc from "./opere/acc";
 import alnt from "./alnt";
 import stima from "./opere/stima";
@@ -31,24 +31,29 @@ import {
   RadioField,
   ManyToOneField,
   File,
+  Files,
   Image,
-} from "../models";
+} from "../../models";
 
 export default {
   collection: "opera",
   fields() {
     return [
+      
       new Image({
         name: "icona",
-        label: "icona",
+        label: "Icona",
         fit: "contain",
         width: 100,
         height: 100,
         quality: 10,
-        column: 6,
+        column: 4,
       }),
+      new Files({ name: 'images', label: 'Multiple Images', foreign_key:'directus_files_id', value:[],
+      fit: 'contain', width: 100, height: 100, quality: 80,column: 4 }),
+      new Files({ name: 'files', label: 'Multiple Files', foreign_key:'directus_files_id', value:[],
+      fit: 'contain', width: 100, height: 100, quality: 80,column:4 }),
 
-      new File({ name: "allegato", label: "File", column: 6 }),
       
       new Divider({ type: "divider" }),
 
@@ -570,7 +575,7 @@ export default {
 
       new ManyToOneField({
         name: "lc",
-        voc: "close",
+        voc: "open",
         label: "Localizzazione",
         value: null,
         related: "collocazione",

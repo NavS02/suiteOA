@@ -60,12 +60,11 @@ watch(route, async () => {
 }, {immediate: true, deep: true})
 
 function onCancelClicked() {
-    const confirmed = confirm('Are you sure you want to leave this page?')
+    const confirmed = confirm('Sei sicuro di voler lasciare questa pagina?')
     if(!confirmed) return
     goToList()
 }
 function onSaveClicked(data) {
-    console.log(data, data())
     save(data())
 }
 function goToList() {

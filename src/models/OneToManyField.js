@@ -23,4 +23,7 @@ export default class extends FormField {
         if(params?.filter) this.filter = params.filter
     }
 
+    async setInitialValue(value) {
+        this.__value = value
+    }
 }

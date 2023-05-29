@@ -21,13 +21,6 @@
   </div>
 </template>
 
-<script>
-const useUpload = () => {
-  return files
-}
-export {useUpload}
-</script>
-
 <script setup>
 import { inject, ref, watch } from 'vue';
 import { client } from '@/API'
@@ -78,7 +71,6 @@ async function uploadFiles() {
   }
   const _directus = client(options)
   let list = await _directus.files.createOne(formData)
-  console.log(files)
   files.value.clear()
   if(!Array.isArray(list)) list = [list]
   for (const item of list) {

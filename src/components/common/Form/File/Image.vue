@@ -53,7 +53,7 @@ function deleteAsset() {
 }
 
 function onDeleteFileClicked(_file) {
-    const confirmed = confirm('Are you shure you want to delete this item?')
+    const confirmed = confirm('Sei sicuro di voler eliminare questo elemento?')
     if(!confirmed) return
     deleteAsset()
 }

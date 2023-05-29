@@ -77,7 +77,6 @@ function onFilesDropped(_files) {
   addFiles(_files)
 }
 function onFileRemoved(_file) {
-  console.log(_file)
   uploads.value.delete(_file)
 }
 </script>

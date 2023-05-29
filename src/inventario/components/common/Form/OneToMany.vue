@@ -2,10 +2,9 @@
     <slot name="label">
         <label :for="`field-${field.name}`" class="form-label" v-html="field.label"></label>
     </slot>
-
     <div class="card">
         <div class="card-body items d-flex flex-column gap-2">
-            <template v-for="(item, index) in items" :key="index">
+            <template v-for="(item, index) in items" :key="item.id">
                 <div class="item d-flex p-2">
                     <div class="preview">
                         <!-- run the preview function if available -->
@@ -45,11 +44,12 @@
 
     </div>
 
+    <!-- {{ newItem }} -->
+    <!-- {{ items }} -->
     <Drawer ref="createDrawer">
         <template v-slot:header>
             <span>Create item</span>
         </template>
-        <!-- {{ newItem }} -->
 
         <MyForm :fields="newItemFields" v-model="newItem">
         </MyForm>
@@ -123,7 +123,7 @@ import {directus} from '@/API/'
 
 
 
-const MyForm = defineAsyncComponent(() => import('../Form.vue'))
+const MyForm = defineAsyncComponent(() => import('./Form.vue'))
 
 
 const emit = defineEmits([ 'update:modelValue' ])
@@ -131,6 +131,8 @@ const props = defineProps({
     modelValue: { type: [Array,Object], default: () => ([]) }, // v-model
     field: { type: FormField, default: null },
 })
+
+
 
 const items = ref([]) // list selected items (numeric form)
 const { modelValue, field } = toRefs(props)
@@ -141,6 +143,7 @@ const {
     filter, // filter function used when searching for an item by text
 } = field.value
 
+
 const createDrawer = ref(null) // reference an item in the template
 
 const selectDrawer = ref(null) // reference an item in the template
@@ -150,52 +153,22 @@ const selectedIDs = ref([])
  * observe the model (list of ids) once.
  * for each item, make a list of IDs and create MetaItems
  */
-const unwatch = watch(modelValue, async (value, prevValue) => {
-    if(!modelValue) return
-    const _ids = []
-    let list = []
-    for (let item of value) {
-        const itemID = item[foreign_key]
-        if(itemID) _ids.push(itemID)
-    }
-    if(_ids.length>0) {
-        // if we have ids (selected items) then fetch and assign data
-        const _data = await fetchIDs(_ids)
-        _data.forEach(element => {
-            list.push(element)
-        })
-    }
-    items.value = list
-    // unwatch() // run just once!
-}, {immediate: false})
-
+const unwatch = watch(modelValue, async (value) => {
+    items.value = value
+}, {immediate: true})
 
 const data = computed( () => {
     const _data = []
     items.value.forEach(element => {
-        // if(metaItem.deleted) return
-        const relationID = getRelationID(element)
-        if(relationID) {
-            _data.push(relationID) // use the same relation ID since nothing changed
-        }
-        else {
-            let payload = {[foreign_key]: element}
-            _data.push(payload)
-        }
+        _data.push(element)
     })
     return _data
 } )
 
-// check if an element is related to the parent
-function getRelationID(element) {
-    const found = modelValue.value.find( _field => field.id === element.id )
-    return found?.relationID
-}
-
 const currentIDs = computed(() => {
     const _ids = []
     items.value.forEach(item => {
-        const id = item?.id
+        const id = item?.value?.id
         if(id) _ids.push(id)
     })
     return _ids
@@ -211,8 +184,7 @@ const newItem = ref({})
 async function fetchIDs(ids=[]) {
     if(ids.length==0) return
     // make a request filtering by id
-    if(ids !==null){
- const response = await directus.items(related).readByQuery({
+    const response = await directus.items(related).readByQuery({
         filter: {
             id: {
                 _in: ids
@@ -223,8 +195,8 @@ async function fetchIDs(ids=[]) {
     const {data:_data=[]} = response
     return _data
 }
-    }
-   
+
+
 async function search() {
     const text = query.value
     const params = { limit: -1 } // default params
@@ -268,7 +240,6 @@ function remove(item) {
 }
 /* function restore(item) {
     item.deleted = false // mark the metaitem as deleted
-    emit('update:modelValue', data.value)
 } */
 /**
  * remove the item from both
@@ -277,7 +248,6 @@ function remove(item) {
  * @param {Object} itemToRemove 
  */
 function onRemoveClicked(item) { remove(item)}
-function onRestoreClicked(item) { restore(item) }
 async function onCreateNewClicked() {
     newItemFields.value = field.value.fields() // reset
     const response = await createDrawer.value.show()
@@ -294,6 +264,9 @@ async function onAddExistingClicked() {
 
 }
 function onSearchClicked() { search() }
+
+const test = ref({})
+
 
 </script>
 

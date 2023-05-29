@@ -1,4 +1,13 @@
-import FormField from "./FormField";
+import {
+  FormField,
+  SelectField,
+  ManyToManyField,
+  RadioField,
+  ManyToOneField,
+  File,
+  Image,
+} from "../../models";
+
 import inv_oggetto from "./inv_oggetto";
 import inv_materia from "./inv_materia";
 import inv_stima from "./inv_stima";
@@ -6,41 +15,62 @@ import inv_ubicazione from "./inv_ubicazione";
 import inv_piano from "./inv_piano";
 import inv_sala from "./inv_sala";
 
-import { ManyToOneField, ManyToManyField } from "../models";
-
 export default {
   collection: "inventario",
   fields() {
     return [
-      new FormField({ name: "invn", label: "Invn", type: "text", value: "" }),
-      new FormField({
-        name: "dismesso",
-        label: "dismesso",
-        type: "toggle",
-        value: "",
-        // column:4
+      new Image({
+        name: "icona",
+        label: "Icona",
+        fit: "contain",
+        width: 100,
+        height: 100,
+        quality: 10,
+        column: 12,
       }),
-
       new FormField({
-        name: "quantita",
-        label: "Quantita",
+        name: "invn",
+        label: "Invn",
         type: "text",
         value: "",
+        column: 3,
       }),
+      new FormField({
+        name: "altri_codici",
+        label: "Altri codici",
+        type: "text",
+        value: "",
+        column: 3,
+      }),
+      new FormField({
+        name: "quantita",
+        label: "Quantità",
+        type: "text",
+        value: "",
+        column: 3,
+      }),
+      new FormField({
+        name: "dismesso",
+        label: "Dismesso",
+        type: "toggle",
+        value: "",
+        column: 3,
+      }),
+
       new ManyToOneField({
         name: "inv_oggetto",
-        label: "inv_oggetto",
+        label: "Oggetto",
         value: null,
         related: "inv_oggetto",
         type: "manyToOne",
-        column: "3",
+        column: "4",
         preview: (item) => {
           return `${item?.inv_oggetto}`;
         },
         fields: inv_oggetto.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { nome: { _contains: text } };
+          return { inv_oggetto: { _contains: text } };
         },
       }),
 
@@ -49,26 +79,23 @@ export default {
         label: "Soggetto",
         type: "text",
         value: "",
-      }),
-      new FormField({
-        name: "descrizione",
-        label: "Descrizione",
-        type: "text",
-        value: "",
+        column: "4",
       }),
       new FormField({
         name: "autore",
-        label: "autore",
+        label: "Autore",
         type: "text",
         value: "",
+        column: "4",
       }),
-
 
       new ManyToManyField({
         name: "inv_materia",
-        label: "inv_materia",
+        label: "Materia",
         value: [],
+        column: "4",
         related: "inv_materia",
+        collection: "inv_materia",
         foreign_key: "inv_materia_id",
         preview: (item) => {
           return `${item?.inv_materia}`;
@@ -79,45 +106,35 @@ export default {
           return { inv_materia: { _contains: text } };
         },
       }),
-      new FormField({ name: "data", label: "data", type: "text", value: "" }),
+
       new FormField({
-        name: "misure",
-        label: "misure",
+        name: "data",
+        label: "Cronologia",
         type: "text",
         value: "",
+        column: "4",
       }),
-
-
-      new ManyToManyField({
-        name: "inv_stima",
-        label: "inv_stima",
-        value: [],
-        related: "inv_stima",
-        foreign_key: "inv_stima_id",
-        preview: (item) => {
-          return `${item?.inv_stis + "," + item?.inv_stis_ass}`;
-        },
-        fields: inv_stima.fields,
-        filter: (text) => {
-          if (text.trim() === "") return {};
-          return { inv_stima: { _contains: text } };
-        },
-      }),
-
       new FormField({
-        name: "deposito",
-        label: "deposito",
-        type: "toggle",
+        name: "misure",
+        label: "Misure",
+        type: "text",
+        value: "",
+        column: "4",
+      }),
+      new FormField({
+        name: "descrizione",
+        label: "Descrizione",
+        type: "textarea",
         value: "",
       }),
-
       new ManyToOneField({
         name: "inv_ubicazione",
-        label: "inv_ubicazione",
+        label: "Ubicazione",
         value: null,
         related: "inv_ubicazione",
         type: "manyToOne",
-        column: "3",
+        column: "4",
+
         preview: (item) => {
           return `${item?.inv_ubicazione}`;
         },
@@ -130,11 +147,12 @@ export default {
 
       new ManyToOneField({
         name: "inv_piano",
-        label: "inv_piano",
+        label: "Piano",
         value: null,
         related: "inv_piano",
         type: "manyToOne",
-        column: "3",
+        column: "4",
+
         preview: (item) => {
           return `${item?.inv_piano}`;
         },
@@ -147,11 +165,12 @@ export default {
 
       new ManyToOneField({
         name: "inv_sala",
-        label: "inv_sala",
+        label: "Sala",
         value: null,
         related: "inv_sala",
         type: "manyToOne",
-        column: "3",
+        column: "4",
+
         preview: (item) => {
           return `${item?.inv_sala}`;
         },
@@ -163,63 +182,99 @@ export default {
       }),
       new FormField({
         name: "parete",
-        label: "parete",
+        label: "Parete",
         type: "text",
         value: "",
+        column: "4",
       }),
       new FormField({
         name: "ubi_specifica",
-        label: "ubi_specifica",
+        label: "Specifiche",
         type: "text",
         value: "",
+        column: "4",
+      }),
+      new FormField({
+        name: "deposito",
+        label: "Deposito",
+        type: "toggle",
+        value: "",
+        column: "4",
       }),
       new FormField({
         name: "conservazione",
-        label: "conservazione",
+        label: "Conservazione",
         type: "text",
         value: "",
+        column: "4",
       }),
       new FormField({
-        name: "preovenienza",
-        label: "preovenienza",
+        name: "provenienza",
+        label: "Provenienza",
         type: "text",
         value: "",
-      }),
-      new FormField({
-        name: "acquisizione",
-        label: "acquisizione",
-        type: "text",
-        value: "",
+        column: "4",
       }),
       new FormField({
         name: "restauro",
-        label: "restauro",
+        label: "Restauro",
         type: "text",
         value: "",
+        column: "4",
       }),
       new FormField({
         name: "mostre",
-        label: "mostre",
+        label: "Mostre",
         type: "text",
         value: "",
+        column: "4",
       }),
       new FormField({
         name: "prestito",
-        label: "prestito",
+        label: "Prestito",
         type: "text",
         value: "",
+        column: "4",
+      }),
+
+      new ManyToManyField({
+        name: "inv_stima",
+        label: "Stima",
+        value: [],
+        column: "4",
+        related: "inv_stima",
+        collection: "inv_stima",
+        foreign_key: "inv_stima_id",
+        preview: (item) => {
+          return `${item?.inv_stima}`;
+        },
+        fields: inv_stima.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { inv_stima: { _contains: text } };
+        },
       }),
       new FormField({
-        name: "propieta",
-        label: "propieta",
+        name: "acquisizione",
+        label: "Acquisizione",
         type: "text",
         value: "",
+        column: "6",
+      }),
+
+      new FormField({
+        name: "proprieta",
+        label: "Proprieta",
+        type: "text",
+        value: "",
+        column: "6",
       }),
       new FormField({
         name: "note",
-        label: "note",
+        label: "Note",
         type: "textarea",
         value: "",
+        column: "12",
       }),
     ];
   },

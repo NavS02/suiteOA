@@ -523,7 +523,6 @@ export default {
     }
     function updateImage() {
       let img = document.getElementById("profilePictureSelector").value;
-      console.log(img);
       imageurl.value = img;
     }
     function toggleClass() {

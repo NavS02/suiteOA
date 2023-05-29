@@ -49,7 +49,7 @@ export default {
       }),
       new FormField({ name: "ftaa", label: "Autore", type: "text", value: "" }),
       new FormField({ name: "ftad", label: "Data", type: "text", value: "" }),
-      new FormField({ name: "ftae", label: "Ente propietario", type: "text", value: "" }),
+      new FormField({ name: "ftae", label: "Ente proprietario", type: "text", value: "" }),
       new FormField({ name: "ftan", label: "Codice", type: "text", value: "" }),
       new FormField({ name: "ftat", label: "Note", type: "text", value: "" }),
       new FormField({ name: "ftaf", label: "Formato", type: "text", value: "" }),

@@ -601,7 +601,6 @@ export default {
         for (let i = 0; i < arrayObject.length; i++) {
           for (let j = 0; j < autore.length; j++) {
             html += `<h5 class="card-title">${arrayObject[i][autore[j]]}</h5>`;
-            console.log(arrayObject[i][autore[j]]);
           }
         }
       }

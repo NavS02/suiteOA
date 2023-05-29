@@ -1,7 +1,8 @@
 <template>
 
     <main>
-    <section class="layout" >
+    <section class="layout">
+
             <Menu/>
             <Sidebar/>
             <router-view />
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-import Menu from "../components/Menu.vue"
+import Menu from '../components/Menu.vue'
 import Sidebar from '../components/Sidebar.vue'
 export default {
     components: { Menu,Sidebar }

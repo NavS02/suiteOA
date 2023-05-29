@@ -2,86 +2,11 @@
   <main id="main" class="main">
     <div class="col-12">
       <!-- Search Form -->
-      <div class="row">
-        <div class="col-md-6">
-          <h5 class="card-title">ID:</h5>
-          <input
-            type="number"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultID"
-          />
-        </div>
-        <div class="col-md-6">
-          <h5 class="card-title">Autore (AUTN):</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultAutore"
-          />
-        </div>
-      </div>
+      <keep-alive>
+        <searchForm />
+      </keep-alive>
 
-      <div class="row">
-        <div class="col-md-6">
-          <h5 class="card-title">Soggetto (SGTI):</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultSGTI"
-          />
-        </div>
-        <div class="col-md-6">
-          <h5 class="card-title">Inventario (INVN):</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultInv"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <h5 class="card-title">Titolo (SGTT):</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultSGTT"
-          />
-        </div>
-        <div class="col-md-6">
-          <h5 class="card-title">Oggetto (OGTD):</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultOGTD"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h5 class="card-title">Tecnica (MTC):</h5>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            id="resultMTC"
-          />
-        </div>
-      </div>
-
+      
       <br />
       <button
         type="button"
@@ -219,7 +144,7 @@
                         <img
                           :src="imageurl"
                           alt=""
-                          style="width: 170px; height: 170px; margin-top: 15px"
+                          style="max-width: 170px; max-height: 170px"
                           :id="'photo-' + index"
                         />
                       </div>
@@ -398,10 +323,12 @@ import { useRoute, useRouter } from "vue-router";
 import { directus } from "../../API/";
 import * as settings from "../../settings/";
 import Table from "../common/Table/Table.vue";
+import searchForm from "./searchForm.vue";
+
 import Loaded from "../common/Loader.vue";
 
 export default {
-  components: { Table, Loaded },
+  components: { Table, Loaded, searchForm },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -511,7 +438,7 @@ export default {
             },
             limit: -1,
           });
-          if (privateData.data.length > 1) {
+          if (privateData.data.length > 0) {
             const ids = privateData.data.map((item) => item.id);
             const opereAutore = await directus
               .items("opera_autore")
@@ -543,7 +470,7 @@ export default {
             },
             limit: -1,
           });
-          if (privateData.data.length > 1) {
+          if (privateData.data.length > 0) {
             const ogtdId = privateData.data.map(({ id }) => id);
             query["filter"]["ogtd"] = { _in: ogtdId };
           } else {
@@ -776,7 +703,7 @@ export default {
       totalPages.value = 0;
       url.value = window.location.origin;
       itemsFiltered = null;
-
+      loaded.value = true;
       // CLEAR TABLE
       items.value = null;
     }

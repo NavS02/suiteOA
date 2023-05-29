@@ -7,11 +7,12 @@
             <div class="buttons">
                 <button class="btn btn-sm btn-secondary" @click="onCancelClicked()">
                     <font-awesome-icon icon="fa-solid fa-xmark" fixed-width/>
-                    <span class="ms-1">Cancel</span>
+                    <span class="ms-1">Annullare</span>
                 </button>
                 <button class="btn btn-sm btn-primary" @click="onSaveClicked(data)">
                     <font-awesome-icon icon="fa-solid fa-floppy-disk" fixed-width/>
-                    <span class="ms-1">Salva</span>                </button>
+                    <span class="ms-1">Salva</span>
+                </button>
             </div>
         </template>
     </Form>
@@ -50,7 +51,7 @@ export default {
             this.item = response
         },
         onCancelClicked() {
-            const confirmed = confirm('Are you sure you want to leave this page?')
+            const confirmed = confirm('Sei sicuro di voler lasciare questa pagina?')
             if(!confirmed) return
             this.goToList()
         },

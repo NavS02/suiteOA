@@ -1,5 +1,12 @@
-import FormField from './FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../models";
 export default {
     collection: 'inv_sala',
     fields() {

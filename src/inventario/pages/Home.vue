@@ -12,11 +12,11 @@
                   Inventario
                 </div>
                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                  {{ totalInv }}
+                  {{ totalInventario }}
                 </div>
               </div>
               <div class="col-auto">
-                <i class="bi bi-inboxes"></i>
+                <i class="bi bi-box2"></i>
               </div>
             </div>
           </div>
@@ -27,24 +27,22 @@
 </template>
 
 <script>
-import { ref, computed, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { ref } from "vue";
 import { directus } from "../API/";
-import * as settings from "../settings/";
 
 export default {
   setup() {
-    let totalInv = ref();
+    let totalInventario = ref();
 
     fetchDashboard();
     async function fetchDashboard() {
       const responseOp = await directus
         .items("inventario")
         .readByQuery({ limit: -1 });
-      totalInv.value = responseOp.data.length;
+      totalInventario.value = responseOp.data.length;
     }
     return {
-      totalInv,
+      totalInventario,
     };
   },
 };
