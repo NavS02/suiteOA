@@ -281,11 +281,11 @@ export default {
   },
   tableFields() {
     return [
-      { key: "id", label: "ID", sortable: false },
-      { key: "invn", label: "INVN", sortable: false },
+      { key: "id", label: "ID", sortable: true },
+      { key: "invn", label: "inventario", sortable: true },
       { key: "quantita", label: "Quantita", sortable: false },
-      { key: "soggetto", label: "Soggetto", sortable: false },
-      { key: "autore", label: "Autore", sortable: false },
+      { key: "soggetto", label: "Soggetto", sortable: true },
+      { key: "autore", label: "Autore", sortable: true },
       { key: "actions", label: "Azione", sortable: false },
     ];
   },

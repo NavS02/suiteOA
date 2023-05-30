@@ -6,7 +6,7 @@
         <searchForm />
       </keep-alive>
       <br />
-      
+
       <button
         type="button"
         class="btn btn-outline-primary"
@@ -30,6 +30,7 @@
       />
       &nbsp
       {{ totalResult }} schede trovate
+
       <div class="form-check" style="float: right">
         <input
           class="form-check-input"
@@ -50,7 +51,10 @@
           v-model="selectedOption"
           value="card"
         />
-        <label class="form-check-label" for="flexRadioDefault2"> Carta </label>
+
+        <label class="form-check-label" for="flexRadioDefault2">
+          Carta &nbsp
+        </label>
       </div>
 
       <div class="card gradient-dark-grey" style="margin-top: 30px">
@@ -91,12 +95,12 @@
         </div>
         <div class="card-body" v-if="selectedOption === 'card'">
           <div class="row">
-            <div class="col-12">
+            <div class="col-15">
               <div class="row">
                 <div
                   v-for="(item, index) in items"
                   :key="index"
-                  class="card mb-3 col-md-2"
+                  class="card mb-3 col-md-3"
                   style="margin-bottom: 20px"
                 >
                   <div class="card-body">
@@ -106,16 +110,19 @@
                       class="text-center"
                       style="
                         border: 1px solid #999999;
-                        width: 200px;
-                        height: 200px;
+                        width: 210px;
+                        height: 210px;
                         margin: 0 auto;
                         margin-top: 15px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                       "
                     >
                       <img
                         :src="imageurl"
                         alt=""
-                        style="max-width: 200px; ax-height: 200px"
+                        style="max-width: 200px; max-height: 200px"
                         :id="'photo-' + index"
                       />
                     </div>
@@ -263,7 +270,6 @@ export default {
       { immediate: true, deep: true }
     );
     watch(selectedOption, () => {
-     
       skipPage("first");
     });
 
@@ -297,7 +303,7 @@ export default {
         (currentPage.value - 1) * resultLimit,
         currentPage.value * resultLimit
       );
-        if (selectedOption.value === "card") {
+      if (selectedOption.value === "card") {
         setTimeout(() => {
           fetchImg();
         }, "1000");
