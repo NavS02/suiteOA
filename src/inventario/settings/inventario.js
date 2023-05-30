@@ -204,7 +204,21 @@ export default {
       new FormField({
         name: "conservazione",
         label: "Conservazione",
-        type: "text",
+        type: "textarea",
+        value: "",
+        column: "4",
+      }),
+      new FormField({
+        name: "restauro",
+        label: "Restauro",
+        type: "textarea",
+        value: "",
+        column: "4",
+      }),
+      new FormField({
+        name: "mostre",
+        label: "Mostre",
+        type: "textarea",
         value: "",
         column: "4",
       }),
@@ -215,20 +229,7 @@ export default {
         value: "",
         column: "4",
       }),
-      new FormField({
-        name: "restauro",
-        label: "Restauro",
-        type: "text",
-        value: "",
-        column: "4",
-      }),
-      new FormField({
-        name: "mostre",
-        label: "Mostre",
-        type: "text",
-        value: "",
-        column: "4",
-      }),
+
       new FormField({
         name: "prestito",
         label: "Prestito",

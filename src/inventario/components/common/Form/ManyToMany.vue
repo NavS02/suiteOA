@@ -44,49 +44,39 @@
   </div>
 
   <b-modal ref="createNewRef">
-    <template #header>Creare: {{field?.label}}</template>
+    <template #header>Creare</template>
     <div>
       <MyForm :fields="newItemFields" />
     </div>
   </b-modal>
 
   <b-modal ref="addExistingRef">
-    <template v-slot:header>
-      <span>Seleziona valore</span>
-    </template>
+    <template #header>Aggiungere</template>
     <div>
-      <div>
-        <div class="input-group">
-          <input
-            class="form-control"
-            type="text"
-            v-model.lazy="query"
-            placeholder=""
-          />
-          <button class="btn btn-sm btn-primary" @click="onSearchClicked">
-            <font-awesome-icon
-              icon="fa-solid fa-magnifying-glass"
-              fixed-width
-            />
-            <span class="ms-1">Cerca</span>
-          </button>
-        </div>
-      </div>
-      <div>
+ <div>
+                <div class="input-group">
+                    <input class="form-control" type="text" v-model.lazy="query" placeholder="3 caratteri min..."/>
+                    <button class="btn btn-sm btn-primary" @click="onSearchClicked">
+                        <font-awesome-icon icon="fa-solid fa-magnifying-glass" fixed-width/>
+                        <span class="ms-1">Cerca</span>
+                    </button>
+                </div>
+            </div>      <div>
         <template
           v-for="(item, index) in existingItems"
           :key="existingItems?.id ?? index"
         >
-          <div class="d-flex">
-            <div class="card mt-2 w-100">
-              <div class="preview card-body">
-                <input
-                  type="checkbox"
-                  v-model="selected"
-                  :value="item"
-                  :id="`existing-${item.id}`"
-                />
-                &nbsp
+          <div class="card mt-2">
+            <div class="preview card-body">
+              <div class="d-flex">
+                <div class="me-2">
+                  <input
+                    type="checkbox"
+                    v-model="selected"
+                    :value="item"
+                    :id="`existing-${item.id}`"
+                  />
+                </div>
                 <label :for="`existing-${item.id}`">
                   <template v-if="typeof preview == 'function'">
                     <span v-html="preview(item)"></span>
@@ -143,6 +133,7 @@ function updateModelValue(_items = []) {
  * - parent_id
  * - item_id
  */
+
 const createNewRef = ref();
 const newItemFields = ref([]);
 

@@ -28,7 +28,7 @@
     </template>
     <template v-else>
         <div class="buttons d-flex gap-2 border border-muted rounded p-2">
-            <button class="btn btn-sm btn-primary" @click="onCreateNewClicked">
+            <button class="btn btn-sm btn-primary" @click="onCreateNewClicked" v-if="field.voc !== 'close'">
                 <font-awesome-icon icon="fa-solid fa-plus" fixed-width/>
                 <span class="ms-1">Creare</span>
             </button>

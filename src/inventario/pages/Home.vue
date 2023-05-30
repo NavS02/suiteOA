@@ -36,10 +36,11 @@ export default {
 
     fetchDashboard();
     async function fetchDashboard() {
-      const responseOp = await directus
-        .items("inventario")
-        .readByQuery({ limit: -1 });
-      totalInventario.value = responseOp.data.length;
+        const responseIscriz = await directus.items("inventario").readByQuery({
+        fields: ["COUNT(*)"],
+        limit: -1,
+      });
+      totalInventario.value = responseIscriz.data.length;
     }
     return {
       totalInventario,

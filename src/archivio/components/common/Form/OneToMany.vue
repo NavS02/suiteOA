@@ -32,7 +32,7 @@
 
             <div class="buttons d-flex gap-2">
                 <button class="btn btn-sm btn-primary" @click="onCreateNewClicked">
-                    <font-awesome-icon icon="fa-solid fa-plus" fixed-width/>
+                    <font-awesome-icon icon="fa-solid fa-plus" fixed-width v-if="field.voc !== 'close'"/>
                     <span class="ms-1">Creare</span>
                 </button>
                 <button class="btn btn-sm btn-primary" @click="onAddExistingClicked">
