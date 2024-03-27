@@ -66,6 +66,7 @@ export { default as collocazione } from './collocazione'
 
 // APP
 export { default as app } from './app/app'
+export { default as app_salaLabel } from './app/app_salaLabel'
 
 // TOUCHSCREEN
 export { default as touch } from './touch/touch'

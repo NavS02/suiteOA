@@ -23,6 +23,7 @@ export default {
                 column: 12,
               }),
             new FormField({ name: 'nome', label: 'Nome', type: 'text', value: '' }),
+            new FormField({ name: 'comune', label: 'Comune', type: 'text', value: '' }),
             new FormField({
                 name: "descrizione_breve",
                 label: "Descrizione",

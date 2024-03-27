@@ -8,6 +8,7 @@ import {
   Files,
   Image,
 } from "../../../models";
+import app_salaLabel from "./app_salaLabel";
 
 export default {
   collection: "app",
@@ -198,15 +199,41 @@ export default {
         label: "Sala",
         type: "text",
         value: "",
-        column: 6,
+        column: 4,
         edit: "false",
+      }),
+      new ManyToOneField({
+        name: "salaLabel",
+        label: "APP Sala",
+        value: null,
+        related: "app_salaLabel",
+        column: "2",
+        type: "manyToOne",
+        voc: "close",
+        preview: (item) => {
+          return `${item?.sala_nome}`;
+        },
+        fields: app_salaLabel.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { sala_nome: { _contains: text } };
+        },
+      }),
+      new Image({
+        name: "collocazione_sala",
+        label: "Immagine sala",
+        fit: "contain",
+        width: 100,
+        height: 100,
+        quality: 10,
+        column: 4,
       }),
       new FormField({
         name: "parete",
         label: "Parete",
         type: "text",
         value: "",
-        column: 6,
+        column: 4,
         edit: "false",
       }),
       new FormField({
@@ -214,7 +241,7 @@ export default {
         label: "Specifiche",
         type: "text",
         value: "",
-        column: 6,
+        column: 4,
         edit: "false",
       }),
     ];
