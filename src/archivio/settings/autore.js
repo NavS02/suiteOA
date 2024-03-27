@@ -1,12 +1,12 @@
 import {
-    FormField,
-    SelectField,
-    ManyToManyField,
-    RadioField,
-    ManyToOneField,
-    File,
-    Image,
-  } from "../models";
+  FormField,
+  SelectField,
+  ManyToManyField,
+  RadioField,
+  ManyToOneField,
+  File,
+  Image,
+} from "../models";
   import autm from './autm'
   import auts from './auts'
   import autr from './autr'
@@ -15,16 +15,16 @@ export default {
     collection: 'autore',
     fields() {
         return [
-            new FormField({ name: 'autn', label: 'Autore', type: 'text', value: '' }),
-            new FormField({ name: 'auta', label: 'Dati anagrafici', type: 'text', value: '' }),
+            new FormField({ name: 'autn', label: 'AUTN-Autore', type: 'text', value: '' }),
+            new FormField({ name: 'auta', label: 'AUTA-Dati anagrafici', type: 'text', value: '' }),
             
             new ManyToOneField({
                 name: "auts",
-                label: "Riferimento all\'autore",
+                label: "AUTS-Riferimento all\'autore",
                 value: null,
                 related: "auts",
                 type: "manyToOne",
-                voc: "close",
+                voc: "open",
         
                 preview: (item) => {
                   return `${item?.auts}`;
@@ -37,7 +37,7 @@ export default {
               }),
             new ManyToOneField({
                 name: "autr",
-                label: "Riferimento all\'intervento",
+                label: "AUTR-Riferimento all\'intervento",
                 value: null,
                 related: "autr",
                 type: "manyToOne",
@@ -57,7 +57,7 @@ export default {
 
             new ManyToManyField({
                 name: 'autm',
-                label: 'Motivazione', value: [],
+                label: 'AUTM-Motivazione', value: [],
                 related: 'autm',
                 foreign_key: 'autm_id',
                 voc:'close',

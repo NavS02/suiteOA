@@ -55,7 +55,7 @@
             <File v-model="field.value" :field="field" />
           </div>
         </template>
-         <template v-else-if="field.type == 'files'">
+        <template v-else-if="field.type == 'files'">
           <div id="alignp-1" :class="`col-md-${field.column}`">
             <Files v-model="field.value" :field="field" />
           </div>
@@ -70,6 +70,52 @@
             <Divider />
           </div>
         </template>
+        <template v-else-if="field.type == 'external-link'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <ExternalLinkInput v-model="field.value" :field="field" />
+          </div>
+        </template>
+        <template v-else-if="field.type == 'markdown'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <MdEditor v-model="field.value" />
+          </div>
+        </template>
+        <template v-else-if="field.type == 'map'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <Map v-model="field.value" :field="field" />
+          </div>
+        </template>
+        <template v-else-if="field.type == 'richtext'">
+          <div id="alignp-1" :class="`col-md-${field.column}`">
+            <div>
+              <label
+                :for="`field-${field.name}`"
+                class="form-label"
+                v-html="field.label"
+              ></label>
+              <editor
+                v-model="field.value"
+                api-key="7vy8ie0rxcb6wxvm6pwpvw6pqh74qjoq3beib9fpf8gd9l75"
+                :init="{
+                  height: 500,
+                  menubar: false,
+                  branding: false,
+                  plugins: [
+                    'advlist autolink lists link image charmap print preview anchor ',
+                    'searchreplace visualblocks  fullscreen',
+                    'insertdatetime media table paste  help wordcount ',
+                  ],
+                  toolbar:
+                    'undo redo | formatselect | bold italic underline  forecolor backcolor | image link media  | \
+           alignleft aligncenter alignright alignjustify table | \
+           bullist numlist outdent indent | removeformat | help preview',
+                }"
+                :disabled="field.edit === 'false'"
+                style="background-color: white"
+              />
+            </div>
+          </div>
+        </template>
         <template v-else-if="field.type == 'biglabel'">
           <h4>{{ field.label }}</h4>
         </template>
@@ -81,6 +127,7 @@
               v-html="field.label"
             ></label>
             <textarea
+              :disabled="field.edit === 'false'"
               v-if="field.special == true"
               :type="field.type"
               style="background-color: lightyellow"
@@ -97,9 +144,12 @@
               class="form-control"
               rows="5"
               v-model="field.value"
+              :disabled="field.edit === 'false'"
+              style="background-color: white"
             ></textarea>
           </div>
         </template>
+
         <template v-else>
           <div id="alignp-1" :class="`col-md-${field.column}`">
             <StandardInput v-model="field.value" :field="field" />
@@ -116,7 +166,7 @@
 </template>
 
 <script setup>
-import { toRefs, computed } from "vue";
+import { toRefs, computed, ref } from "vue";
 import {
   ManyToMany,
   OneToMany,
@@ -131,14 +181,19 @@ import {
   Image,
   Divider,
   StandardInput,
+  ExternalLinkInput,
+  Map,
 } from ".";
+import Editor from "@tinymce/tinymce-vue";
+import { MdEditor } from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
+const text = ref("# Hello Editor");
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
   fields: { type: Array, default: [] },
   // modelValue: { type: [Array,Object], default: [] },
 });
-
 const { fields } = toRefs(props);
 
 const data = () => {

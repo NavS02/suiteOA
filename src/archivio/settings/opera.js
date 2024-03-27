@@ -39,7 +39,6 @@ export default {
   collection: "opera",
   fields() {
     return [
-      
       new Image({
         name: "icona",
         label: "Icona",
@@ -49,12 +48,29 @@ export default {
         quality: 10,
         column: 4,
       }),
-      new Files({ name: 'images', label: 'Multiple Images', foreign_key:'directus_files_id', value:[],
-      fit: 'contain', width: 100, height: 100, quality: 80,column: 4 }),
-      new Files({ name: 'files', label: 'Multiple Files', foreign_key:'directus_files_id', value:[],
-      fit: 'contain', width: 100, height: 100, quality: 80,column:4 }),
+      new Files({
+        name: "images",
+        label: "Multiple Images",
+        foreign_key: "directus_files_id",
+        value: [],
+        fit: "contain",
+        width: 100,
+        height: 100,
+        quality: 80,
+        column: 4,
+      }),
+      new Files({
+        name: "files",
+        label: "Multiple Files",
+        foreign_key: "directus_files_id",
+        value: [],
+        fit: "contain",
+        width: 100,
+        height: 100,
+        quality: 80,
+        column: 4,
+      }),
 
-      
       new Divider({ type: "divider" }),
 
       new FormField({
@@ -67,7 +83,7 @@ export default {
       new RadioField({
         name: "lir",
         column: "4",
-        label: "Livello di ricerca",
+        label: "LIR-Livello di ricerca",
         type: "radio",
         value: "I",
         inline: true,
@@ -79,7 +95,7 @@ export default {
       }),
       new FormField({
         name: "tsk",
-        label: "Tipo Scheda",
+        label: "TSK-Tipo Scheda",
         type: "text",
         value: "OA",
         column: "2",
@@ -87,14 +103,14 @@ export default {
 
       new FormField({
         name: "nctr",
-        label: "Num. Regione",
+        label: "NCTR-Num. Regione",
         type: "text",
         value: "09",
         column: "2",
       }),
       new FormField({
         name: "nctn",
-        label: "Num. Catalogo",
+        label: "NCTN-Num. Catalogo",
         type: "text",
         value: "",
         column: "2",
@@ -102,19 +118,19 @@ export default {
 
       new FormField({
         name: "resti",
-        label: "Restituite",
+        label: "RESTI-Restituite",
         type: "toggle",
         value: "",
         column: "2",
       }),
 
       /* inventario */
-
+   
       new ManyToManyField({
         name: "inv",
-        label: "Numero Inventario",
+        label: "INV-Numero Inventario",
         value: [],
-        column: "4",
+        column: "3",
         related: "inv",
         collection: "inventario",
         foreign_key: "inv_id",
@@ -129,12 +145,12 @@ export default {
       }),
       new ManyToManyField({
         name: "acc",
-        label: "Altri codici",
+        label: "ACC-Altri codici",
         value: [],
         related: "acc",
         foreign_key: "acc_id",
         collection: "Altri codici",
-        column: "4",
+        column: "3",
         preview: (item) => {
           return `${item?.acc}`;
         },
@@ -148,7 +164,7 @@ export default {
         name: "stima",
         label: "Stima",
         value: [],
-        column: "4",
+        column: "3",
 
         related: "stima",
         foreign_key: "stima_id",
@@ -161,8 +177,18 @@ export default {
           return { stis: { _contains: text } };
         },
       }),
-      //File waiting for File upload
-
+      new SelectField({
+        name: "ubo",
+        label: "UBO-Ubicazione originaria",
+        type: "select",
+        value: "",
+        column: "3",
+        options: [
+          { value: "", label: "" },
+          { value: "OR", label: "Originaria" },
+          { value: "SC", label: "Sconosciuta" },
+        ],
+      }),
       new Divider({ type: "divider" }),
 
       new FormField({
@@ -175,7 +201,7 @@ export default {
       // OGTD
       new ManyToOneField({
         name: "ogtd",
-        label: "Definizione",
+        label: "OGTD-Definizione",
         value: null,
         related: "ogtd",
         type: "manyToOne",
@@ -193,7 +219,7 @@ export default {
 
       new ManyToOneField({
         name: "ogtt",
-        label: "Tipologia",
+        label: "OGTT-Tipologia",
         value: null,
         related: "ogtt",
         type: "manyToOne",
@@ -209,7 +235,7 @@ export default {
       }),
       new ManyToOneField({
         name: "ogtv",
-        label: "Identificazione",
+        label: "OGTV-Identificazione",
         value: null,
         related: "ogtv",
         type: "manyToOne",
@@ -227,21 +253,21 @@ export default {
 
       new FormField({
         name: "ogtn",
-        label: "Denominazione/ dedicazione",
+        label: "OGTN-Denominazione/ dedicazione",
         type: "text",
         value: "",
         column: "3",
       }),
       new FormField({
         name: "ogtp",
-        label: "Posizione",
+        label: "OGTP-Posizione",
         type: "text",
         value: "",
         column: "3",
       }),
       new FormField({
         name: "qntn",
-        label: "Quantità Numero",
+        label: "QNTN-Quantità Numero",
         type: "number",
         value: "",
         column: "3",
@@ -249,7 +275,7 @@ export default {
 
       new SelectField({
         name: "qnts",
-        label: "Quantità non rilevata ",
+        label: "QNTS-Quantità non rilevata ",
         type: "select",
         column: "3",
         value: "",
@@ -260,28 +286,28 @@ export default {
       }),
       new FormField({
         name: "desi",
-        label: "Codifica Iconclass",
+        label: "DESI-Codifica Iconclass",
         type: "text",
         value: "",
         column: "3",
       }),
       new FormField({
         name: "sgti",
-        label: "Soggetto",
+        label: "SGTI-Soggetto",
         type: "text",
         value: "",
         column: "6",
       }),
       new FormField({
         name: "sgtt",
-        label: "Titolo",
+        label: "SGTT-Titolo",
         type: "text",
         value: "",
         column: "6",
       }),
       new FormField({
         name: "deso",
-        label: "Indicazioni sull'oggetto",
+        label: "DESO-Indicazioni sull'oggetto",
         type: "textarea",
         value: "",
         column: "6",
@@ -289,15 +315,15 @@ export default {
 
       new FormField({
         name: "dess",
-        label: "Indicazioni sul soggetto",
+        label: "DESS-Indicazioni sul soggetto",
         type: "textarea",
         value: "",
         column: "6",
       }),
-    
+
       new FormField({
         name: "nsc",
-        label: "Notizie Storico Critiche",
+        label: "NSC-Notizie Storico Critiche",
         type: "textarea",
         value: "",
         column: "12",
@@ -327,7 +353,7 @@ export default {
       //Mtc
       new ManyToManyField({
         name: "mtc",
-        label: "Materia e Tecnica",
+        label: "MTC-Materia e Tecnica",
         value: [],
         column: "6",
 
@@ -344,7 +370,7 @@ export default {
       }),
       new FormField({
         name: "oss",
-        label: "Osservazioni",
+        label: "OSS-Osservazioni",
         type: "textarea",
         defaultValue: null,
         column: "12",
@@ -360,7 +386,7 @@ export default {
 
       new SelectField({
         name: "misu",
-        label: "Unità di misura",
+        label: "MISU-Unità di misura",
         type: "select",
         column: "2",
         value: "",
@@ -382,63 +408,63 @@ export default {
 
       new FormField({
         name: "misa",
-        label: "Altezza",
+        label: "MISA-Altezza",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "misl",
-        label: "Larghezza",
+        label: "MISL-Larghezza",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "misp",
-        label: "Profondità",
+        label: "MISP-Profondità",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "misd",
-        label: "Diametro",
+        label: "MISD-Diametro",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "misn",
-        label: "Lunghezza",
+        label: "MISN-Lunghezza",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "miss",
-        label: "Spessore",
+        label: "MISS-Spessore",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "misg",
-        label: "Peso",
+        label: "MISG-Peso",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "misv",
-        label: "Varie",
+        label: "MISV-Varie",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new SelectField({
         name: "misr",
-        label: "Mancanza",
+        label: "MISR-Mancanza",
         type: "select",
         column: "2",
         value: "",
@@ -449,7 +475,7 @@ export default {
       }),
       new SelectField({
         name: "mist",
-        label: "validità",
+        label: "MIST-validità",
         type: "select",
         column: "2",
         value: "",
@@ -461,7 +487,7 @@ export default {
 
       new ManyToOneField({
         name: "frm",
-        label: "Formato",
+        label: "FRM-Formato",
         value: null,
         related: "frm",
         column: "2",
@@ -503,16 +529,16 @@ export default {
       new Divider({ type: "divider" }),
 
       new FormField({
+        name: "Rof",
         label: "Rapporto Opera finale",
         type: "biglabel",
         value: "",
-        name: "Rof",
       }),
 
       //roff
       new ManyToOneField({
         name: "roff",
-        label: "Stadio opera",
+        label: "ROFF-Stadio opera",
         value: null,
         related: "roff",
         type: "manyToOne",
@@ -530,35 +556,35 @@ export default {
 
       new FormField({
         name: "rofo",
-        label: "Opera originale",
+        label: "ROFO-Opera originale",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "rofs",
-        label: "Soggetto opera originale",
+        label: "ROFS-Soggetto opera originale",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "rofa",
-        label: "Autore opera originale ",
+        label: "ROFA-Autore opera originale ",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "rofd",
-        label: "Datazione opera originale",
+        label: "ROFD-Datazione opera originale",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "rofc",
-        label: "Collocazione opera originale",
+        label: "ROFC-Collocazione opera originale",
         type: "text",
         defaultValue: null,
         column: "2",
@@ -576,7 +602,7 @@ export default {
       new ManyToOneField({
         name: "lc",
         voc: "open",
-        label: "Localizzazione",
+        label: "LC-Localizzazione (Provenienza)",
         value: null,
         related: "collocazione",
         type: "manyToOne",
@@ -593,7 +619,7 @@ export default {
 
       new FormField({
         name: "ldcs",
-        label: "Collocazione Specifica",
+        label: "LDCS-Collocazione Specifica",
         type: "text",
         value: "",
         column: "4",
@@ -644,7 +670,7 @@ export default {
       //stcc
       new SelectField({
         name: "stcc",
-        label: "Stato di Conservazione",
+        label: "STCC-Stato di Conservazione",
         type: "select",
         value: "",
         column: "6",
@@ -654,11 +680,12 @@ export default {
           { value: "discreto", label: "discreto" },
           { value: "mediocre", label: "mediocre" },
           { value: "cattivo", label: "cattivo" },
+          { value: "dato non disponibile", label: "dato non disponibile" },
         ],
       }),
       new FormField({
         name: "stcs",
-        label: "Indicazioni specifiche ",
+        label: "STCS-Indicazioni specifiche ",
         type: "text",
         defaultValue: null,
         column: "6",
@@ -698,7 +725,6 @@ export default {
         },
       }),
 
-
       //Compilazione
       new Divider({ type: "divider" }),
 
@@ -716,7 +742,7 @@ export default {
         value: [],
         related: "iscrizione",
         foreign_key: "iscrizione_id",
-        column:"6",
+        column: "6",
         preview: (item) => {
           return `${item?.isrp}`;
         },
@@ -882,7 +908,7 @@ export default {
 
       new ManyToManyField({
         name: "bib",
-        label: "Bibliografia",
+        label: "BIB-Bibliografia",
         value: [],
         related: "bib",
         foreign_key: "bib_id",
@@ -896,7 +922,7 @@ export default {
           return { biba: { _contains: text } };
         },
       }),
-      
+
       /* mostra */
       new ManyToManyField({
         name: "mostra",
@@ -925,7 +951,7 @@ export default {
 
       new ManyToOneField({
         name: "alnt",
-        label: "Alienazione Tipo",
+        label: "ALNT-Alienazione Tipo",
         value: null,
         related: "alnt",
         type: "manyToOne",
@@ -942,14 +968,14 @@ export default {
       }),
       new FormField({
         name: "alnd",
-        label: "Alienazione Data",
+        label: "ALND-Alienazione Data",
         type: "text",
         defaultValue: null,
         column: "4",
       }),
       new FormField({
         name: "alnn",
-        label: "Alienazione Note",
+        label: "ALNN-Alienazione Note",
         type: "text",
         defaultValue: null,
         column: "4",
@@ -958,7 +984,7 @@ export default {
       //cdgg
       new ManyToOneField({
         name: "cdgg",
-        label: "Indicazione generica",
+        label: "CDGG - Indicazione generica",
         value: null,
         related: "cdgg",
         type: "manyToOne",
@@ -975,14 +1001,14 @@ export default {
       }),
       new FormField({
         name: "cdgs",
-        label: "Indicazione specifica",
+        label: "CDGS-Indicazione specifica",
         type: "text",
         defaultValue: null,
         column: "4",
       }),
       new FormField({
         name: "cdgi",
-        label: "Indirizzo",
+        label: "CDGI-Indirizzo",
         type: "text",
         defaultValue: null,
         column: "4",
@@ -991,7 +1017,7 @@ export default {
       //acquisizione
       new ManyToOneField({
         name: "acqt",
-        label: "Tipo Acquisizione",
+        label: "ACQT-Tipo Acquisizione",
         value: null,
         related: "acqt",
         type: "manyToOne",
@@ -1009,21 +1035,21 @@ export default {
       }),
       new FormField({
         name: "acqn",
-        label: "Nome",
+        label: "ACQN-Nome",
         type: "text",
         defaultValue: null,
         column: "3",
       }),
       new FormField({
         name: "acqd",
-        label: "Data Acquisizione",
+        label: "ACQD-Data Acquisizione",
         type: "text",
         defaultValue: null,
         column: "3",
       }),
       new FormField({
         name: "acql",
-        label: "Luogo Acquisizione",
+        label: "ACQL-Luogo Acquisizione",
         type: "text",
         defaultValue: null,
         column: "3",
@@ -1041,39 +1067,38 @@ export default {
 
       new FormField({
         name: "cmpd",
-        label: "Data",
+        label: "CMPD-Data",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "cmpn",
-        label: "Compilatore",
+        label: "CMPN-Compilatore",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "fur",
-        label: "Funzionario",
+        label: "FUR-Funzionario",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "rvmd",
-        label: "Data revisione",
+        label: "RVMD-Data revisione",
         type: "text",
         defaultValue: null,
         column: "2",
       }),
       new FormField({
         name: "rvmn",
-        label: "Nome revisione",
+        label: "RVMN-Nome revisione",
         type: "text",
         defaultValue: null,
         column: "2",
-
       }),
       new FormField({
         name: "date_updated",
@@ -1081,7 +1106,7 @@ export default {
         type: "text",
         defaultValue: null,
         column: "2",
-        edit: 'false',
+        edit: "false",
       }),
     ];
   },

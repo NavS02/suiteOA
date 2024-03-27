@@ -3,9 +3,14 @@ import atbr from './ambito/atbr'
 import atbd from './ambito/atbd'
 
 import {
-    ManyToManyField,
-    ManyToOneField,
-  } from "../models";
+  FormField,
+  SelectField,
+  ManyToManyField,
+  RadioField,
+  ManyToOneField,
+  File,
+  Image,
+} from "../models";
   
 export default {
     collection: 'ambito',
@@ -14,7 +19,7 @@ export default {
           
           new ManyToOneField({
             name: "atbd",
-            label: "Denominazione",
+            label: "ATBD-Denominazione",
             value: null,
             related: "atbd",
             type: "manyToOne",
@@ -30,7 +35,7 @@ export default {
           }),
             new ManyToOneField({
                 name: "atbr",
-                label: "Riferimento all\'intervento",
+                label: "ATBR-Riferimento all\'intervento",
                 value: null,
                 related: "atbr",
                 type: "manyToOne",
@@ -46,7 +51,7 @@ export default {
               }),
               new ManyToManyField({
                 name: "atbm",
-                label: "Motivazione",
+                label: "ATBM-Motivazione",
                 value: [],
                 related: "atbm",
                 foreign_key: "atbm_id",

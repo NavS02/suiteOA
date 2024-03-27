@@ -47,15 +47,29 @@ export default {
                 >
               </li>
               <li class="list-group-item">
-               <router-link class="nav-link" :to="{ name: 'searchInv' }">
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'searchInv', params: { query: 'null' } }"
+                >
                   <i class="bi bi-search text-warning"></i> Cerca</router-link
-                  
                 >
               </li>
               <li class="list-group-item">
-                <router-link class="nav-link" :to="{ name: 'createInv',params:{collection:'inventario'} }">
+                <router-link
+                  class="nav-link"
+                  :to="{
+                    name: 'createInv',
+                    params: { collection: 'inventario' },
+                  }"
+                >
                   <i class="bi bi-file-earmark-plus text-info"></i>
                   Nuova scheda</router-link
+                >
+              </li>
+              <li class="list-group-item">
+                <router-link class="nav-link" :to="{ name: 'ItemsMap' }">
+                  <i class="bi bi-map"></i>
+                  Mappa</router-link
                 >
               </li>
             </ul>
@@ -86,53 +100,64 @@ export default {
               <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listInv',params:{collection:'inventario'} }"
+                  :to="{
+                    name: 'listInv',
+                    params: { collection: 'inventario' },
+                  }"
                   >Inventario</router-link
                 >
               </li>
-               <li class="list-group-item">
+              <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listInv',params:{collection:'inv_oggetto'} }"
+                  :to="{
+                    name: 'listInv',
+                    params: { collection: 'inv_oggetto' },
+                  }"
                   >Oggetto</router-link
                 >
               </li>
-                  <li class="list-group-item">
+              <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listInv',params:{collection:'inv_materia'} }"
+                  :to="{
+                    name: 'listInv',
+                    params: { collection: 'inv_materia' },
+                  }"
                   >Materia</router-link
                 >
               </li>
-                 <li class="list-group-item">
+              <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listInv',params:{collection:'inv_stima'} }"
+                  :to="{ name: 'listInv', params: { collection: 'inv_stima' } }"
                   >Stima</router-link
                 >
               </li>
-               <li class="list-group-item">
+              <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listInv',params:{collection:'inv_ubicazione'} }"
+                  :to="{
+                    name: 'listInv',
+                    params: { collection: 'inv_ubicazione' },
+                  }"
                   >Ubicazione</router-link
                 >
               </li>
-               <!-- <li class="list-group-item">
+              <!-- <li class="list-group-item">
                 <router-link
                   class="nav-link"
                   :to="{ name: 'listInv',params:{collection:'inv_piano'} }"
                   >Piano</router-link
                 >
               </li>  -->
-               <li class="list-group-item">
+              <li class="list-group-item">
                 <router-link
                   class="nav-link"
-                  :to="{ name: 'listInv',params:{collection:'inv_sala'} }"
+                  :to="{ name: 'listInv', params: { collection: 'inv_sala' } }"
                   >Sala</router-link
                 >
-              </li> 
-              
+              </li>
 
               <!---<li class="nav-item"><router-link class="nav-link" :to="{name:'listItems',params:{collection:'autore'}}">Autori</router-link></li>
           <li class="nav-item"><router-link class="nav-link" :to="{name:'notes'}">Notes</router-link></li>--->
@@ -161,16 +186,45 @@ export default {
         >
           <div class="accordion-body">
             <ul class="list-group">
+              <li class="list-group-item">
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'printItemI', params: { id: 0 } }"
+                  ><i class="bi bi-printer"></i> Stampa item</router-link
+                >
+              </li>
+              <li class="list-group-item">
+                <router-link class="nav-link" :to="{ name: 'modelFavI' }">
+                  <i class="bi bi-printer"></i> Stampa i preferiti</router-link
+                >
+              </li>
               <!-- <li class="list-group-item">
-                  <i class="bi bi-printer"></i> Stampa i preferiti
-              </li> -->
-             
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'modelFavI', params: { id: 0 } }"
+                  >Stampa i preferiti</router-link
+                >
+              </li>
+              <li class="list-group-item">
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'modelSanI', params: { id: 0 } }"
+                  >Stampa sanitaria</router-link
+                >
+              </li>
+              <li class="list-group-item">
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'modelPresI', params: { id: 0 } }"
+                  >Stampa prestito</router-link
+                >
+              </li>
+             -->
             </ul>
           </div>
         </div>
       </div>
     </div>
-
   </aside>
   <!-- End Sidebar-->
 </template>

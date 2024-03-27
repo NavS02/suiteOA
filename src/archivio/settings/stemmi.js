@@ -1,12 +1,12 @@
 import {
-    FormField,
-    SelectField,
-    ManyToManyField,
-    RadioField,
-    ManyToOneField,
-    File,
-    Image,
-  } from "../models";
+  FormField,
+  SelectField,
+  ManyToManyField,
+  RadioField,
+  ManyToOneField,
+  File,
+  Image,
+} from "../models";
   import stmc from './stemmi/stmc'
 import stmq from './stemmi/stmq'
 
@@ -16,7 +16,7 @@ export default {
         return [
             new ManyToOneField({
                 name: "stmc",
-                label: "Classe di appartenenza",
+                label: "STMC-Classe di appartenenza",
                 value: null,
                 related: "stmc",
                 type: "manyToOne",
@@ -32,7 +32,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "stmq",
-                label: "Qualificazione",
+                label: "STMQ-Qualificazione",
                 value: null,
                 related: "stmq",
                 type: "manyToOne",
@@ -48,10 +48,10 @@ export default {
               }),
            //stmc waiting for select box 
            //stmq waiting for select box 
-            new FormField({ name: 'stmi', label: 'Identificazione', type: 'text', value: '' }),
-            new FormField({ name: 'stmu', label: 'Quantità', type: 'number', value: '' }),
-            new FormField({ name: 'stmp', label: 'Posizione', type: 'text', value: '' }),
-            new FormField({ name: 'stmd', label: 'Descrizione', type: 'text', value: '' }),
+            new FormField({ name: 'stmi', label: 'STMI-Identificazione', type: 'text', value: '' }),
+            new FormField({ name: 'stmu', label: 'STMU-Quantità', type: 'number', value: '' }),
+            new FormField({ name: 'stmp', label: 'STMP-Posizione', type: 'text', value: '' }),
+            new FormField({ name: 'stmd', label: 'STMD-Descrizione', type: 'text', value: '' }),
            
         ]
     },

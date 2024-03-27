@@ -15,7 +15,7 @@
 
 <script setup>
 import { toRefs, computed } from 'vue'
-import { RadioField } from '../../../models';
+import { RadioField } from '../../../../models';
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({

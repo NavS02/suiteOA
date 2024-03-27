@@ -1,12 +1,12 @@
 import {
-    FormField,
-    SelectField,
-    ManyToManyField,
-    RadioField,
-    ManyToOneField,
-    File,
-    Image,
-  } from "../models";
+  FormField,
+  SelectField,
+  ManyToManyField,
+  RadioField,
+  ManyToOneField,
+  File,
+  Image,
+} from "../models";
   import isrc from './iscrizione/isrc'
 import isrl from './iscrizione/isrl'
 import isrs from './iscrizione/isrs'
@@ -18,7 +18,7 @@ export default {
         return [
             new ManyToOneField({
                 name: "isrc",
-                label: "Classe di appartenenza",
+                label: "ISRC-Classe di appartenenza",
                 value: null,
                 related: "isrc",
                 type: "manyToOne",
@@ -34,7 +34,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "isrl",
-                label: "Lingua",
+                label: "ISRL-Lingua",
                 value: null,
                 related: "isrl",
                 type: "manyToOne",
@@ -53,7 +53,7 @@ export default {
 
               new ManyToOneField({
                 name: "isrs",
-                label: "Tecnica di scrittura",
+                label: "ISRS-Tecnica di scrittura",
                 value: null,
                 related: "isrs",
                 type: "manyToOne",
@@ -69,7 +69,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "isrt",
-                label: "Tipo di caratteri",
+                label: "ISRT-Tipo di caratteri",
                 value: null,
                 related: "isrt",
                 type: "manyToOne",
@@ -86,9 +86,9 @@ export default {
 
 
 
-            new FormField({ name: 'isrp', label: 'Posizione', type: 'text', value: '' }),
-            new FormField({ name: 'isra', label: 'Autore', type: 'text', value: '' }),
-            new FormField({ name: 'isri', label: 'Trascrizione', type: 'textarea', value: '' }),
+            new FormField({ name: 'isrp', label: 'ISRP-Posizione', type: 'text', value: '' }),
+            new FormField({ name: 'isra', label: 'ISRA-Autore', type: 'text', value: '' }),
+            new FormField({ name: 'isri', label: 'ISRI-Trascrizione', type: 'textarea', value: '' }),
            
         ]
     },

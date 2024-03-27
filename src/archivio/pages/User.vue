@@ -115,9 +115,7 @@
 
                     <div class="row align-items-center justify-content-between">
                       <div class="col-lg-3 col-md-3 label">Compagnia</div>
-                      <div class="col-lg-9 col-md-9">
-                        Opera della Metropolitana
-                      </div>
+                      <div class="col-lg-9 col-md-9">Museo diocesano</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
@@ -455,6 +453,60 @@
               </div>
             </div>
           </div>
+          <div
+            class="modal fade show"
+            id="ExtralargeModal"
+            tabindex="-1"
+            style="display: block"
+            aria-modal="true"
+            role="dialog"
+            v-if="showAlert"
+          >
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Tipo de stampa</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    @click="closeAlert"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- First print type -->
+                      <div class="card cardSelector">
+                        <div class="card-body">
+                          <h5 class="card-title">Stampa sanitaria</h5>
+                          <img
+                            src="/sSanitaria.png"
+                            style="width: 100%"
+                            @click="printS(item)"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <!-- Second print type -->
+                      <div class="card cardSelector">
+                        <div class="card-body">
+                          <h5 class="card-title">Stampa prestito</h5>
+                          <img
+                            src="/sPrestito.png"
+                            style="width: 100%"
+                            @click="printP(item)"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -469,7 +521,7 @@
 import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import store from "../store";
+import store from "../../store";
 import * as settings from "../settings/";
 import { directus } from "../API/";
 import Table from "../components/common/Table/Table.vue";
@@ -488,8 +540,10 @@ export default {
     let collection = ref();
     let fields = ref();
     let items = ref();
-    const me=ref()
-   
+    const me = ref();
+    const showAlert = ref(false);
+    let currentItem = ref();
+
     // watch the route and update data based on the collection param
     watch(
       route,
@@ -501,15 +555,21 @@ export default {
         // // define the subset of fields you need to view in the table
         const collectionFields = itemSettings.tableFields();
         fields.value = collectionFields;
-    fetchData();
-
+        fetchData();
       },
       { immediate: true, deep: true }
     );
 
     async function fetchData() {
-       me.value = await directus.users.me.read();
-
+      me.value = await directus.users.me.read();
+  const myRol = await directus.items("directus_roles").readByQuery({
+        filter: {
+          id: {
+            _eq: me.value.role,
+          },
+        },
+      });
+      me.value.role=myRol.data[0].name
       const response = await directus.items(collection.value).readByQuery({
         filter: {
           user_created: {
@@ -560,12 +620,24 @@ export default {
       });
     }
     function onInfoClicked(item) {
+      currentItem.value = item.id_opera;
+      showAlert.value = true;
+    }
+    function closeAlert() {
+      showAlert.value = false;
+    }
+    function printS() {
       router.push({
-        name: "InfoItemArch",
-        params: { collection: "opera", id: item.id_opera },
+        name: "modelSan",
+        params: { id: currentItem.value },
       });
     }
-
+    function printP() {
+      router.push({
+        name: "modelPres",
+        params: { id: currentItem.value },
+      });
+    }
     return {
       authenticated,
       user,
@@ -574,6 +646,8 @@ export default {
       fields,
       userRol,
       imageurl,
+      showAlert,
+      currentItem,
       confirmLogout,
       fetchData,
       onSaveClicked,
@@ -581,6 +655,9 @@ export default {
       updateImage,
       onEditClicked,
       onChangeUserData,
+      closeAlert,
+      printS,
+      printP,
       toggleClass,
       isToggled: false,
     };

@@ -18,7 +18,7 @@ export default {
     return [
       new ManyToOneField({
         name: "ftax",
-        label: "Genere",
+        label: "FTAX-Genere",
         value: null,
         related: "ftax",
         type: "manyToOne",
@@ -34,7 +34,7 @@ export default {
       }),
       new ManyToManyField({
         name: "ftap",
-        label: "Tipo",
+        label: "FTAP-Tipo",
         value: [],
         related: "ftap",
         foreign_key: "ftap_id",

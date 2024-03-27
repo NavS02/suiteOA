@@ -1,5 +1,12 @@
-import FormField from '../FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../../models";
 
 export default {
     collection: 'prvl',
@@ -7,7 +14,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'prvr', label: 'Regione', type: 'text', value: '' }),
+            new FormField({ name: 'prvr', label: 'PRVR-Regione', type: 'text', value: '' }),
             
            
         ]

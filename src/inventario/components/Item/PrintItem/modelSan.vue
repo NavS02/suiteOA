@@ -16,7 +16,7 @@
       <div class="card" style="width: 100%; height: 50%">
         <div class="card-header">
           <img
-            src="/logoSiena.png"
+            src="logoSiena.png"
             alt=""
             class="center"
             style="width: 300px"
@@ -124,7 +124,7 @@
 import { ref, toRefs, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { directus } from "../../../API";
-import store from "../../../store";
+import store from "../../../../store";
 import * as settings from "../../../settings";
 import html2pdf from "html2pdf.js";
 
@@ -142,7 +142,7 @@ export default {
     const url = ref("/not-found.svg");
     const image = ref();
     let epoca = ref("");
-    let currentId = id.value;
+    let currentId = parseInt(id.value);
     // Watch for changes in the route object
     watch(
       route,
@@ -164,6 +164,9 @@ export default {
         margin: 0.2,
         filename: new Date() + ".pdf",
         image: { type: "png", quality: 0.5 },
+         pagebreak: {
+        mode: ['avoid-all', 'css', 'legacy']
+    },
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
       };
@@ -178,7 +181,7 @@ export default {
     }
     function changeItem() {
       currentId = document.getElementById("idItem").value;
-      router.push({ name: 'modelSan', params: { id: currentId }  })
+      router.push({ name: 'modelSanI', params: { id: currentId }  })
       url.value=null;
 
     }
@@ -196,7 +199,7 @@ export default {
               },
             });
           } else {
-            item = await directus.items("opera").readByQuery({
+            item = await directus.items("inventario").readByQuery({
               filter: {
                 id: {
                   _eq: id.value,
@@ -424,7 +427,8 @@ export default {
             },
           });
           image.value = imgresponse.data[0].icona; //takes the id of the image
-          if (image.value != null) {
+          if (image.value !== null) {
+            alert(image.value)
             const imageUrl = url.value + "/assets/" + image.value; // generates url
             const imageElement = document.getElementById("my-image");
 

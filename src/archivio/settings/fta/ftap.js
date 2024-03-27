@@ -13,7 +13,7 @@ import {
     fields() {
       return [
         
-        new FormField({ name: "ftap", label: "Tipo", type: "text", value: "" }),
+        new FormField({ name: "ftap", label: "FTAP-Tipo", type: "text", value: "" }),
       ];
     },
   

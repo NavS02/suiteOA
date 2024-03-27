@@ -135,14 +135,47 @@ export default {
 </script>
 
 <style scoped>
-.table>:not(:first-child) {
-    border-top: 2px solid #ededed;
-    padding-bottom: 10px;
-}
 table {
-    overflow: hidden;
+    --border-color: #dee2e6;
+    border: 1px solid var(--border-color);
+} 
+table th,
+table td {
+    padding: 2px 10px;
+    border: solid 1px var(--border-color);
+    position: relative;
 }
-th {
-    padding: 13px;
+th.sortable {
+    cursor: pointer;
 }
+th [data-sort-indicator] {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: flex;
+    align-items: center;
+}
+th [data-sort-indicator] .sort-index {
+    font-size: 9px;
+}
+th [data-sort-indicator] .sort-direction {
+    /* fixed weight */
+    text-align: center;
+    width: 1.25em;
+}
+.sort-index {
+    min-width: 5px;
+    display: inline-block;
+}
+
+.striped tr:nth-child( even ) {
+
+}
+.striped tr:nth-child( odd ) {
+    background-color: rgba(0,0,0,.05);
+}
+.hover tr:hover {
+    background-color: rgba(0,0,0,.075);
+}
+
 </style>

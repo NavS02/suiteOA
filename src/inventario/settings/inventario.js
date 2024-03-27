@@ -14,6 +14,7 @@ import inv_stima from "./inv_stima";
 import inv_ubicazione from "./inv_ubicazione";
 import inv_piano from "./inv_piano";
 import inv_sala from "./inv_sala";
+import inv_collocazione from "./inv_collocazione";
 
 export default {
   collection: "inventario",
@@ -126,6 +127,22 @@ export default {
         label: "Descrizione",
         type: "textarea",
         value: "",
+      }),
+      new ManyToOneField({
+        name: "inv_collocazione",
+        label: "Collocazione",
+        value: null,
+        related: "inv_collocazione",
+        type: "manyToOne",
+        column: "12",
+        preview: (item) => {
+          return `${item?.inv_collocazione}`;
+        },
+        fields: inv_collocazione.fields,
+        filter: (text) => {
+          if (text.trim() === "") return {};
+          return { inv_collocazione: { _contains: text } };
+        },
       }),
       new ManyToOneField({
         name: "inv_ubicazione",
@@ -247,14 +264,16 @@ export default {
         collection: "inv_stima",
         foreign_key: "inv_stima_id",
         preview: (item) => {
-          return `${item?.inv_stima}`;
+          return `${item?.inv_stis}`;
         },
         fields: inv_stima.fields,
         filter: (text) => {
           if (text.trim() === "") return {};
-          return { inv_stima: { _contains: text } };
+          return { stis: { _contains: text } };
         },
       }),
+
+   
       new FormField({
         name: "acquisizione",
         label: "Acquisizione",
@@ -282,10 +301,11 @@ export default {
   tableFields() {
     return [
       { key: "id", label: "ID", sortable: true },
-      { key: "invn", label: "inventario", sortable: true },
+      { key: "invn", label: "Inventario", sortable: true },
       { key: "quantita", label: "Quantita", sortable: false },
       { key: "soggetto", label: "Soggetto", sortable: true },
       { key: "autore", label: "Autore", sortable: true },
+
       { key: "actions", label: "Azione", sortable: false },
     ];
   },

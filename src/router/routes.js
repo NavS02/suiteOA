@@ -17,6 +17,9 @@ import HomeInv from '../inventario/pages/Home.vue'
 import searchInv from '../inventario/components/Item/SearchItem.vue'
 import EditItemInv from '../inventario/components/Item/EditItem.vue'
 import userInv from '../inventario/pages/User.vue'
+import modelFavI from "../inventario/components/Item/PrintItem/modelFav.vue";
+import printItemI from "../inventario/components/Item/PrintItem/printItem.vue";
+import ItemsMap from '../inventario/components/Item/ItemsMap.vue'
 
 
 // ARCHIVIO
@@ -45,9 +48,12 @@ const routes = [
             { path: '/inventario/home',  name: 'homeInv', component: HomeInv,props:true  },
             { path: '/inventario/:collection', name: 'listInv', component: ListItemsInv ,props: true,meta: { requiresAuth: true }},
             { path: '/inventario/create/:collection', name: 'createInv', component: CreateItemInv, props: true,meta: { requiresAuth: true } },
-            { path: '/inventario/search', name: 'searchInv', component: searchInv, props: true,meta: { requiresAuth: true } },
+            { path: '/inventario/search/:query', name: 'searchInv', component: searchInv, props: true,meta: { requiresAuth: true } },
             { path: '/inventario/edit/:collection/:id', name: 'editItemInv', component: EditItemInv, props: true, },
             { path: '/inventario/profile', name: 'userInv', component: userInv, props: true, },
+            { path: '/inventario/print/single/:id', name: 'printItemI', component: printItemI, props: true, },
+            { path: '/inventario/print/pref', name: 'modelFavI', component: modelFavI, props: true, },
+            { path: '/inventario/map', name: 'ItemsMap', component: ItemsMap, props: true, },
             
             
         ] },

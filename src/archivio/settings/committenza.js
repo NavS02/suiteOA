@@ -1,15 +1,22 @@
-import FormField from './FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../models";
 
 export default {
     collection: 'committenza',
     fields() {
         return [
 
-            new FormField({ name: 'cmmn', label: 'Nome', type: 'text', value: '' }),
-            new FormField({ name: 'cmmd', label: 'Data', type: 'text', value: '' }),
-            new FormField({ name: 'cmmmc', label: 'Circonstanza', type: 'text', value: '' }),
-            new FormField({ name: 'cmmmf', label: 'Fonte', type: 'text', value: '' }),
+            new FormField({ name: 'cmmn', label: 'CMMN-Nome', type: 'text', value: '' }),
+            new FormField({ name: 'cmmd', label: 'CMMD-Data', type: 'text', value: '' }),
+            new FormField({ name: 'cmmmc', label: 'CMMMC-Circonstanza', type: 'text', value: '' }),
+            new FormField({ name: 'cmmmf', label: 'CMMMF-Fonte', type: 'text', value: '' }),
            
         ]
     },

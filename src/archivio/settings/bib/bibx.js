@@ -1,12 +1,19 @@
-import FormField from '../FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../../models";
 
 export default {
     collection: 'bibx',
     fields() {
         return [
 
-            new FormField({ name: 'bibx', label: 'Genere', type: 'text', value: '' }),
+            new FormField({ name: 'bibx', label: 'BIBX-Genere', type: 'text', value: '' }),
             
            
         ]

@@ -13,7 +13,7 @@ export default {
     fields() {
         return [
             
-            new FormField({ name: 'isrs', label: 'Tecnica di scrittura', type: 'text', value: '' }),
+            new FormField({ name: 'isrs', label: 'ISRS-Tecnica di scrittura', type: 'text', value: '' }),
            
         ]
     },

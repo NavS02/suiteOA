@@ -2,38 +2,40 @@
     <slot name="label">
         <label :for="`field-${field.name}`" class="form-label" v-html="field.label"></label>
     </slot>
-    <template v-if="asset?.id">
-        <div :id="`field-${field.name}`" class="d-flex flex-row align-items-end">
-            
-            <div class="me-2">
-                <img :src="thumbnail(asset, imageOptions)" />
-            </div>
-            <div class="d-flex flex-column">
-                <FileMetadata :file="asset" />
-                <FileActions :file="asset" 
-                    @downloadFile="onDownloadClicked"
-                    @showFile="onShowAssetClicked"
-                    @deleteFile="onDeleteFileClicked"
-                />
-            </div>
+    <div class="border rounded p-2">
+        <template v-if="asset?.id">
+            <div :id="`field-${field.name}`" class="d-flex flex-row align-items-end">
+                
+                <div class="me-2">
+                    <img :src="thumbnail(asset, imageOptions)" />
+                </div>
+                <div class="d-flex flex-column">
+                    <FileMetadata :file="asset" />
+                    <FileActions :file="asset" 
+                        @downloadFile="onDownloadClicked"
+                        @showFile="onShowAssetClicked"
+                        @deleteFile="onDeleteFileClicked"
+                    />
+                </div>
 
-        </div>
-    </template>
-    <template v-else>
-        <div class="d-flex gap-2 mt-2">
-            <UploadModal @filesSelected="onFilesSelected">
-                <template #button-text>Upload Image</template>
-            </UploadModal>
-            <AssetsModal @filesSelected="onFilesSelected" :filter="filesFilter">
-                <template #button-text>Selezionare</template>
-            </AssetsModal>
-        </div>
-    </template>
+            </div>
+        </template>
+        <template v-else>
+            <div class="d-flex gap-2 mt-2" v-if="field.edit !== 'false'">
+                <UploadModal @filesSelected="onFilesSelected">
+                    <template #button-text>Upload Image</template>
+                </UploadModal>
+                <AssetsModal @filesSelected="onFilesSelected" :filter="filesFilter">
+                    <template #button-text>Select existing</template>
+                </AssetsModal>
+            </div>
+        </template>
+    </div>
 </template>
 
 <script setup>
 import { ref, toRefs, computed, provide, inject } from 'vue'
-import { Image as ImageModel } from '../../../../models';
+import { Image as ImageModel } from '../../../../../models';
 import { useAsset } from '../../../../../utils'
 import { accessToken, baseURL } from '../../../../API';
 import UploadModal from './UploadModal.vue';
@@ -65,7 +67,7 @@ function deleteAsset() {
 }
 
 async function onDeleteFileClicked(_file) {
-    const confirmed = await modal.confirm({title:'Confirm', body:'Sei sicuro di voler eliminare questo elemento?'})
+    const confirmed = await modal.confirm({title:'Confirm', body:'Are you shure you want to delete this item?'})
     if(!confirmed) return
     deleteAsset()
 }

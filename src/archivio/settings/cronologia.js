@@ -16,12 +16,12 @@ export default {
     fields() {
         return [
             
-           new FormField({ name: 'dtzg', label: 'Secolo', type: 'text', value: '' }),
+           new FormField({ name: 'dtzg', label: 'DTZG-Secolo', type: 'text', value: '' }),
           // waiting for select box dtzs
-           new FormField({ name: 'dtsi', label: 'Da', type: 'number', value: '' }),
+           new FormField({ name: 'dtsi', label: 'DTSI', type: 'number', value: '' }),
            new SelectField({
             name: "dtsv",
-            label: "Validità",
+            label: "DTSV-Validità",
             type: "select",
             value: "",
             options: [
@@ -34,10 +34,10 @@ export default {
 
             ],
           }),
-           new FormField({ name: 'dtsf', label: 'A', type: 'number', value: '' }),
+           new FormField({ name: 'dtsf', label: 'DTSF', type: 'number', value: '' }),
            new SelectField({
             name: "dtsl",
-            label: "Validità",
+            label: "DTSL-Validità",
             type: "select",
             value: "",
             options: [
@@ -54,7 +54,7 @@ export default {
 
         new ManyToManyField({
             name: "dtm",
-            label: "Motivazione della datazione",
+            label: "DTM-Motivazione della datazione",
             value: [],
             related: "dtm",
             voc:"close",
@@ -71,7 +71,7 @@ export default {
 
         new ManyToManyField({
             name: "adt",
-            label: 'Altre datazioni',
+            label: 'ADT-Altre datazioni',
             value: [],
             related: "adt",
             foreign_key: "adt_id",

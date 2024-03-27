@@ -23,12 +23,12 @@
                 </div>
             </div>
         </template>
-        <div class="d-flex gap-2 mt-2">
+        <div class="d-flex gap-2 mt-2" v-if="field.edit !== 'false'">
             <UploadModal @filesSelected="onFilesSelected">
                 <template #button-text>Upload files</template>
             </UploadModal>
             <AssetsModal @filesSelected="onFilesSelected" :files="items" multiple>
-                <template #button-text>Selezionare</template>
+                <template #button-text>Select existing</template>
             </AssetsModal>
         </div>
     </div>
@@ -82,7 +82,7 @@ function deleteAsset(_file) {
 }
 
 async function onDeleteFileClicked(_file) {
-    const confirmed = await modal.confirm({title:'Confirm', body:'Sei sicuro di voler eliminare questo elemento?'})
+    const confirmed = await modal.confirm({title:'Confirm', body:'Are you shure you want to delete this item?'})
     if(!confirmed) return
     deleteAsset(toRaw(_file))
 }

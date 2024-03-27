@@ -1,5 +1,12 @@
-import FormField from '../FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../../models";
 
 export default {
     collection: 'isrt',
@@ -7,7 +14,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'isrt', label: 'Tipo di caratteri', type: 'text', value: '' }),
+            new FormField({ name: 'isrt', label: 'ISRT-Tipo di caratteri', type: 'text', value: '' }),
             
            
         ]

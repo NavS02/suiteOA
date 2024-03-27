@@ -1,10 +1,17 @@
-import FormField from '../FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../../models";
 export default {
     collection: 'ambito',
     fields() {
         return [
-            new FormField({ name: 'atbd', label: 'Denominazione', type: 'text', value: '' }),
+            new FormField({ name: 'atbd', label: 'ATBD-Denominazione', type: 'text', value: '' }),
           
        
            

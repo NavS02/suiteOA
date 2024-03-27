@@ -1,11 +1,18 @@
-import {FormField, OneToManyField} from '../../models'
-import { opera } from '..'
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../../models";import { opera } from '..'
 
 export default {
     collection: 'opere',
     fields() {
         return [
-            new FormField({ name: 'sti_tipo', label: 'Tipologia', type: 'text', value: '' }),
+            new FormField({ name: 'sti_tipo', label: 'STI_TIPO-Tipologia', type: 'text', value: '' }),
             
         ]
     },

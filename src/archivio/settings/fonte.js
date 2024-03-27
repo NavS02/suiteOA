@@ -1,5 +1,12 @@
-import { FormField, ManyToOneField } from "../models";
-//fntp
+import {
+  FormField,
+  SelectField,
+  ManyToManyField,
+  RadioField,
+  ManyToOneField,
+  File,
+  Image,
+} from "../models";
 import fntp from "./fntp";
 
 export default {
@@ -8,7 +15,7 @@ export default {
     return [
       new ManyToOneField({
         name: "fntp",
-        label: "Tipo",
+        label: "FNTP-Tipo",
         value: null,
         related: "fntp",
         type: "manyToOne",
@@ -22,13 +29,13 @@ export default {
           return { fntp: { _contains: text } };
         },
       }),
-        new FormField({ name: "fnta", label: "Autore", type: "text", value: "" }),
-      new FormField({ name: "fntt", label: "Denominazione", type: "text", value: "" }),
-      new FormField({ name: "fntd", label: "Data", type: "text", value: "" }),
-      new FormField({ name: "fntf", label: "Foglio / Carta", type: "text", value: "" }),
-      new FormField({ name: "fntn", label: "Nome Archivio", type: "text", value: "" }),
-      new FormField({ name: "fnts", label: "Posizione", type: "text", value: "" }),
-      new FormField({ name: "fnti", label: "Codice", type: "text", value: "" }),
+        new FormField({ name: "fnta", label: "FNTA-Autore", type: "text", value: "" }),
+      new FormField({ name: "fntt", label: "FNTT-Denominazione", type: "text", value: "" }),
+      new FormField({ name: "fntd", label: "FNTD-Data", type: "text", value: "" }),
+      new FormField({ name: "fntf", label: "FNTF-Foglio / Carta", type: "text", value: "" }),
+      new FormField({ name: "fntn", label: "FNTN-Nome Archivio", type: "text", value: "" }),
+      new FormField({ name: "fnts", label: "FNTS-Posizione", type: "text", value: "" }),
+      new FormField({ name: "fnti", label: "FNTI-Codice", type: "text", value: "" }),
     ];
   },
 

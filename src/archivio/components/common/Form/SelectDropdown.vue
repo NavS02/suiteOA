@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, toRefs, computed } from 'vue'
-import SelectField from '../../../models/SelectField'
+import SelectField from '../../../../models/SelectField'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({

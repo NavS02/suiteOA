@@ -1,5 +1,12 @@
-import {FormField, OneToManyField} from '../models'
-import { opera } from '.'
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../models";import { opera } from '.'
 
 export default {
     collection: 'opere',

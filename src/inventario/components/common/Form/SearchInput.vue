@@ -1,9 +1,9 @@
 <template>
     <div class="input-group">
-        <input class="form-control" type="search" v-model="query" placeholder="3 caratteri min..."  @keyup.enter="onSearch" @search="onCommit"/>
+        <input class="form-control" type="search" v-model="query" placeholder="3 characters min..."  @keyup.enter="onSearch" @search="onCommit"/>
         <button class="btn btn-sm btn-primary" @click="onSearch">
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" fixed-width/>
-            <span class="ms-1">Cerca</span>
+            <span class="ms-1">Search</span>
         </button>
     </div>
 </template>

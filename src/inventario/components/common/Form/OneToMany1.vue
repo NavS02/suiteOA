@@ -25,7 +25,7 @@
                 <slot :item="item"></slot>
             </template>
 
-            <div class="buttons d-flex gap-2">
+            <div class="buttons d-flex gap-2" v-if="field.edit !== 'false'">
                 <button class="btn btn-sm btn-primary" @click="onCreateNewClicked">
                     <font-awesome-icon icon="fa-solid fa-plus" fixed-width/>
                     <span class="ms-1">Creare</span>
@@ -41,7 +41,7 @@
 
     <Drawer ref="createDrawer">
         <template v-slot:header>
-            <span>Creare</span>
+            <span>Create item</span>
         </template>
 
         <MyForm :fields="newItemFields" v-model="newItem">
@@ -50,7 +50,7 @@
 
     <Drawer ref="selectDrawer">
         <template v-slot:header>
-            <span>Selezionare</span>
+            <span>Select item</span>
         </template>
         <SelectExisting :collection="related" :useQuery="useQuery" v-slot="{items}">
             <template v-for="(item, index) in items" :key="index">

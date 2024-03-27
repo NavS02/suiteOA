@@ -1,5 +1,11 @@
 import {
     FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
   } from "../models";
 
 export default {
@@ -7,7 +13,7 @@ export default {
     fields() {
         return [
       
-            new FormField({ name: 'fntp', label: 'Tipo', type: 'text', value: '' }),
+            new FormField({ name: 'fntp', label: 'FNTP-Tipo', type: 'text', value: '' }),
            
            
         ]

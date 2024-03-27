@@ -8,7 +8,7 @@
             <template #button>
                 {{buttonText}}
             </template>
-            <template v-for="(option, index) in field.options" :key="index">
+            <template v-for="(option, index) in field.options" :key="index" v-if="field.edit !== 'false'">
                 <b-dropdown-item @click="selected = option.value">{{ option.label ?? option.value }}</b-dropdown-item>
             </template>
         </b-dropdown>
@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, toRefs, computed } from 'vue'
-import SelectField from '../../../models/SelectField'
+import SelectField from '../../../../models/SelectField'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({

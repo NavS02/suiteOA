@@ -26,7 +26,7 @@
 <script setup>
 import { toRefs, computed, provide } from 'vue'
 import { Image as ImageModel } from '../../../../models';
-import { useAsset } from '../../../../utils';
+import { useAsset } from '../../../../../utils';
 import { accessToken, baseURL } from '../../../../API';
 import UploadModal from './UploadModal.vue';
 import FileMetadata from '../../Upload/FileMetadata.vue';
@@ -49,7 +49,7 @@ function deleteAsset() {
 }
 
 function onDeleteFileClicked(_file) {
-    const confirmed = confirm('Sei sicuro di voler eliminare questo elemento?')
+    const confirmed = confirm('Are you shure you want to delete this item?')
     if(!confirmed) return
     deleteAsset()
 }

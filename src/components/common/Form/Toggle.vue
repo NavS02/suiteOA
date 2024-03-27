@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref, toRefs, computed } from 'vue'
-import FormField from '../../../models/FormField'
+import FormField from '../../../../models/FormField'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({

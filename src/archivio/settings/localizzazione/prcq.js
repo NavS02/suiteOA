@@ -1,5 +1,12 @@
-import FormField from '../FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../../models";
 
 export default {
     collection: 'prcq',
@@ -7,7 +14,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'prcq', label: 'Qualificazione', type: 'text', value: '' }),
+            new FormField({ name: 'prcq', label: 'PRCQ-Qualificazione', type: 'text', value: '' }),
             
            
         ]

@@ -6,7 +6,6 @@
       v-html="field.label"
     ></label>
   </slot>
-
   <div class="border rounded p-2" :id="`field-${field.name}`">
     <div class="d-flex flex-column gap-2">
       <template v-for="(item, index) in items" :key="item">
@@ -17,9 +16,12 @@
           <template v-else>
             <div v-html="item?.id ?? '--'"></div>
           </template>
-          <div class="ms-auto">
+          <div class="d-flex ms-auto gap-2">
+            <button class="btn btn-light btn-sm" @click="onEditClicked(item)">
+              <font-awesome-icon icon="fa-solid fa-pencil" fixed-width />
+            </button>
             <button
-              class="btn btn-danger btn-sm"
+              class="btn btn-light btn-sm text-danger"
               @click="onRemoveClicked(item)"
             >
               <font-awesome-icon icon="fa-solid fa-trash" fixed-width />
@@ -30,68 +32,59 @@
     </div>
 
     <div class="d-flex gap-2 mt-2">
-      <button
-        class="btn btn-primary btn-sm"
-        @click="onCreateNewClicked"
-        v-if="field.voc !== 'close'"
-      >
-        Creare 
+      <button class="btn btn-sm btn-primary" @click="onCreateNewClicked">
+        <font-awesome-icon icon="fa-solid fa-plus" fixed-width />
+        <span class="ms-1">Creare</span>
       </button>
-      <button class="btn btn-primary btn-sm" @click="onAddExistingClicked">
-        Aggiungere
+      <button class="btn btn-sm btn-primary" @click="onAddExistingClicked">
+        <font-awesome-icon icon="fa-solid fa-list" fixed-width />
+        <span class="ms-1">Aggiungere</span>
       </button>
     </div>
   </div>
 
-  <b-modal ref="createNewRef">
+  <Drawer ref="createNewRef">
     <template #header>Creare</template>
     <div>
       <MyForm :fields="newItemFields" />
     </div>
-  </b-modal>
+  </Drawer>
 
-  <b-modal ref="addExistingRef">
+  <Drawer ref="editItemRef">
+    <template #header>Editare</template>
+    <MyForm :fields="editFields" @change="editedData = $event" />
+  </Drawer>
+
+  <Drawer ref="addExistingRef">
     <template #header>Aggiungere</template>
-    <div>
- <div>
-                <div class="input-group">
-                    <input class="form-control" type="text" v-model.lazy="query" placeholder="3 caratteri min..."/>
-                    <button class="btn btn-sm btn-primary" @click="onSearchClicked">
-                        <font-awesome-icon icon="fa-solid fa-magnifying-glass" fixed-width/>
-                        <span class="ms-1">Cerca</span>
-                    </button>
-                </div>
-            </div>      <div>
-        <template
-          v-for="(item, index) in existingItems"
-          :key="existingItems?.id ?? index"
-        >
-          <div class="card mt-2">
-            <div class="preview card-body">
-              <div class="d-flex">
-                <div class="me-2">
-                  <input
-                    type="checkbox"
-                    v-model="selected"
-                    :value="item"
-                    :id="`existing-${item.id}`"
-                  />
-                </div>
-                <label :for="`existing-${item.id}`">
-                  <template v-if="typeof preview == 'function'">
-                    <span v-html="preview(item)"></span>
-                  </template>
-                  <template v-else>
-                    <span v-html="item?.id ?? '--'"></span>
-                  </template>
-                </label>
-              </div>
-            </div>
+    <SelectExisting
+      :collection="related"
+      :useQuery="useQuery"
+      v-slot="{ items }"
+    >
+      <template v-for="(item, index) in items" :key="items?.id ?? index">
+        <div class="d-flex border-bottom">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              :id="`existing-${item.id}`"
+              :value="item"
+              v-model="selected"
+            />
+            <label :for="`existing-${item.id}`">
+              <template v-if="typeof preview == 'function'">
+                <span v-html="preview(item)"></span>
+              </template>
+              <template v-else>
+                <span v-html="item?.id ?? '--'"></span>
+              </template>
+            </label>
           </div>
-        </template>
-      </div>
-    </div>
-  </b-modal>
+        </div>
+      </template>
+    </SelectExisting>
+  </Drawer>
 </template>
 
 <script setup>
@@ -100,12 +93,14 @@ import {
   ref,
   toRefs,
   computed,
-  watch,
   defineAsyncComponent,
   toRaw,
   onMounted,
 } from "vue";
-import { directus } from "@/API/";
+import SelectExisting from "./SelectExisting.vue";
+
+import { useData } from "../../../../models/FormField";
+import store from "../../../../store";
 
 const MyForm = defineAsyncComponent(() => import("./Form.vue"));
 
@@ -121,6 +116,18 @@ const { related, foreign_key, preview, filter } = field.value;
 const items = computed(() => {
   return modelValue.value.map((item) => toRaw(item?.[foreign_key]));
 });
+
+const useQuery = (query) => {
+  const params = {};
+  params.filter = filter(query); // apply filter if a query is set
+  const existingIDs = currentIDs.value;
+  if (existingIDs.length > 0) {
+    params.filter.id = {
+      _nin: currentIDs.value,
+    };
+  }
+  return params;
+};
 
 function updateModelValue(_items = []) {
   const serialized = _items.map((item) => ({ [foreign_key]: item }));
@@ -139,8 +146,6 @@ const newItemFields = ref([]);
 
 const addExistingRef = ref();
 const selected = ref([]);
-const existingItems = ref([]); // this is used in the modal
-const query = ref("");
 
 const currentIDs = computed(() => {
   const _ids = [];
@@ -150,21 +155,7 @@ const currentIDs = computed(() => {
   return _ids;
 });
 
-async function search() {
-  const text = query.value;
-  const params = { limit: -1 }; // default params
-  params.filter = filter(text); // apply filter if a query is set
-  const existingIDs = currentIDs.value;
-  if (existingIDs.length > 0) {
-    params.filter.id = {
-      _nin: currentIDs.value,
-    };
-  }
-  const response = await directus.items(related).readByQuery(params);
-  const { data: _data = [] } = response;
-  existingItems.value = _data;
-}
-async function addExisting() {
+function addExisting() {
   const _items = [...items.value];
   const _selectedItems = selected.value;
   if (_selectedItems.length === 0) return;
@@ -219,15 +210,81 @@ async function onCreateNewClicked() {
 
 async function onAddExistingClicked() {
   selected.value = []; // reset ids
-  query.value = ""; // reset query
-  await search();
   const response = await addExistingRef.value.show();
   if (response === false) return;
   else addExisting();
 }
 
-function onSearchClicked() {
-  search();
+/* EDIT */
+
+const editItemRef = ref();
+const editedData = ref();
+const editFields = ref([]);
+
+import { assignValue } from "../../../../utils/objectUtils";
+import { setData } from "../../../../models/FormField";
+import Drawer from "../Modal/Drawer.vue";
+
+/**
+ * once data has been loaded and normalized
+ * using useData, work on the cached
+ */
+const useCache = (fields) => {
+  let cache = {};
+  return {
+    delete(collection, id) {
+      delete cache?.[collection]?.[id];
+    },
+    async get(collection, id) {
+      let cachedData = cache?.[collection]?.[id];
+      if (!cachedData) {
+        // fetch data and cache it
+        const _data = await store.collections.fetchOne(collection, id);
+        cachedData = await useData(fields(), _data);
+        // set nested value in cache
+        assignValue(cache, collection, id, cachedData);
+      }
+      return cachedData;
+    },
+    set(collection, id, value) {
+      assignValue(cache, collection, id, value);
+    },
+  };
+};
+const cache = useCache(field.value.fields);
+async function onEditClicked(item) {
+  editFields.value = []; // reset
+  const relatedCollection = field.value.related;
+  const relatedID = item?.id;
+
+  // get data from cache or from DB
+  let relatedFields = await cache.get(relatedCollection, relatedID);
+  // clone all fields so mapped data is untouched
+  editFields.value = relatedFields.map((_field) => _field.clone());
+
+  const response = await editItemRef.value.show();
+  if (response === false) {
+    // revert to data before modification
+    cache.set(relatedCollection, relatedID, relatedFields);
+    return;
+  }
+
+  cache.set(relatedCollection, relatedID, toRaw(editFields.value));
+
+  editItem(item);
+}
+
+function editItem(item) {
+  const _items = [...items.value];
+  const index = _items.findIndex((_item) => _item == item);
+  if (index < 0) return;
+  const fields = toRaw(editFields.value);
+
+  for (const field of fields) {
+    if (!field.dirty) continue;
+    _items[index][field.name] = field.value;
+  }
+  updateModelValue(_items);
 }
 </script>
 

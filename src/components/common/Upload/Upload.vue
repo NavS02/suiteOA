@@ -6,11 +6,12 @@
     </button> -->
     
     <DragAndDrop @filesDropped="onFilesDropped">
-      <ChooseFilesButton @filesSelected="onFilesSelected"/>
+      <ChooseFilesButton @filesSelected="onFilesSelected" />
       <template #footer>
         <ProgressBar :loaded="progressLoaded" :total="progressTotal"/>
       </template>
     </DragAndDrop>
+
 
     <div class="d-flex flex-column gap-2 mt-2 file-list-wrapper">
       <template v-for="(file, index) in uploads">
@@ -21,20 +22,34 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { inject, ref, watch } from 'vue';
 import { client } from '@/API'
 import ChooseFilesButton from './ChooseFilesButton.vue'
 import DragAndDrop from '@/components/common/Upload/DragAndDrop.vue'
 import FileEntry from './FileEntry.vue'
 import ProgressBar from './ProgressBar.vue';
+import { useModal } from 'bootstrap-vue';
 
-const files = ref(new Set())
-const uploads = ref(new Set())
+// get the injected multiple
+const multiple = inject('multiple', false);
+const modal = useModal()
+
+const emit = defineEmits(['filesUpdated'])
+const files = ref(new Set()) // set of files that will be uploaded. cleared after upload
+const uploads = ref(new Set()) // list of uploaded files
+
+/* watch(files, (_files) => {
+  emit('filesUpdated', _files)
+}, {immediate: true}) */
 
 const progressLoaded = ref(0)
 const progressTotal = ref(0)
 
 function addFiles(_files) {
+  if(!multiple && uploads.value.size>0) {
+    modal.alert({title:'Not allowed', body: 'only one file can be uploaded'})
+    return
+  }
   for (const _file of _files) {
     if(files.value.has(_file)) continue
     files.value.add(_file)
@@ -65,20 +80,19 @@ async function uploadFiles() {
   }
 }
 
-function onFilesSelected(_files) {
-  addFiles(_files)
-}
+function onFilesSelected(_files) { addFiles(_files) }
 
-function onUploadClicked() {
-    uploadFiles()
-}
+function onUploadClicked() { uploadFiles() }
 
-function onFilesDropped(_files) {
-  addFiles(_files)
-}
-function onFileRemoved(_file) {
+function onFilesDropped(_files) { addFiles(_files) }
+
+async function onFileRemoved(_file) {
+  const {id} = _file
+  const _directus = client()
+  await _directus.files.deleteOne(id)
   uploads.value.delete(_file)
 }
+defineExpose({uploads})
 </script>
 
 <style scoped>

@@ -1,12 +1,12 @@
 import {
-    FormField,
-    SelectField,
-    ManyToManyField,
-    RadioField,
-    ManyToOneField,
-    File,
-    Image,
-  } from "../models";
+  FormField,
+  SelectField,
+  ManyToManyField,
+  RadioField,
+  ManyToOneField,
+  File,
+  Image,
+} from "../models";
   import prvl from './localizzazione/prvl'
   import tcl from './localizzazione/tcl'
   import prvr from './localizzazione/prvr'
@@ -24,7 +24,7 @@ export default {
 
             new ManyToOneField({
                 name: "tcl",
-                label: "Tipo di Localizzazione",
+                label: "TCL-Tipo di Localizzazione",
                 value: null,
                 related: "tcl",
                 type: "manyToOne",
@@ -39,10 +39,10 @@ export default {
                 },
               }),
 
-            new FormField({ name: 'prvs', label: 'Stato', type: 'text', value: '' }),
+            new FormField({ name: 'prvs', label: 'PRVS-Stato', type: 'text', value: '' }),
             new ManyToOneField({
                 name: "prvr",
-                label: "Regione",
+                label: "PRVR-Regione",
                 value: null,
                 related: "prvr",
                 type: "manyToOne",
@@ -58,7 +58,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "prvp",
-                label: "Provincia",
+                label: "PRVP-Provincia",
                 value: null,
                 related: "prvp",
                 type: "manyToOne",
@@ -74,7 +74,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "prvc",
-                label: "Comune",
+                label: "PRVC-Comune",
                 value: null,
                 related: "prvc",
                 type: "manyToOne",
@@ -90,7 +90,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "prvl",
-                label: "Località",
+                label: "PRVL-Località",
                 value: null,
                 related: "prvl",
                 type: "manyToOne",
@@ -106,7 +106,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "prct",
-                label: "Tipologia",
+                label: "PRCT-Tipologia",
                 value: null,
                 related: "prct",
                 type: "manyToOne",
@@ -122,7 +122,7 @@ export default {
               }),
               new ManyToOneField({
                 name: "prcq",
-                label: "Qualificazione",
+                label: "PRCQ-Qualificazione",
                 value: null,
                 related: "prcq",
                 type: "manyToOne",
@@ -138,13 +138,13 @@ export default {
               }),
 
 
-            new FormField({ name: 'prcd', label: 'Denominazione', type: 'text', value: '' }),
-            new FormField({ name: 'prcc', label: 'Complesso monumentale di appartenenza', type: 'text', value: '' }),
-            new FormField({ name: 'prcu', label: 'Via', type: 'text', value: '' }),
-            new FormField({ name: 'prcm', label: 'Denominazione raccolta', type: 'text', value: '' }),
-            new FormField({ name: 'prcs', label: 'Specifiche', type: 'text', value: '' }),
-            new FormField({ name: 'prdi', label: 'Data ingresso', type: 'text', value: '' }),
-            new FormField({ name: 'prdu', label: 'Data uscita', type: 'text', value: '' }),
+            new FormField({ name: 'prcd', label: 'PRCD-Denominazione', type: 'text', value: '' }),
+            new FormField({ name: 'prcc', label: 'PRCC-Complesso monumentale di appartenenza', type: 'text', value: '' }),
+            new FormField({ name: 'prcu', label: 'PRCU-Via', type: 'text', value: '' }),
+            new FormField({ name: 'prcm', label: 'PRCM-Denominazione raccolta', type: 'text', value: '' }),
+            new FormField({ name: 'prcs', label: 'PRCS-Specifiche', type: 'text', value: '' }),
+            new FormField({ name: 'prdi', label: 'PRDI-Data ingresso', type: 'text', value: '' }),
+            new FormField({ name: 'prdu', label: 'PRDU-Data uscita', type: 'text', value: '' }),
         ]
     },
     tableFields() {

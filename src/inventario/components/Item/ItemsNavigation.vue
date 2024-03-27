@@ -3,13 +3,13 @@
         <div>
             <button class="btn btn-sm btn-outline-primary" @click="onPrevClicked" :disabled="!prev">
                 <font-awesome-icon icon="fa-solid fa-chevron-left" fixed-width/>
-                <span class="ms-1">Precedente</span>
+                <span class="ms-1">Prev</span>
             </button>
         </div>
         <div class="ms-auto">
             <button class="btn btn-sm btn-outline-primary" @click="onNextClicked" :disabled="!next">
                 <font-awesome-icon icon="fa-solid fa-chevron-right" fixed-width/>
-                <span class="ms-1">Successivo</span>
+                <span class="ms-1">Next</span>
             </button>
         </div>
         <!-- {{prev}} -->
@@ -21,6 +21,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import store from '../../../store'
 import { ref, toRefs, computed, watch } from 'vue';
+import { directus } from '../../API'
 
 const collectionsStore = store.collections
 
@@ -35,9 +36,10 @@ const router = useRouter()
 const list = ref([])
 
 watch(collection, async() => {
-
     if(collection.value==null) list.value = []
-    list.value = await collectionsStore.getCollection(collection.value)
+    const response = await collectionsStore.getIDs(collection.value)
+    const {data, meta} = response
+    list.value = data
 }, {immediate: true})
 
 

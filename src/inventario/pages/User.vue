@@ -12,13 +12,19 @@
             <div
               class="card-body profile-card pt-4 d-flex flex-column align-items-center"
             >
-              <img :src="imageurl" alt="Profile" class="rounded-circle" />
+              <img
+                :src="imageurl"
+                alt="Profile"
+                class="rounded-circle"
+                style="width: 40%"
+                @error="replaceByDefaultImage"
+              />
               <h2>{{ me?.first_name }} {{ me?.last_name }}</h2>
               <h3>{{ me?.email }}</h3>
               <button
                 type="button"
                 class="btn btn-danger"
-                @click.prevent="confirmLogout"
+                @click="confirmLogout"
               >
                 Esci
               </button>
@@ -83,7 +89,19 @@
                   </button>
                 </li> -->
 
-              
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-favorite-items"
+                    aria-selected="false"
+                    role="tab"
+                    tabindex="-1"
+                    @click="fetchData()"
+                  >
+                    Schede preferite
+                  </button>
+                </li>
               </ul>
               <div class="tab-content pt-2">
                 <div
@@ -103,9 +121,7 @@
 
                     <div class="row align-items-center justify-content-between">
                       <div class="col-lg-3 col-md-3 label">Compagnia</div>
-                      <div class="col-lg-9 col-md-9">
-                        Opera della Metropolitana
-                      </div>
+                      <div class="col-lg-9 col-md-9">Museo diocesano</div>
                     </div>
 
                     <div class="row align-items-center justify-content-between">
@@ -137,21 +153,6 @@
                 >
                   <!-- Profile Edit Form -->
                   <form action="">
-                    <!-- <div class="row mb-3">
-                      <label
-                        for="profileImage"
-                        class="col-md-4 col-lg-3 col-form-label"
-                        >Profile Image</label
-                      >
-                      <div class="col-md-8 col-lg-9">
-                        <div class="d-flex align-items-center">
-                          <div class="flex-grow-1">
-                            <Upload />
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
-
                     <div class="row mb-3">
                       <label for="Name" class="col-md-4 col-lg-3 col-form-label"
                         >Nome</label
@@ -245,6 +246,21 @@
                           class="form-control"
                           id="Email"
                           :value="me?.email"
+                        />
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="file" class="col-md-4 col-lg-3 col-form-label"
+                        >Avatar</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          type="file"
+                          name="file"
+                          accept="image/*"
+                          id="fileInput"
+                          @change="updateImage"
+                          class="form-control"
                         />
                       </div>
                     </div>
@@ -351,6 +367,7 @@
                           type="password"
                           class="form-control"
                           id="current-password"
+                          autocomplete="on"
                         />
                       </div>
                     </div>
@@ -367,6 +384,7 @@
                           type="password"
                           class="form-control"
                           id="new-password"
+                          autocomplete="on"
                         />
                       </div>
                     </div>
@@ -383,6 +401,7 @@
                           type="password"
                           class="form-control"
                           id="renewPassword"
+                          autocomplete="on"
                         />
                       </div>
                     </div>
@@ -397,10 +416,53 @@
                 </div>
                 <!-- Favorite Items Form -->
 
-                
+                <div
+                  class="tab-pane fade pt-3"
+                  id="profile-favorite-items"
+                  role="tabpanel"
+                >
+                  <div class="table-responsive">
+                    <Table
+                      class="table v-middle m-0"
+                      :items="items"
+                      :fields="fields"
+                      id="table"
+                    >
+                      <template #cell(actions)="{ item, field, value }">
+                        <div class="actions">
+                          <button
+                            title="unsave"
+                            class="btn btn-sm btn-light text-danger"
+                            @click="onSaveClicked(item)"
+                          >
+                            <i class="bi bi-heart-fill"></i>
+                          </button>
+                          <button
+                            title="edit"
+                            class="btn btn-sm btn-light"
+                            @click="onEditClicked(item)"
+                          >
+                            <font-awesome-icon
+                              icon="fa-solid fa-pencil"
+                              fixed-width
+                            />
+                          </button>
+                          <button
+                            title="Info"
+                            class="btn btn-sm btn-light"
+                            @click="onInfoClicked(item)"
+                          >
+                            <i class="bi bi-printer"></i>
+                          </button>
+                        </div>
+                      </template>
+                    </Table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        
         </div>
       </div>
     </section>
@@ -412,14 +474,15 @@
   </main>
 </template>
 <script>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch,inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import store from "../store";
+import store from "../../store";
 import * as settings from "../settings/";
 import { directus } from "../API/";
 import Table from "../components/common/Table/Table.vue";
 import Upload from "../components/common/Upload/Upload.vue";
+import Image from "../components/common/Form/File/Image.vue";
 export default {
   components: { Table, Upload },
 
@@ -434,35 +497,74 @@ export default {
     let collection = ref();
     let fields = ref();
     let items = ref();
-    const me=ref()
-   
+    const me = ref();
+    const showAlert = ref(false);
+    let currentItem = ref();
+    const modal = inject("$modalManager");
+
     // watch the route and update data based on the collection param
     watch(
       route,
       () => {
-      
-    fetchData();
-
+        collection.value = "prefI";
+        if (!collection.value) return;
+        // // retrieve the settings
+        const itemSettings = settings[collection.value];
+        // // define the subset of fields you need to view in the table
+        const collectionFields = itemSettings.tableFields();
+        fields.value = collectionFields;
+        fetchData();
       },
       { immediate: true, deep: true }
     );
-
     async function fetchData() {
-       me.value = await directus.users.me.read();
+      me.value = await directus.users.me.read();
+      const myRol = await directus.items("directus_roles").readByQuery({
+        filter: {
+          id: {
+            _eq: me.value.role,
+          },
+        },
+      });
+      me.value.role = myRol.data[0].name;
+      const response = await directus.items(collection.value).readByQuery({
+        filter: {
+          user_created: {
+            _eq: me.value.id,
+          },
+        },
+      });
+      const { data = [] } = response;
 
-      
+      items.value = data;
+      imageurl.value =
+        import.meta.env.VITE_API_BASE_URL + "/assets/" + me.value.avatar;
     }
-    function updateImage() {
-      let img = document.getElementById("profilePictureSelector").value;
-      imageurl.value = img;
+    async function updateImage() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+      let list = await directus.files.createOne(formData);
+      await directus.users.me.update({
+        avatar: list.id,
+      });
     }
+    function replaceByDefaultImage(){
+      imageurl.value="/not-found.svg"
+    }
+
     function toggleClass() {
       this.isToggled = !this.isToggled;
       document.body.classList.toggle("toggle-sidebar", this.isToggled);
     }
 
-    function confirmLogout() {
-      const confirmed = confirm("È sicuro di voler effettuare il logout?");
+    async function confirmLogout() {
+      const confirmed = await modal.confirm({
+        title: "Confirma",
+        body: "Sei sicuro di voler lasciare questa pagina?",
+      });
       if (confirmed) router.push({ name: "logout" });
     }
     async function onSaveClicked(item) {
@@ -471,8 +573,8 @@ export default {
     }
     function onEditClicked(item) {
       router.push({
-        name: "editItemArc",
-        params: { id: item.id_opera, collection: "opera" },
+        name: "editItemInv",
+        params: { id: item.id_opera, collection: "inventario" },
       });
     }
     async function onChangeUserData() {
@@ -491,11 +593,15 @@ export default {
       });
     }
     function onInfoClicked(item) {
-      router.push({
-        name: "InfoItemArch",
-        params: { collection: "opera", id: item.id_opera },
-      });
+       router.push({
+    name: "printItemI",
+    params: { id: item.id_opera, collection: "inventario" },
+  });
     }
+    function closeAlert() {
+      showAlert.value = false;
+    }
+
 
     return {
       authenticated,
@@ -505,6 +611,8 @@ export default {
       fields,
       userRol,
       imageurl,
+      showAlert,
+      currentItem,
       confirmLogout,
       fetchData,
       onSaveClicked,
@@ -512,6 +620,8 @@ export default {
       updateImage,
       onEditClicked,
       onChangeUserData,
+      closeAlert,
+      replaceByDefaultImage,
       toggleClass,
       isToggled: false,
     };

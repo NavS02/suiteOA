@@ -7,7 +7,7 @@
             <div class="form-check">
                 <label class="form-check-label" :for="`choice-${choice.value}`" v-html="choice.label"></label>
                 <input class="form-check-input" type="radio" v-model="checked"
-                :name="`choice-${field.name}`" :id="`choice-${choice.value}`" :value="choice.value">
+                :name="`choice-${field.name}`" :id="`choice-${choice.value}`" :value="choice.value" :disabled="field.edit === 'false'">
             </div>
         </template>
     </div>
@@ -15,7 +15,7 @@
 
 <script setup>
 import { toRefs, computed } from 'vue'
-import { RadioField } from '../../../models';
+import { RadioField } from '../../../../models';
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({

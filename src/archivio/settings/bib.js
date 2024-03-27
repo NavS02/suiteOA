@@ -16,7 +16,7 @@ export default {
     return [
       new ManyToOneField({
         name: "bibx",
-        label: "Genere",
+        label: "BIBX-Genere",
         value: null,
         related: "bibx",
         type: "manyToOne",
@@ -33,11 +33,11 @@ export default {
       
 
 
-      new FormField({ name: "biba", label: "Autore", type: "text", value: "" }),
-      new FormField({ name: "bibd", label: "Anno di edizione", type: "text", value: "" }),
-      new FormField({ name: "bibn", label: "Volume, pagine, numero", type: "text", value: "" }),
-      new FormField({ name: "bibi", label: "Volume, tavole, figure", type: "text", value: "" }),
-      new FormField({ name: "bil", label: "Citazione completa", type: "textarea", value: "" }),
+      new FormField({ name: "biba", label: "BIBA-Autore", type: "text", value: "" }),
+      new FormField({ name: "bibd", label: "BIBD-Anno di edizione", type: "text", value: "" }),
+      new FormField({ name: "bibn", label: "BIBN-Volume, pagine, numero", type: "text", value: "" }),
+      new FormField({ name: "bibi", label: "BIBI-Volume, tavole, figure", type: "text", value: "" }),
+      new FormField({ name: "bil", label: "BIL-Citazione completa", type: "textarea", value: "" }),
       new ManyToManyField({
         name: "biblio",
         label: "Bibliografia completa",

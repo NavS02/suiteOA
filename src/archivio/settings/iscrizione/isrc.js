@@ -13,7 +13,7 @@ export default {
     fields() {
         return [
             
-            new FormField({ name: 'isrc', label: 'Classe di appartenenza', type: 'text', value: '' }),
+            new FormField({ name: 'isrc', label: 'ISRC-Classe di appartenenza', type: 'text', value: '' }),
            
         ]
     },

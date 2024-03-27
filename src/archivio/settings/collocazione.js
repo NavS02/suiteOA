@@ -1,11 +1,18 @@
-import {FormField, OneToManyField} from '../models'
-import { opera } from '.'
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../models";import { opera } from '.'
 
 export default {
     collection: 'collocazione',
     fields() {
         return [
-            new FormField({ name: 'ldcn', label: 'Collocazione', type: 'text', value: '' }),
+            new FormField({ name: 'ldcn', label: 'LDCN-Collocazione', type: 'text', value: '' }),
            
         ]
     },

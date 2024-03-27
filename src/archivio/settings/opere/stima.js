@@ -7,9 +7,9 @@ export default {
     fields() {
         return [
 
-            new FormField({ name: 'stis', label: 'Stima', type: 'text', value: '' }),
+            new FormField({ name: 'stis', label: 'STIS-Stima', type: 'text', value: '' }),
             new FormField({ name: 'stis_assicurazione', label: 'Stima assicurazione', type: 'text', value: '' }),
-            new FormField({ name: 'stid', label: 'Data della stima', type: 'text', value: '' }),
+            new FormField({ name: 'stid', label: 'STID-Data della stima', type: 'text', value: '' }),
             
             new ManyToOneField({
                 name: "sti_tipo",
@@ -30,7 +30,7 @@ export default {
 
               new ManyToOneField({
                 name: "stim",
-                label: "Motivazione della stima",
+                label: "STIM-Motivazione della stima",
                 value: null,
                 related: "stim",
                 type: "manyToOne",

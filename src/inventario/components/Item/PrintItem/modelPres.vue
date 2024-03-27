@@ -6,7 +6,7 @@
       id="idItem"
       required=""
       placeholder="Enter an ID"
-      :value='currentId'
+      :value="currentId"
     />
     <button type="button" class="btn btn-primary" @click="changeItem()">
       Cerca
@@ -18,7 +18,7 @@
             SCHEDA PRESTITO
           </p>
           <img
-            src="/logoSiena.png"
+            src="logoSiena.png"
             alt=""
             class="center-img"
             style="width: 300px; margin: 0 auto"
@@ -143,7 +143,7 @@
 import { ref, toRefs, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { directus } from "../../../API";
-import store from "../../../store";
+import store from "../../../../store";
 import * as settings from "../../../settings";
 import html2pdf from "html2pdf.js";
 
@@ -173,7 +173,7 @@ export default {
         // Retrieve the settings for the collection
         const itemSettings = settings[collection.value];
         // Fetch data for the collection
-        getData()
+        getData();
       },
       { immediate: true, deep: true }
     );
@@ -182,6 +182,9 @@ export default {
         margin: 0.2,
         filename: new Date() + ".pdf",
         image: { type: "png", quality: 0.5 },
+        pagebreak: {
+          mode: ["avoid-all", "css", "legacy"],
+        },
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
       };
@@ -196,31 +199,29 @@ export default {
     }
     function changeItem() {
       currentId = document.getElementById("idItem").value;
-      router.push({ name: 'modelPres', params: { id: currentId }  })
-
+      router.push({ name: "modelPres", params: { id: currentId } });
     }
     async function getData() {
       let originalResponse = {};
       try {
         if (collection.value == "opera") {
-          let item=null;
+          let item = null;
           if (currentId !== id.value) {
-             item = await directus.items("opera").readByQuery({
+            item = await directus.items("opera").readByQuery({
               filter: {
                 id: {
                   _eq: currentId,
                 },
               },
             });
-          }else{
-               item = await directus.items("opera").readByQuery({
-            filter: {
-              id: {
-                _eq: id.value,
+          } else {
+            item = await directus.items("opera").readByQuery({
+              filter: {
+                id: {
+                  _eq: id.value,
+                },
               },
-            },
-          });
-          
+            });
           }
           response.value = item.data[0];
           //    INVENTARIO
@@ -432,8 +433,6 @@ export default {
               response.value.inv = "";
             }
           }
-
-         
         }
         originalResponse = { ...response.value };
       } catch (error) {}
@@ -462,7 +461,7 @@ export default {
       "misu",
     ];
 
-    return { response, opera, printItem, url, epoca, getData,changeItem };
+    return { response, opera, printItem, url, epoca, getData, changeItem };
   },
   props: {
     collection: {

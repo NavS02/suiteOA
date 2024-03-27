@@ -1,5 +1,12 @@
-import FormField from '../FormField'
-
+import {
+    FormField,
+    SelectField,
+    ManyToManyField,
+    RadioField,
+    ManyToOneField,
+    File,
+    Image,
+  } from "../../models";
 
 export default {
     collection: 'dtm',
@@ -7,7 +14,7 @@ export default {
         return [
             
             
-            new FormField({ name: 'dtm', label: 'Motivazione della datazione', type: 'text', value: '' }),
+            new FormField({ name: 'dtm', label: 'DTM-Motivazione della datazione', type: 'text', value: '' }),
             
            
         ]

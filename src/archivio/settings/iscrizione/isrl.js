@@ -13,7 +13,7 @@ export default {
     fields() {
         return [
             
-            new FormField({ name: 'isrl', label: 'Lingua', type: 'text', value: '' }),
+            new FormField({ name: 'isrl', label: 'ISRL-Lingua', type: 'text', value: '' }),
            
         ]
     },
